@@ -59,6 +59,34 @@ button:active {
 	pointer-events: none;
 }
 
+.ros_marker {
+    background-color: #000;
+    padding: 2px;
+    height: 25px;
+    width: 25px;
+    margin-bottom: 8px;  
+}
+
+.ros_marker img {
+    position: relative;
+    z-index: 1;
+}
+
+.ros_marker span {
+    position: absolute;
+    right: 2px;
+    bottom: 8px;
+    max-width: 25px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    color: #fff;
+    z-index: 2;
+    font-size: 10px;
+    text-shadow: 0 0 2px #000;
+}
+
 .infoBox {
 	background: "url('http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/examples/tipbox.gif') no-repeat";
 	width: 160px;
@@ -76,6 +104,7 @@ button:active {
 	width: 160px;
 }
 
+.ros_marker::after,
 .ros_tooltip::after {
 	background-color: #000;
 	bottom: 4px;

@@ -12,7 +12,7 @@
     
     <body>
     
-        <div id="menu" class="menu">Roskilde 2013. Menu</div>
+        <div id="menu" class="menu" onclick="">Roskilde 2013. Menu</div>
         <div id="content"></div>
         
 
@@ -254,59 +254,38 @@
 			
 			function marker(lat, lon, map, title, icon, timestamp, zIndex, mode) {
 				if (timestamp) {
-					/*
-					var infowindow = new google.maps.InfoWindow({
-						content: '<div><img src="http://graph.facebook.com/' + icon + '/picture"/>' + title + ', ' + timeDifference(timestamp) + '</div>'
-					});
-					
-					var myOptions = {
-						 content: mustache(templates.tooltip, {src: "http://graph.facebook.com/" + icon + "/picture", name: title, time: timeDifference(timestamp)})
-						,disableAutoPan: false
-						,maxWidth: 0
-						,pixelOffset: new google.maps.Size(-60, 0)
-						,zIndex: null
-						,boxStyle: { 
-						  background: "url('http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/examples/tipbox.gif') no-repeat"
-						  ,opacity: 0.75
-						  ,width: "120px"
-						 }
-						,closeBoxMargin: "10px 2px 2px 2px"
-						,closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif"
-						,infoBoxClearance: new google.maps.Size(1, 1)
-						,isHidden: false
-						,pane: "floatPane"
-						,enableEventPropagation: false
-        			};
-					
-					var infowindow = new InfoBox(myOptions);
-					*/
 					var infowindow = createTooltip({src: "http://graph.facebook.com/" + icon + "/picture", name: title, time: timeDifference(timestamp)});
 				}
 
 				if (title === 'Me') {
-					//var img = {url: 'http://robert-daly.com/roskilde/images/me.png', size: new google.maps.Size(20, 20), anchor: new google.maps.Point(10,10)};
 					var img = new google.maps.MarkerImage("http://robert-daly.com/roskilde/images/me.png", null, null, new google.maps.Point(5,5), new google.maps.Size(10,10));
 				} else if (mode === 'locations') {
-					//var img = {url: 'http://robert-daly.com/roskilde/images/location.png', size: new google.maps.Size(20, 20), anchor: new google.maps.Point(10,10)};
-					var img = new google.maps.MarkerImage("http://robert-daly.com/roskilde/images/location.png", null, null, new google.maps.Point(10,10), new google.maps.Size(20,20));
-				} else {
-					//var img = {url: 'http://graph.facebook.com/' + icon + '/picture', size: new google.maps.Size(25, 25)};
-					var img = new google.maps.MarkerImage("http://graph.facebook.com/" + icon + "/picture", null, null, null, new google.maps.Size(20,20));
-				}
+					var img = new google.maps.MarkerImage("http://robert-daly.com/roskilde/images/location.png", null, null, new google.maps.Point(10,10), new google.maps.Size(10,10));
+				}// else {
+				//	var img = new google.maps.MarkerImage("http://graph.facebook.com/" + icon + "/picture", null, null, null, new google.maps.Size(20,20));
+				//}
 				
 				var obj = {
 					position: new google.maps.LatLng(lat, lon),
-					map: map,
-					title: title,
-					icon: img
+					map: map
 				}
 				
 				if (zIndex) {
 					obj.zIndex = zIndex;	
 				}
-				
-				var marker = new google.maps.Marker(obj);
-				
+				console.log(title, mode);
+				if (img) {
+    				obj.title  = title;
+					obj.icon   = img;
+				} else {
+					obj.content    = mustache(templates.marker, {src: "http://graph.facebook.com/" + icon + "/picture", time: timeDifference(timestamp, true)});
+					obj.flat       = true;
+				}
+				console.log(obj);
+
+				var marker = (img) ? new google.maps.Marker(obj) : new RichMarker(obj);
+
+			
 				if (timestamp) {
 					google.maps.event.addListener(marker, 'click', function() {
 						if (openInfoWindow) { openInfoWindow.close(); };
@@ -373,7 +352,7 @@
 				window.removeEventListener('deviceorientation');	
 			}
 
-			function timeDifference(previous) {
+			function timeDifference(previous, compact) {
 				if (!previous) { return; }
 				
 				var current		= new Date().getTime();
@@ -386,33 +365,41 @@
 				var elapsed = current - previous;
 			
 				if (elapsed < msPerMinute) {
-					 return Math.round(elapsed/1000) + ' seconds ago';   
+                    str      = (compact) ? 's' : ' seconds ago';
+                    return Math.round(elapsed/1000) + str;   
 				}
 			
 				else if (elapsed < msPerHour) {
 					var time = Math.round(elapsed/msPerMinute);
 					var str	 = (time <= 1) ? ' minute ago' : ' minutes ago';
+					str      = (compact) ? 'm' : str;
 					return time + str;   
 				}
 			
 				else if (elapsed < msPerDay ) {
 					var time = Math.round(elapsed/msPerHour);
 					var str	 = (time <= 1) ? ' hour ago' : ' hours ago';
+					str      = (compact) ? 'h' : str;
 					return time + str;   
 				}
 			
 				else if (elapsed < msPerMonth) {
 					var time = Math.round(elapsed/msPerDay);
 					var str	 = (time <= 1) ? ' day ago' : ' days ago';
+					str      = (compact) ? 'd' : str;
 					return time + str;   
 				}
 			
 				else if (elapsed < msPerYear) {
-					return 'Over a month ago'  
+				    if (!compact) {
+    					return 'Over a month ago';
+					}
 				}
 			
 				else {
-					return 'Over a year ago';   
+				    if (!compact) {
+    					return 'Over a year ago';
+					}
 				}
 			}
 			
@@ -464,6 +451,7 @@
                 });
 				
 				$(document).on("click", "#menu", function(e){
+				    console.log(23432432);
                     e.preventDefault();
 					removeCompass();
 					loggedIn();
@@ -519,6 +507,11 @@
 				mapCanvas:					'<div id="map-canvas" class="map_canvas"></div><div id="compass" class="compass"></div>',
 				messageBox:					'<div id="message" class="message"><textarea></textarea><button id="messageSubmit{{action}}">SUBMIT</button></div>',
 				
+				marker:                     '<div class="ros_marker">' +
+				                                '<img src="{{{src}}}" height="25" width="25"/>' +
+				                                '<span>{{#time}}{{time}}{{/time}}</span>' +
+				                            '</div>',
+				                            
 				tooltip:					'<div class="ros_tooltip">' +
 												'<img src="{{{src}}}" class="tt_img" height="25" width="25"/>' +
 												'<div class="tt_cont">' +
@@ -534,6 +527,7 @@
         </script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
         <script type="text/javascript" src="//robert-daly.com/roskilde/js/infobox_packed.js"></script>
+        <script type="text/javascript" src="//robert-daly.com/roskilde/js/richmarker-compiled.js"></script>
         
         <div id="dynamic"></div>
     </body>
