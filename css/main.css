@@ -1,0 +1,123 @@
+body {
+	font-family:Arial, Helvetica, sans-serif;
+	max-width: 320px;
+}
+
+#content {
+	overflow: hidden;	
+}
+
+button {
+	-webkit-appearance: none;
+	background-color: #f2f2f2;
+	border: 1px solid #d9d9d9;
+	height: 60px;
+	min-width:300px;
+}
+
+button:active {
+	border-color: #333;
+	background-color: #666;	
+}
+
+.menu_button {
+	margin-bottom: 10px;
+}
+
+/* MENU */
+.menu {
+	background-color: #000;
+	background-image: url('../images/logo.gif');
+	background-position: 50%;
+	background-repeat:no-repeat;
+	height: 50px;
+	line-height:50px;
+	position: relative;
+	text-indent:-9999px;
+	z-index:9999;
+}
+
+/* MAP */
+.map_canvas {
+	background-color: #CCC;
+	/*display: none;*/
+	height:400px;
+	width: 100%;
+}
+
+.compass {
+	background-image: url('../images/compass.png');
+	background-repeat: no-repeat;
+	background-position: 50%;
+	background-size: 40px;
+	height: 40px;
+	position: absolute;
+	top: 60px;
+	left: 10px;
+	width: 40px;
+	z-index: 99;
+	pointer-events: none;
+}
+
+.infoBox {
+	background: "url('http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/examples/tipbox.gif') no-repeat";
+	width: 160px;
+}
+
+.ros_tooltip {
+	background: black;
+	border: 1px solid #333;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	color: #fff;
+	margin-bottom: 8px;
+	min-height: 37px;
+	padding: 5px;
+	width: 160px;
+}
+
+.ros_tooltip::after {
+	background-color: #000;
+	bottom: 4px;
+	content: '';
+	display:block;
+	height: 10px;
+	left: 50%;
+	margin-left: -5px;
+	position: absolute;
+	width: 10px;
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.ros_tooltip .tt_img {
+	float: left;
+}
+
+.ros_tooltip .tt_cont {
+	margin-left: 32px
+}
+
+.ros_tooltip .tt_time {
+	font-size: 10px;	
+}
+
+#dynamic {
+	position: absolute;
+	visibility:hidden;
+	top: -9999px;
+	left: -9999px;	
+}
+
+/* MESSAGE */
+
+.message {
+	background-color: #fff;
+	box-shadow: 0 0 4px 1px rgba(0,0,0,0.4);
+	position: absolute;
+	left: 10px;
+	top: 100px;
+	padding: 10px;
+	height: 200px;
+	width: 300px;	
+}

@@ -1,0 +1,322 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1">
+        
+        <title>Roskilde 2013</title>
+
+		<link rel="stylesheet" href="css/main.css" type="text/css" />
+    </head>
+    
+    <body>
+    
+        Hello Roskilde 2013.
+        <div id="content"></div>
+        <div id="map-canvas" class="map_canvas"></div>
+        
+
+        <div id="fb-root"></div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//robert-daly.com/roskilde/js/mustache.js"></script>
+        
+        <script>
+            
+            var user = {};
+            
+            window.fbAsyncInit = function() {
+                // init the FB JS SDK
+                FB.init({
+                    appId      : '357860537664045', // App ID from the App Dashboard
+                    channelUrl : '//robert-daly.com/channel.php', // Channel File for x-domain communication
+                    status     : true, // check the login status upon init?
+                    cookie     : true, // set sessions cookies to allow your server to access the session?
+                    xfbml      : false  // parse XFBML tags on this page?
+                });
+                
+                // Additional initialization code such as adding Event Listeners goes here
+                FB.getLoginStatus(function(response) {
+                    if (response.status === 'connected') {
+                        loggedIn();
+                    } else {
+                        loggedOut();
+                    }
+                });
+                
+            };
+
+            (function(d){
+                var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement('script'); js.id = id; js.async = true;
+                js.src = "//connect.facebook.net/en_US/all.js";
+                ref.parentNode.insertBefore(js, ref);
+            }(document));
+            
+            
+            function mustache(template, json) {
+                var json        = (json) ? json : {};
+                var partials    = templates;
+        
+                return Mustache.to_html(template, json, partials);
+            }
+            
+            function login() {
+                FB.login(function(response) {
+                    if (response.authResponse) {
+                        loggedIn();
+                    } else {
+                        loggedOut();
+                    }
+                });                
+            }
+
+            function loggedIn() {
+                FB.api('/me', function(response) {
+                    user = response;
+                    $(document.getElementById('content')).html(mustache(templates.statusLoggedIn, response));
+                    
+                    checkUser(function(data) {
+						if (data.user && !isNaN(data.user.id)) {
+							user = data.user;
+							FB.api('/me/friends', function(response) {
+								postFriends(response);
+							});
+						}
+                    });
+                });
+            }
+            
+            function loggedOut() {
+                $(document.getElementById('content')).html(mustache(templates.statusLoggedOut));
+            }
+            
+            function checkUser(cb) {
+                var data    = user;
+                data.fb_id  = user.id;
+                data.action = 'auth';
+                
+                $.ajax({
+                    type: "POST",
+                    url: "http://robert-daly.com/roskilde/php/api.php",
+                    data: user
+                }).done(function(data) {
+                    if (cb) { cb(data); }
+                });
+            }
+			
+			function postFriends(friends) {
+				console.log(friends);
+				var data 		= {};
+				data.action		= 'friends';
+				data.id 		= user.id;
+				data.fb_id		= user.fb_id;
+				data.friends	= friends.data;
+				
+                $.ajax({
+                    type: "POST",
+                    url: "http://robert-daly.com/roskilde/php/api.php",
+                    data: data
+                }).done(function(data) {
+                    //if (cb) { cb(data); }
+					console.log('Friends', data);
+                });
+
+			}
+
+			function getPosition(position) {
+				if (position && position.coords.latitude && position.coords.longitude) {
+					var data		= {};
+					var headings	= ['accuracy', 'heading', 'latitude','longitude'];
+					$.each(headings, function(i,v) {
+						if (!isNaN(position.coords[v])) { data[v] = position.coords[v]; }	
+					});
+					
+					logCheckIn({coords: data}, function(data) {
+						console.log('Logged CheckIn', data);	
+					});
+				}
+			}
+			
+			function logCheckIn(position, cb) {
+				if (user && user.id) {
+					position.action		= 'checkin';
+					position.user_id	= user.id;
+					position.fb_id		= user.fb_id;
+					position.name		= user.name;
+					
+					$.ajax({
+						type: "POST",
+						url: "http://robert-daly.com/roskilde/php/api.php",
+						data: position
+					}).done(function(data) {
+						console.log(data);
+						if (cb) { cb(data); }
+					});
+				}
+			}
+			
+			function noPosition() {
+				alert('Can\'t get your position :(');
+			}
+			
+			function findFriends() {
+				console.log('Find Friends');
+				
+				$.ajax({
+					type: "POST",
+					url: "http://robert-daly.com/roskilde/php/api.php",
+					data: {action: 'findFriends', id: user.id, fb_id: user.fb_id}
+				}).done(function(data) {
+					initMap(data);
+				});
+			}
+			
+			function initMap(data) {
+				console.log('ff', data);
+				navigator.geolocation.getCurrentPosition(function(coords) {
+					console.log(coords);
+					var m			= document.getElementById("map-canvas");
+					var me			= new google.maps.LatLng(coords.coords.latitude, coords.coords.longitude);
+					var mapOptions 	= {
+						center: me,
+						zoom: 8,
+						mapTypeId: google.maps.MapTypeId.ROADMAP
+					};
+					var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+					
+					var markers = [];
+					markers.push(marker(coords.coords.latitude, coords.coords.longitude, map, 'Me', user.fb_id, false, 100));
+					
+					var length = data.length;
+					for (var i = 0; i < length; i++) {
+						var d = data[i];
+						markers.push(marker(d.latitude, d.longitude, map, d.name, d.fb_id, d.timestamp));
+					}
+					
+					fitToMarkers(markers, map);
+
+				}, noPosition);
+				
+			}
+			
+			function marker(lat, lon, map, title, icon, timestamp, zIndex) {
+				if (timestamp) {
+					var infowindow = new google.maps.InfoWindow({
+						content: '<div><img src="http://graph.facebook.com/' + icon + '/picture"/>' + title + ', ' + timeDifference(timestamp) + '</div>'
+					});
+				}
+				
+				if (title === 'Me') {
+					var img = {url: 'http://robert-daly.com/roskilde/images/me.png', size: new google.maps.Size(20, 20)};
+				} else {
+					var img = {url: 'http://graph.facebook.com/' + icon + '/picture', size: new google.maps.Size(50, 50)}
+				}
+				
+				var obj = {
+					position: new google.maps.LatLng(lat, lon),
+					map: map,
+					title: title,
+					icon: img
+				}
+				
+				if (zIndex) {
+					obj.zIndex = zIndex;	
+				}
+				
+				var marker = new google.maps.Marker(obj);	
+				
+				if (timestamp) {
+					google.maps.event.addListener(marker, 'click', function() {
+						infowindow.open(map, marker);
+					});
+				}
+				
+				return marker;
+			}
+			
+			function fitToMarkers(markers, map) {
+				var bounds = new google.maps.LatLngBounds();
+				var length = markers.length;
+				for (var i = 0; i < length; i++) {
+					bounds.extend(new google.maps.LatLng(markers[i]['position']['jb'], markers[i]['position']['kb']));
+					map.fitBounds(bounds);
+				}
+			}
+
+			function timeDifference(previous) {
+				if (!previous) { return; }
+				
+				var current		= new Date().getTime();
+				var msPerMinute = 60 * 1000;
+				var msPerHour = msPerMinute * 60;
+				var msPerDay = msPerHour * 24;
+				var msPerMonth = msPerDay * 30;
+				var msPerYear = msPerDay * 365;
+			
+				var elapsed = current - previous;
+			
+				if (elapsed < msPerMinute) {
+					 return Math.round(elapsed/1000) + ' seconds ago';   
+				}
+			
+				else if (elapsed < msPerHour) {
+					var time = Math.round(elapsed/msPerMinute);
+					var str	 = (time <= 1) ? ' minute ago' : ' minutes ago';
+					return time + str;   
+				}
+			
+				else if (elapsed < msPerDay ) {
+					var time = Math.round(elapsed/msPerHour);
+					var str	 = (time <= 1) ? ' hour ago' : ' hours ago';
+					return time + str;   
+				}
+			
+				else if (elapsed < msPerMonth) {
+					var time = Math.round(elapsed/msPerDay);
+					var str	 = (time <= 1) ? ' day ago' : ' days ago';
+					return time + str;   
+				}
+			
+				else if (elapsed < msPerYear) {
+					return 'Over a month ago'  
+				}
+			
+				else {
+					return 'Over a year ago';   
+				}
+			}
+            
+            $(document).ready(function() {
+                $(document).on("click", "#login", function(e){
+                    e.preventDefault();
+                    login();
+                });
+				
+                $(document).on("click", "#checkin", function(e){
+                    e.preventDefault();
+					navigator.geolocation.getCurrentPosition(getPosition, noPosition);
+                });
+				
+                $(document).on("click", "#findFriends", function(e){
+                    e.preventDefault();
+					findFriends();
+                });
+
+            });
+            
+            var templates ={
+                statusLoggedOut:    		'Logged Out <button id="login">Log In</button>',
+                statusLoggedIn:     		'<div>Welcome {{first_name}} {{last_name}} from {{#hometown}}{{name}}{{/hometown}}</div>' +
+											'<div>{{> checkInButtonPartial}}</div>' +
+											'<div>{{> findFriendsButtonPartial}}</div>',
+				checkInButtonPartial:		'<button id="checkin">CHECK IN</button>',
+				findFriendsButtonPartial:	'<button id="findFriends">FIND FRIENDS</button>'
+
+            }
+
+        </script>
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true">
+    </script>
+    </body>
+</html>
