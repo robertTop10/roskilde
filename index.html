@@ -273,7 +273,7 @@
 				if (zIndex) {
 					obj.zIndex = zIndex;	
 				}
-				console.log(title, mode);
+
 				if (img) {
     				obj.title  = title;
 					obj.icon   = img;
@@ -281,7 +281,7 @@
 					obj.content    = mustache(templates.marker, {src: "http://graph.facebook.com/" + icon + "/picture", time: timeDifference(timestamp, true)});
 					obj.flat       = true;
 				}
-				console.log(obj);
+
 
 				var marker = (img) ? new google.maps.Marker(obj) : new RichMarker(obj);
 
