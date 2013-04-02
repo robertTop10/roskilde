@@ -1,3 +1,12 @@
+<?php
+function iOSDetect() {
+   $browser = strtolower($_SERVER['HTTP_USER_AGENT']); // Checks the user agent
+   if(strstr($browser, 'iphone') || strstr($browser, 'ipod')) {
+      $device = 'iPhone';
+   } else { $device = 'default'; }	
+   return($device);
+}
+?>
 <!DOCTYPE HTML>
 <!--html lang="en" manifest="/php/cache-manifest.appcache"-->
 <html lang="en">
@@ -14,7 +23,7 @@
 		<link rel="stylesheet" href="css/main.css" type="text/css" />
     </head>
     
-    <body>
+    <body<?php if(iOSDetect() == 'iPhone') { echo ' class="ios"';} ?>>
     
         <div id="menu" class="menu" onclick="">Roskilde 2013. Menu</div>
         <div id="content"></div>
@@ -450,8 +459,6 @@
 			}
 			
 			function getSchedule() {
-				console.log('SCHEDULE');
-				console.log(typeof schedule);
 				loading();
 				
 				var d = ['Sat, 30 Jun 2012 12:00:00 +0200', 'Sun, 01 Jul 2012 12:00:00 +0200', 'Mon, 02 Jul 2012 12:00:00 +0200', 'Tue, 03 Jul 2012 12:00:00 +0200', 'Wed, 04 Jul 2012 12:00:00 +0200', 'Thu, 05 Jul 2012 12:00:00 +0200', 'Fri, 06 Jul 2012 12:00:00 +0200', 'Sat, 07 Jul 2012 12:00:00 +0200', 'Sun, 08 Jul 2012 12:00:00 +0200']
@@ -475,10 +482,18 @@
 
 
 			function processDates(data, dates, stages) {
+			    var days         = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+			    var daysShort    = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+			    var nth          = ['st', 'nd', 'rd', 'th'];
+			    var widths       = [];
+
 				stages = data.stages;
 				
 				var i = 0;
-				var html = '<div class="stages"><div class="stage_name"></div>';
+				
+				var date = new Date(dates[i] * 1000).getDate();
+				var html = '<div class="stages"><div id="date" class="stage_name">' + days[new Date(dates[i] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + '</div>';
+				
 				$.each(data.stages, function(i,v) {
 				    html += '<div class="stage_name">' + v + '</div>';
 				});
@@ -494,9 +509,7 @@
 				html    += '<div class="schedule_container">';
 
 				
-				$.each(data.keys, function(n,key) {
-				    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-				    
+				$.each(data.keys, function(n,key) {			    
 					html += '<div class="day">';
 					html += '<div class="stage">';
 					
@@ -507,12 +520,12 @@
     				    html    += '<div class="time">' + time.getHours() + ':' + time.getMinutes().pad() + '</div>';
     				    min = min + 900;
     				}
-    				html += '<div class="name_day">' + days[new Date(dates[i] * 1000).getDay()] + ' ' + new Date(dates[i] * 1000).getDate() + '</div></div>';
+    				
+    				var date = new Date(dates[i] * 1000).getDate();
+    				html += '<div class="name_day">' + days[new Date(dates[i] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + '</div></div>';
 
 					$.each(data.results[key], function(name, stage) {
-						//if (stage.length !== 0) {
-							html += populateStage(name, dates, stage, i);
-						//}
+    					html += populateStage(name, dates, stage, i);
 					});
 					i++;
 					html += '</div>';
@@ -526,9 +539,28 @@
 				var width = 0;
 				$('.day').each(function(i,v) {
     				width = width + $(this).outerWidth();
+    				widths.push(width);
 				});
 				
 				$('.schedule_container').css('width', width + 'px');
+				
+				var min = -1;
+				var max = 0;
+				var el  = document.getElementById('date');
+				
+				$('.schedule_scroller').on('scroll gesturechange', function(e) {
+				    if ($(e.currentTarget)[0].scrollLeft > widths[max] && (max + 1) <= widths.length) {
+    				    min++;
+    				    max++;
+    				    var date = new Date(dates[max] * 1000).getDate();
+    				    el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]);
+				    } else if ($(e.currentTarget)[0].scrollLeft < widths[min] && min >= 0) {
+    				    min--;
+    				    max--;
+    				    var date = new Date(dates[max] * 1000).getDate();
+    				    el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]);
+				    }
+				});
 				
 				finishLoading();
 			}

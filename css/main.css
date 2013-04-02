@@ -7,10 +7,14 @@ body {
 body {
     background-color: #fff;
 	font-family:Arial, Helvetica, sans-serif;
-	height: -webkit-calc(100% + 60px); /* To allow iOS6 users to remove the address bar */
+	height: 100%;
 	margin: 0 auto;
 	max-width: 640px;
 	position: relative;
+}
+
+body.ios {
+	height: -webkit-calc(100% + 60px); /* To allow iOS6 users to remove the address bar */
 }
 
 #content {
@@ -150,6 +154,8 @@ button:active {
 
 .ros_tooltip .tt_img {
 	float: left;
+	height: 25px;
+	width: 25px;
 }
 
 .ros_tooltip .tt_cont {
@@ -269,7 +275,7 @@ button:active {
 .name_day {
     position: absolute;
     left: 60px;
-    bottom: 10px;
+    bottom: 5px;
 }
 
 .time:nth-child(even) {
