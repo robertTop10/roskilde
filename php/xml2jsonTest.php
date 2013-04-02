@@ -95,25 +95,30 @@ foreach ($arrayData['bandPreview']['item'] as &$value) {
 	}
 }
 
-$stages = array_unique($stages);
+$stages     = array_unique($stages);
+unset($stages[array_search('Apollo Countdown', $stages)]);
+unset($stages[array_search('Pavilion Junior', $stages)]);
 $stageNames = array_values($stages);
-$stages = array_fill_keys($stages, array());
-//$stageNames = $stages;
+$stages     = array_fill_keys($stages, array());
+
 
 // This year
 //$days 	= (object) array("29" => $stages, "30" => $stages, "1" => $stages, "2" => $stages, "3" => $stages, "4" => $stages, "5" => $stages, "6" => $stages, "7" => $stages );
 // Last year
 $days 	= array("30" => $stages, "1" => $stages, "2" => $stages, "3" => $stages, "4" => $stages, "5" => $stages, "6" => $stages, "7" => $stages, "8" => $stages );
-//print_r($days);
+
 foreach ($arrayData['bandPreview']['item'] as &$value) {
 	if (is_string($value['timestamp'])) {
-		//$t = strtotime($value['tidspunkt']);
+
 		$t = $value['original_timestamp'];
 
 		//echo date('H', $t).' --- '.$value['tidspunkt'].' --- '.(date('H', $t) < 8).' --- '.date('j', $t).' --- '.date('j', strtotime($value['tidspunkt'].' -1 day')).PHP_EOL;
 		//$key	= (date('H', $t) < 8) ? date('j', strtotime($value['tidspunkt'].' -1 day')) : date('j', $t);
 		$key	= (date('H', $t) < 8) ? date('j',  $value['original_timestamp'] - 86400) : date('j', $t);
 		$stage	= $value['scene'];
+		
+		$stage  = ($stage === 'Apollo Countdown') ? 'Apollo' : $stage;
+		$stage  = ($stage === 'Pavilion Junior')  ? 'Pavilion' : $stage;
 
 		if (is_string($stage)) {
 			//array_push($days[$key][$stage], $value);
