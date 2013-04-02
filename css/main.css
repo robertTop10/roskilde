@@ -295,3 +295,57 @@ button:active {
     text-align: center;
     width: 60px;
 }
+
+
+/* ARTIST PAGE */
+
+.artist_page {
+    background-color: #fff;
+    bottom: 0;
+    position: absolute;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.artist_page > div {
+    overflow: hidden;
+}
+
+.artist_page .artist_close {
+    font-size: 64px;
+    height: 50px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 50px;
+    background: black;
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
+}
+
+.artist_page > div > div {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    float: left;
+    padding: 20px;
+    width: 50%;
+}
+
+.artist_page h4 {
+    font-weight: bold;
+    font-size: 32px;
+    margin: 20px 70px 20px 20px;
+}
+
+.artist_page .artist_details {
+    float: left;
+}
+
+.artist_page .artist_description {
+    float: right;
+    padding-right: 70px;
+}

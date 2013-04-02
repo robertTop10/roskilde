@@ -571,11 +571,11 @@ function iOSDetect() {
 				var min = dates[i];
 				var max = min + 72000;
 				var margin = 0;
-
+				    
 				while (min < max) {
 					if (stage[min]) {
 						var time = new Date(stage[min]['original_timestamp'] * 1000);
-						html += '<div class="band" style="margin-left: ' + margin + 'px;"><div>' + stage[min]['artistName'] + '</div><span>' + time.getHours() + ':' + time.getMinutes().pad() + '</span></div>';
+						html += '<div class="band" style="margin-left: ' + margin + 'px;" data-artist="' + i + '-' + name + '-' + min + '" onclick=""><div>' + stage[min]['artistName'] + '</div><span>' + time.getHours() + ':' + time.getMinutes().pad() + '</span></div>';
 						margin = -90;
 					} else {
 						margin = margin + 30;	
@@ -678,6 +678,21 @@ function iOSDetect() {
 					e.preventDefault();
 					getSchedule();
 				});
+				
+				$(document).on("click", ".band", function(e){
+					e.preventDefault();
+					
+					var id     = $(this).data('artist').split('-');
+					var artist = schedule.results[id[0]][id[1]][id[2]];
+					console.log(artist);
+					
+					$('#content').append(mustache(templates.artist_page, artist));
+
+				});
+				
+				$(document).on("click", "#artist-close", function(e){
+				    $('#artist-page').remove();
+				});
 
             });
             
@@ -715,7 +730,23 @@ function iOSDetect() {
 														'{{#message}}<div class="tt_msg">{{message}}</div>{{/message}}' +
 													'</div>' +
 												'</div>' +
-											'</div>'
+											'</div>',
+											
+				artist_page:                '<div id="artist-page" class="artist_page">' +
+				                                '<div>' +
+    				                                '<h4>{{artistName}}</h4><span id="artist-close" class="artist_close" onclick="">&times;</span>' +
+    				                                '<div class="artist_details">' +
+    				                                    '<img src="http://roskilde-festival.co.uk/{{{imageUrl}}}" height="112" width="112" /><br/>' +
+        				                                '{{country}}<br/>' +
+        				                                '{{{scene}}}<br/>' +
+        				                                '{{tidspunkt}}<br/>' +
+    				                                '</div>' +
+    
+    				                                '<div class="artist_description">' +
+        				                                '{{{description}}}' +
+    				                                '</div>' +
+				                                '</div>' +
+				                            '</div>'
 
             }
         </script>
