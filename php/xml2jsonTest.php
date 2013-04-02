@@ -1,5 +1,6 @@
 <?php
 
+ob_start("ob_gzhandler");
 header('Access-Control-Allow-Origin: *');
 header('Content-type: application/json');
 
@@ -80,14 +81,75 @@ function xmlToArray($xml, $options = array()) {
     );
 }
 
-$xmlNode = simplexml_load_file('http://labs.roskilde-festival.dk/resources/legacy_bandobjects_251_uk.xml');
-//$xmlNode = simplexml_load_file('http://roskilde-festival.dk/typo3conf/ext/tcpageheaderobjects/xml/bandobjects_251_uk.xml');
+$xmlNode = simplexml_load_file('legacy_bandobjects_251_uk.xml');
 $arrayData = xmlToArray($xmlNode);
 
+date_default_timezone_set('Europe/Copenhagen');
+
+$stages = array();
+
 foreach ($arrayData['bandPreview']['item'] as &$value) {
-    $value['description'] = nl2br(strip_tags($value['description']));
-    unset($value['tab']);
+	$stage = $value['scene'];
+	if (is_string($stage)) {
+		array_push($stages, $stage);
+	}
 }
 
-$arrayData = array('artists' => $arrayData['bandPreview']['item']);
-echo json_encode($arrayData);
+$stages = array_unique($stages);
+$stageNames = array_values($stages);
+$stages = array_fill_keys($stages, array());
+//$stageNames = $stages;
+
+// This year
+//$days 	= (object) array("29" => $stages, "30" => $stages, "1" => $stages, "2" => $stages, "3" => $stages, "4" => $stages, "5" => $stages, "6" => $stages, "7" => $stages );
+// Last year
+$days 	= array("30" => $stages, "1" => $stages, "2" => $stages, "3" => $stages, "4" => $stages, "5" => $stages, "6" => $stages, "7" => $stages, "8" => $stages );
+//print_r($days);
+foreach ($arrayData['bandPreview']['item'] as &$value) {
+	if (is_string($value['timestamp'])) {
+		//$t = strtotime($value['tidspunkt']);
+		$t = $value['original_timestamp'];
+
+		//echo date('H', $t).' --- '.$value['tidspunkt'].' --- '.(date('H', $t) < 8).' --- '.date('j', $t).' --- '.date('j', strtotime($value['tidspunkt'].' -1 day')).PHP_EOL;
+		//$key	= (date('H', $t) < 8) ? date('j', strtotime($value['tidspunkt'].' -1 day')) : date('j', $t);
+		$key	= (date('H', $t) < 8) ? date('j',  $value['original_timestamp'] - 86400) : date('j', $t);
+		$stage	= $value['scene'];
+
+		if (is_string($stage)) {
+			//array_push($days[$key][$stage], $value);
+			$days[$key][$stage][$value['original_timestamp']] = $value;
+		}
+	}
+	
+	/*
+	// Dealing with timestamps
+	$ts = $value['timestamp'];
+	if (is_string($ts)) {
+		$t = strtotime($value['tidspunkt']);
+		//echo $value['timestamp'].' === '.$t.' === '.$value['tidspunkt']." === ".date('D', $t)." === ".date('H', $t)." === ".(date('H', $t) < 8)." === ".date('j', strtotime($value['tidspunkt'].' -1 day')).PHP_EOL;
+	}
+	*/
+
+}
+/*
+foreach ($days as $key=>$day) {
+	$month = ($key > 15) ? 'Jun' : 'Jul';
+	$days[$key.$month] = $days[$key];
+	unset($days[$key]);
+}
+*/
+
+foreach ($days as &$day) {
+	foreach ($day as &$stage) {
+		/*
+		usort($stage, function($a, $b) {
+			return $a['timestamp'] - $b['timestamp'];
+		});
+		*/
+		ksort($stage);		
+	}
+}
+
+$result = (object) array("results"=>$days, "keys"=>array_keys($days), "stages"=>$stageNames);
+
+echo json_encode($result);

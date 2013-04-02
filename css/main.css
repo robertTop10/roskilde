@@ -1,10 +1,18 @@
 body {
 	font-family:Arial, Helvetica, sans-serif;
-	max-width: 320px;
+	margin: 0 auto;
+	max-width: 640px;
 }
 
 #content {
-	overflow: hidden;	
+	overflow: hidden;
+	position: relative;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+.status {
+	margin: 10px;	
 }
 
 button {
@@ -12,7 +20,7 @@ button {
 	background-color: #f2f2f2;
 	border: 1px solid #d9d9d9;
 	height: 60px;
-	min-width:300px;
+	width: 100%;
 }
 
 button:active {
@@ -21,7 +29,16 @@ button:active {
 }
 
 .menu_button {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	float: left;
 	margin-bottom: 10px;
+	padding: 0 5px 0 10px;
+	width: 50%;
+}
+
+.menu_button:nth-child(odd) {
+	padding: 0 10px 0 5px;
 }
 
 /* MENU */
@@ -29,6 +46,7 @@ button:active {
 	background-color: #000;
 	background-image: url('../images/logo.gif');
 	background-position: 50%;
+	background-size: 218px 40px;
 	background-repeat:no-repeat;
 	height: 50px;
 	line-height:50px;
@@ -52,7 +70,7 @@ button:active {
 	background-size: 40px;
 	height: 40px;
 	position: absolute;
-	top: 60px;
+	top: 10px;
 	left: 10px;
 	width: 40px;
 	z-index: 99;
@@ -63,6 +81,7 @@ button:active {
     background-color: #000;
     padding: 2px;
     height: 25px;
+	cursor: pointer;
     width: 25px;
     margin-bottom: 8px;  
 }
@@ -73,6 +92,7 @@ button:active {
 }
 
 .ros_marker span {
+	background-color: rgba(0,0,0,0.6);
     position: absolute;
     right: 2px;
     bottom: 8px;
@@ -124,7 +144,10 @@ button:active {
 }
 
 .ros_tooltip .tt_cont {
-	margin-left: 32px
+	margin-left: 32px;
+	pointer-events: none;
+	position: relative;
+	z-index: 1;
 }
 
 .ros_tooltip .tt_time {
@@ -149,4 +172,61 @@ button:active {
 	padding: 10px;
 	height: 200px;
 	width: 300px;	
+}
+
+
+/* LOADING */
+#loading {
+	bottom: 0;
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(255,255,255,0.75);
+	z-index: 9999;
+}
+
+#loading div {
+	background-image: url('../images/spinner.gif');
+	background-size: 64px;
+	height: 64px;
+	margin: -32px;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	width: 64px;	
+}
+
+
+/* Schelude */
+.schedule_container {
+	width: 2500px;	
+}
+	
+.day {
+	border: 4px solid #000;
+	clear: both;
+	overflow: hidden;
+}
+
+.stage {
+	background-color: rgba(0,0,0,0.5);
+	background-image: url('../images/line.png');
+	overflow: hidden;
+	border: 1px dashed #fff;
+	border-left: none;
+	border-right: none;
+}
+
+.band,
+.stage_name {
+	float: left;
+	border: 1px solid red;
+	background: rgba(255,255,255, 0.5);
+	padding: 2px 6px;	
+	width: 120px;
+	font-size:12px;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }

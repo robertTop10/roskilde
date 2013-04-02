@@ -1,10 +1,12 @@
 <!DOCTYPE HTML>
+<!--html lang="en" manifest="/php/cache-manifest.appcache"-->
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1">
         
         <title>Roskilde 2013</title>
+        <link href="/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
 		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.9.1/build/cssreset/cssreset-min.css" />
 		<link rel="stylesheet" href="css/main.css" type="text/css" />
@@ -17,19 +19,20 @@
         
 
         <div id="fb-root"></div>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script src="//robert-daly.com/roskilde/js/mustache.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="http://r.oskil.de/js/mustache.js"></script>
         
         <script>
-            
+            // navigator.onLine - check if online!
             var user = {};
+			var schedule;
 			var openInfoWindow;
             
             window.fbAsyncInit = function() {
                 // init the FB JS SDK
                 FB.init({
                     appId      : '357860537664045', // App ID from the App Dashboard
-                    channelUrl : '//robert-daly.com/channel.php', // Channel File for x-domain communication
+                    channelUrl : '//r.oskil.de/php/channel.php', // Channel File for x-domain communication
                     status     : true, // check the login status upon init?
                     cookie     : true, // set sessions cookies to allow your server to access the session?
                     xfbml      : false  // parse XFBML tags on this page?
@@ -76,7 +79,7 @@
                 FB.api('/me', function(response) {
                     user = response;
                     $(document.getElementById('content')).html(mustache(templates.statusLoggedIn, response));
-                    
+					                    
                     checkUser(function(data) {
 						if (data.user && !isNaN(data.user.id)) {
 							user = data.user;
@@ -84,12 +87,16 @@
 								postFriends(response);
 							});
 						}
+						
+						finishLoading();
+
                     });
                 });
             }
             
             function loggedOut() {
                 $(document.getElementById('content')).html(mustache(templates.statusLoggedOut));
+				finishLoading();
             }
             
             function checkUser(cb) {
@@ -99,7 +106,7 @@
                 
                 $.ajax({
                     type: "POST",
-                    url: "http://robert-daly.com/roskilde/php/api.php",
+                    url: "http://r.oskil.de/php/api.php",
                     data: user
                 }).done(function(data) {
                     if (cb) { cb(data); }
@@ -116,7 +123,7 @@
 				
                 $.ajax({
                     type: "POST",
-                    url: "http://robert-daly.com/roskilde/php/api.php",
+                    url: "http://r.oskil.de/php/api.php",
                     data: data
                 }).done(function(data) {
                     //if (cb) { cb(data); }
@@ -134,7 +141,8 @@
 					});
 					
 					logCheckIn({coords: data}, function(data) {
-						console.log('Logged CheckIn', data);	
+						console.log('Logged CheckIn', data);
+						finishLoading();
 					});
 				}
 			}
@@ -148,7 +156,7 @@
 					
 					$.ajax({
 						type: "POST",
-						url: "http://robert-daly.com/roskilde/php/api.php",
+						url: "http://r.oskil.de/php/api.php",
 						data: position
 					}).done(function(data) {
 						console.log(data);
@@ -159,6 +167,7 @@
 			
 			function noPosition() {
 				alert('Can\'t get your position :(');
+				finishLoading();
 			}
 			
 			function findFriends() {
@@ -166,7 +175,7 @@
 				
 				$.ajax({
 					type: "POST",
-					url: "http://robert-daly.com/roskilde/php/api.php",
+					url: "http://r.oskil.de/php/api.php",
 					data: {action: 'findFriends', id: user.id, fb_id: user.fb_id}
 				}).done(function(data) {
 					initMap(data);
@@ -176,6 +185,8 @@
 			function initMap(data, mode) {
 				console.log('ff', data);
 				$(document.getElementById('content')).html(templates.mapCanvas);
+				
+				if (typeof data === 'string') {data = JSON.parse(data) }; // FF and jQuery not recognising a JSON response
 				
 				navigator.geolocation.getCurrentPosition(function(coords) {
 					console.log(coords);
@@ -188,12 +199,12 @@
 						mapTypeId: google.maps.MapTypeId.ROADMAP
 					};
 					var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-
+					
 					setRoskildeMap(map);
 					
 					var markers = [];
 					markers.push(marker(coords.coords.latitude, coords.coords.longitude, map, 'Me', user.fb_id, false, 100));
-					
+
 					var length 	= data.length;
 					var z		= length + 1;
 					for (var i = 0; i < length; i++) {
@@ -205,6 +216,7 @@
 					fitToMarkers(markers, map);
 					
 					showCompass();
+					
 				}, noPosition);
 				
 			}
@@ -248,7 +260,7 @@
 				var se	=	new google.maps.LatLng(55.608, 12.0542);
 				var nw	=	new google.maps.LatLng(55.62535, 12.10675);
 				var imageBounds = new google.maps.LatLngBounds(se, nw);
-				var festival = new google.maps.GroundOverlay("http://robert-daly.com/roskilde/images/map.gif", imageBounds);
+				var festival = new google.maps.GroundOverlay("http://r.oskil.de/images/map.gif", imageBounds);
 				festival.setMap(map);	
 			}
 			
@@ -258,9 +270,9 @@
 				}
 
 				if (title === 'Me') {
-					var img = new google.maps.MarkerImage("http://robert-daly.com/roskilde/images/me.png", null, null, new google.maps.Point(5,5), new google.maps.Size(10,10));
+					var img = new google.maps.MarkerImage("http://r.oskil.de/images/me.png", null, null, new google.maps.Point(5,5), new google.maps.Size(10,10));
 				} else if (mode === 'locations') {
-					var img = new google.maps.MarkerImage("http://robert-daly.com/roskilde/images/location.png", null, null, new google.maps.Point(10,10), new google.maps.Size(10,10));
+					var img = new google.maps.MarkerImage("http://r.oskil.de/images/location.png", null, null, new google.maps.Point(10,10), new google.maps.Size(10,10));
 				}// else {
 				//	var img = new google.maps.MarkerImage("http://graph.facebook.com/" + icon + "/picture", null, null, null, new google.maps.Size(20,20));
 				//}
@@ -335,8 +347,9 @@
 			}
 			
 			function showCompass() {
-				if (window.DeviceOrientationEvent) {
-					var spinner = document.getElementById('compass');
+				var spinner = document.getElementById('compass');
+
+				if (window.DeviceOrientationEvent && iOSversion()) {
 					var lastHeading = 0;
 					window.addEventListener('deviceorientation', function(e) {
 						if (e.webkitCompassHeading) {
@@ -345,12 +358,31 @@
 							lastHeading = heading;
 						}
 					});
+				} else {
+					$(spinner).remove();	
 				}
 			}
-			
+
+
 			function removeCompass() {
-				window.removeEventListener('deviceorientation');	
+				if (iOSversion()) {
+					window.removeEventListener('deviceorientation');
+				}
 			}
+
+
+			function iOSversion() {
+				if (/iP(hone|od|ad)/.test(navigator.platform)) {
+					// supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
+					var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+					var ver = [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+					
+					return (ver[0] >= 5);
+				}
+				
+				return false;
+			}
+
 
 			function timeDifference(previous, compact) {
 				if (!previous) { return; }
@@ -415,7 +447,7 @@
 					
 					$.ajax({
 						type: "POST",
-						url: "http://robert-daly.com/roskilde/php/api.php",
+						url: "http://r.oskil.de/php/api.php",
 						data: position
 					}).done(function(data) {
 						console.log(data);
@@ -427,14 +459,100 @@
 			function getLocation() {
 				$.ajax({
 					type: "POST",
-					url: "http://robert-daly.com/roskilde/php/api.php",
+					url: "http://r.oskil.de/php/api.php",
 					data: {action: 'getLocations', user_id: user.id, fb_id: user.fb_id, name: user.name}
 				}).done(function(data) {
 					initMap(data, 'locations');
 				});
 			}
+			
+			function getSchedule() {
+				console.log('SCHEDULE');
+				console.log(typeof schedule);
+				loading();
+				
+				var d = ['Sat, 30 Jun 2012 12:00:00 +0200', 'Sun, 01 Jul 2012 12:00:00 +0200', 'Mon, 02 Jul 2012 12:00:00 +0200', 'Tue, 03 Jul 2012 12:00:00 +0200', 'Wed, 04 Jul 2012 12:00:00 +0200', 'Thu, 05 Jul 2012 12:00:00 +0200', 'Fri, 06 Jul 2012 12:00:00 +0200', 'Sat, 07 Jul 2012 12:00:00 +0200', 'Sun, 08 Jul 2012 12:00:00 +0200']
+				var dates = [];
+				var stages = [];
+
+				$.each(d, function(i,v) {
+					dates.push(new Date(v).getTime() / 1000);	
+				});
+
+					
+				if (typeof schedule !== 'object') {
+					$.getJSON('http://r.oskil.de/php/xml2jsonTest.php', function(data) {
+						schedule = data;
+						processDates(data, dates, stages);
+					});
+				} else {
+					processDates(schedule, dates, stages);
+				}
+			}
+
+
+			function processDates(data, dates, stages) {
+				stages = data.stages;
+				
+				var i = 0;
+				var html = '<div class="schedule_container">';
+				
+				$.each(data.keys, function(n,key) {
+					html += '<div class="day">';
+					$.each(data.results[key], function(name,stage) {
+						if (stage.length !== 0) {
+							html += populateStage(name, dates, stage, i);
+						}
+					});
+					i++;
+					html += '</div>';
+				});
+				
+				html += '</div>';
+				
+				document.getElementById('content').innerHTML = html;
+				finishLoading();
+			}
+
+
+			function populateStage(name, dates, stage, i) {
+				//console.log(name, stage);
+				//console.log(stage);
+				var html = '<div class="stage"><div class="stage_name">' + name + '</div>';
+				var min = dates[i];
+				var max = min + 72000;
+				var margin = 0;
+
+				while (min < max) {
+					//console.log(name, min, new Date(min * 1000));
+					if (stage[min]) {
+						//console.log(stage[min]);
+						var time = new Date(stage[min]['original_timestamp'] * 1000);
+						html += '<div class="band" style="margin-left: ' + margin + 'px;"><div>' + stage[min]['artistName'] + '</div><span>' + (time.getHours() + 1) + ':' + time.getMinutes() + '</span></div>';
+						margin = -90;
+					} else {
+						margin = margin + 30;	
+					}
+					min = min + 900;
+				}
+				html += '</div>';
+				
+				return html;
+				//console.log(new Date(max * 1000));
+			}
+
+			
+			function loading() {
+				$(document.getElementById('loading')).show();	
+			}
+			
+			function finishLoading() {
+				$(document.getElementById('loading')).hide();
+			}
             
             $(document).ready(function() {
+				loading();
+				
                 $(document).on("click", "#login", function(e){
                     e.preventDefault();
                     login();
@@ -442,6 +560,7 @@
 				
                 $(document).on("click", "#checkin", function(e){
                     e.preventDefault();
+					loading();
 					navigator.geolocation.getCurrentPosition(getPosition, noPosition);
                 });
 				
@@ -451,7 +570,6 @@
                 });
 				
 				$(document).on("click", "#menu", function(e){
-				    console.log(23432432);
                     e.preventDefault();
 					removeCompass();
 					loggedIn();
@@ -460,7 +578,6 @@
                 $(document).on("click", "#remLocation", function(e){
                     e.preventDefault();
 					$(document.getElementById('content')).append(mustache(templates.messageBox, {action: 'Location'}));
-					//rememberLocation();
                 });
 				
                 $(document).on("click", "#messageSubmitLocation", function(e){
@@ -486,23 +603,29 @@
 					initRoskildeMap();
 				});
 
-
+				$(document).on("click", "#schedule", function(e){
+					e.preventDefault();
+					getSchedule();
+				});
 
             });
             
-            var templates ={
-                statusLoggedOut:    		'Logged Out <button id="login">Log In</button>',
-                statusLoggedIn:     		'<div>Welcome {{first_name}} {{last_name}} from {{#hometown}}{{name}}{{/hometown}}</div>' +
+            var templates = {
+                statusLoggedOut:    		'<div class="status">Logged Out</div><button id="login">Log In</button>',
+                statusLoggedIn:     		'<div class="status">Welcome {{first_name}} {{last_name}} from {{#hometown}}{{name}}{{/hometown}}</div>' +
 											'<div class="menu_button">{{> checkInButtonPartial}}</div>' +
 											'<div class="menu_button">{{> findFriendsButtonPartial}}</div>' +
 											'<div class="menu_button">{{> locationButtonPartial}}</div>' +
 											'<div class="menu_button">{{> getLocationButtonPartial}}</div>' +
-											'<div class="menu_button">{{> mapButtonPartial}}</div>',
+											'<div class="menu_button">{{> mapButtonPartial}}</div>' +
+											'<div class="menu_button">{{> scheduleButtonPartial}}</div>',
+											
 				checkInButtonPartial:		'<button id="checkin">CHECK IN</button>',
 				findFriendsButtonPartial:	'<button id="findFriends">FIND FRIENDS</button>',
 				locationButtonPartial:		'<button id="remLocation">REMEMBER LOCATION</button>',
 				getLocationButtonPartial:	'<button id="getLocation">LOCATIONS</button>',
 				mapButtonPartial:			'<button id="map">MAP</button>',
+				scheduleButtonPartial:		'<button id="schedule">SCHEDULE</button>',
 				
 				mapCanvas:					'<div id="map-canvas" class="map_canvas"></div><div id="compass" class="compass"></div>',
 				messageBox:					'<div id="message" class="message"><textarea></textarea><button id="messageSubmit{{action}}">SUBMIT</button></div>',
@@ -525,10 +648,11 @@
 
             }
         </script>
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
-        <script type="text/javascript" src="//robert-daly.com/roskilde/js/infobox_packed.js"></script>
-        <script type="text/javascript" src="//robert-daly.com/roskilde/js/richmarker-compiled.js"></script>
+		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+        <script type="text/javascript" src="http://r.oskil.de/js/infobox_packed.js"></script>
+        <script type="text/javascript" src="http://r.oskil.de/js/richmarker-compiled.js"></script>
         
+        <div id="loading"><div></div></div>
         <div id="dynamic"></div>
     </body>
 </html>

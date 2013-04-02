@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Schelude Test</title>
+
+<style>
+	#content {
+		width: 2500px;	
+	}
+	
+	.day {
+		border: 4px solid #000;
+		clear: both;
+		overflow: hidden;
+	}
+	
+	.stage {
+		background-color: rgba(0,0,0,0.5);
+		background-image: url('images/line.png');
+		overflow: hidden;
+		border: 1px dashed #fff;
+		border-left: none;
+		border-right: none;
+	}
+	
+	.band,
+	.stage_name {
+		float: left;
+		border: 1px solid red;
+		background: rgba(255,255,255, 0.5);
+		padding: 2px 6px;	
+		width: 120px;
+		font-size:12px;
+		box-sizing: border-box;
+	}
+</style>
+</head>
+
+<body>
+    <div id="content"></div>
+    
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://robert-daly.com/roskilde/js/mustache.js"></script>    
+    
+    <script>
+		$(document).ready(function() {
+			
+			var d = ['Sat, 30 Jun 2012 12:00:00 +0200', 'Sun, 01 Jul 2012 12:00:00 +0200', 'Mon, 02 Jul 2012 12:00:00 +0200', 'Tue, 03 Jul 2012 12:00:00 +0200', 'Wed, 04 Jul 2012 12:00:00 +0200', 'Thu, 05 Jul 2012 12:00:00 +0200', 'Fri, 06 Jul 2012 12:00:00 +0200', 'Sat, 07 Jul 2012 12:00:00 +0200', 'Sun, 08 Jul 2012 12:00:00 +0200']
+			var dates = [];
+			var stages = [];
+			console.log('ready');
+			
+			$.each(d, function(i,v) {
+				dates.push(new Date(v).getTime() / 1000);	
+			});
+			
+			console.log(dates[0]);
+			$.ajax({
+				type: "GET",
+				url: "http://r.oskil.de/php/xml2jsonTest.php",
+			}).done(function(data) {
+				processDates(data);
+			});
+			
+			function processDates(data) {
+				console.log(data);
+				stages = data.stages;
+				
+				var i = 0;
+				var html = '<div class="container">';
+				
+				$.each(data.keys, function(n,key) {
+					
+					html += '<div class="day">';
+					$.each(data.results[key], function(name,stage) {
+						if (stage.length !== 0) {
+							html += populateStage(name, stage, i);
+							//console.log(stage);
+						}
+					});
+					i++;
+					html += '</div>';
+				});
+				
+				html += '</div>';
+				
+				document.getElementById('content').innerHTML = html;
+			}
+			
+			function populateStage(name, stage, i) {
+				//console.log(name, stage);
+				//console.log(stage);
+				var html = '<div class="stage"><div class="stage_name">' + name + '</div>';
+				var min = dates[i];
+				var max = min + 72000;
+				var margin = 0;
+
+				while (min < max) {
+					//console.log(name, min, new Date(min * 1000));
+					if (stage[min]) {
+						//console.log(stage[min]);
+						var time = new Date(stage[min]['original_timestamp'] * 1000);
+						html += '<div class="band" style="margin-left: ' + margin + 'px;"><div>' + stage[min]['artistName'] + '</div><span>' + (time.getHours() + 1) + ':' + time.getMinutes() + '</span></div>';
+						margin = -90;
+					} else {
+						margin = margin + 30;	
+					}
+					min = min + 900;
+				}
+				html += '</div>';
+				
+				return html;
+				//console.log(new Date(max * 1000));
+			}
+
+		});
+	</script>
+</body>
+</html>
