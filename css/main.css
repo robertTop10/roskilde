@@ -17,6 +17,13 @@ body.ios {
 	height: -webkit-calc(100% + 60px); /* To allow iOS6 users to remove the address bar */
 }
 
+textarea,
+input[type="text"] {
+	-webkit-appearance: none;
+	border: 1px solid #000;
+	border-radius: 0;
+}
+
 #content {
     bottom: 0;
 	position: absolute;
@@ -32,8 +39,10 @@ button {
 	-webkit-appearance: none;
 	background-color: #f2f2f2;
 	border: 1px solid #d9d9d9;
+	cursor: pointer;
 	height: 60px;
 	width: 100%;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 button:active {
@@ -42,6 +51,7 @@ button:active {
 }
 
 .menu_button {
+	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float: left;
@@ -61,11 +71,13 @@ button:active {
 	background-position: 50%;
 	background-size: 218px 40px;
 	background-repeat:no-repeat;
+	cursor: pointer;
 	height: 50px;
 	line-height:50px;
 	position: relative;
 	text-indent:-9999px;
 	z-index:9999;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);	
 }
 
 /* MAP */
@@ -81,6 +93,7 @@ button:active {
 	background-repeat: no-repeat;
 	background-position: 50%;
 	background-size: 40px;
+	display: none;
 	height: 40px;
 	position: absolute;
 	top: 10px;
@@ -88,6 +101,15 @@ button:active {
 	width: 40px;
 	z-index: 99;
 	pointer-events: none;
+}
+
+.ios .compass {
+	display: block;
+}
+
+.roskilde_marker {
+	height: 37px;
+	width: 29px;
 }
 
 .ros_marker {
@@ -121,13 +143,18 @@ button:active {
 }
 
 .infoBox {
-	background: "url('http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/examples/tipbox.gif') no-repeat";
 	width: 160px;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.infoBox > img {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);		
 }
 
 .ros_tooltip {
 	background: black;
 	border: 1px solid #333;
+	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	color: #fff;
@@ -232,6 +259,7 @@ button:active {
 	
 .day {
 	border-right: 40px solid #000;
+	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float: left;
@@ -245,6 +273,7 @@ button:active {
 	border: 1px dashed #fff;
 	border-left: none;
 	border-right: none;
+	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	height: 12.5%;
@@ -257,6 +286,7 @@ button:active {
 .stage_name {
 	background: rgba(255,255,255, 0.5);
 	border: 1px solid red;
+	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float: left;
@@ -264,6 +294,11 @@ button:active {
 	padding: 2px 6px;	
 	width: 120px;
 	font-size:12px;
+}
+
+.band {
+	cursor: pointer;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);	
 }
 
 .time {
@@ -297,6 +332,16 @@ button:active {
 }
 
 
+/* PAGES */
+
+.page {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	max-width: 100%;
+	padding: 20px;
+}
+
 /* ARTIST PAGE */
 
 .artist_page {
@@ -315,6 +360,7 @@ button:active {
 }
 
 .artist_page .artist_close {
+	cursor: pointer;
     font-size: 64px;
     height: 50px;
     position: absolute;
@@ -325,9 +371,11 @@ button:active {
     color: #fff;
     text-align: center;
     line-height: 50px;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);	
 }
 
 .artist_page > div > div {
+	-webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     float: left;
@@ -338,14 +386,74 @@ button:active {
 .artist_page h4 {
     font-weight: bold;
     font-size: 32px;
-    margin: 20px 70px 20px 20px;
+    margin-bottom: 10px;
+	margin-right: 50px;
 }
 
 .artist_page .artist_details {
     float: left;
+	padding: 20px 0;
+	width: 40%;
 }
 
 .artist_page .artist_description {
     float: right;
-    padding-right: 70px;
+	font-size: 12px;
+    padding-right: 0;
+	width: 60%;
+}
+
+.artist_page .artist_description p {
+	margin-bottom: 2em;	
+}
+
+
+/* EVENT PAGE */
+.event_page strong,
+.event_page input,
+.event_page textarea {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	clear: both;
+	display: block;
+	width: 100%;	
+}
+
+.create_event_options {
+	bottom: 10px;
+	left: 0;
+	right: 0;
+	position: absolute;
+	z-index: 1;	
+}
+
+.create_event_options > div {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;	
+	float: left;
+	padding: 0 10px;
+	width: 50%;	
+}
+
+.create_event_options > div:last-child {
+	position: relative;	
+}
+
+.create_event_options > div:last-child span {
+	background-color: #fff;
+	display: block;
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+}
+
+.create_event_options > div:last-child button {
+	left: 8px;
+	position: absolute;
+	right: 8px;
+	top: 0;
+	width: auto;
+	display: none;
 }
