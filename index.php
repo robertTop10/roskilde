@@ -1,4 +1,19 @@
 <?php
+
+require 'php/fb/facebook.php';
+
+// Create our Application instance (replace this with your appId and secret).
+$facebook = new Facebook(array(
+  'appId'  => '357860537664045',
+  'secret' => 'a8a4b0405be32159babf93ab054f35d2'
+));
+
+$logoutUrl = $facebook->getLogoutUrl();
+$loginUrl = $facebook->getLoginUrl(array(
+    "display"=>"touch",
+    "redirect_uri"=>"http://".$_SERVER['HTTP_HOST']."/php/fb/redirect.php"
+));
+  
 function iOSDetect() {
    $browser = strtolower($_SERVER['HTTP_USER_AGENT']); // Checks the user agent
    if(strstr($browser, 'iphone') || strstr($browser, 'ipod')) {
@@ -33,7 +48,6 @@ function iOSDetect() {
     </head>
     
     <body<?php if(iOSDetect() == 'iPhone') { echo ' class="ios"';} ?>>
-    
         <div id="menu" class="menu" onclick="">Roskilde 2013. Menu</div>
         <div id="content"></div>
         
@@ -44,6 +58,12 @@ function iOSDetect() {
         
         <script>
             // navigator.onLine - check if online!
+            // http://stackoverflow.com/questions/7131909/facebook-callback-appends-to-return-url
+            if (window.location.hash == '#_=_') {
+                window.location.hash = '';                                          // for older browsers, leaves a # behind
+                history.pushState('', document.title, window.location.pathname);    // nice and clean
+            }
+            
 			var fbUser;
             var user;
 			var schedule;
@@ -79,7 +99,8 @@ function iOSDetect() {
                 ref.parentNode.insertBefore(js, ref);
             }(document));
             
-                       
+
+            /*
             function login() {
                 FB.login(function(response) {
                     if (response.authResponse) {
@@ -87,8 +108,9 @@ function iOSDetect() {
                     } else {
                         loggedOut();
                     }
-                });                
+                }); 
             }
+            */
 
             function loggedIn() {
                 FB.api('/me', function(response) {
@@ -229,7 +251,7 @@ function iOSDetect() {
 					
 					showCompass();
 					
-				}, noPosition);
+				}, noPosition, {timeout: 5000});
 				
 			}
 
@@ -265,7 +287,7 @@ function iOSDetect() {
 					*/
 					
 					showCompass();
-				}, noPosition);
+				}, noPosition, {timeout: 5000});
 				
 			}
 			
@@ -301,7 +323,7 @@ function iOSDetect() {
 
 					showCompass();
 					
-				}, noPosition);
+				}, noPosition, {timeout: 5000});
 				
 			}
 			
@@ -327,8 +349,26 @@ function iOSDetect() {
                     //if (cb) { cb(data); }
 					console.log('create event', data);
 					finishLoading(true);
+					loggedIn();
                 });
 
+			}
+			
+			
+			function getEvents() {
+    			console.log('getEvents');
+    			loading();
+    			
+                $.ajax({
+                    type: "POST",
+                    url: "http://r.oskil.de/php/api.php",
+                    data: {action: 'getEvents'}
+                }).done(function(data) {
+                    //if (cb) { cb(data); }
+					console.log('get event', data);
+					initMap(data);
+					finishLoading();
+                });   			
 			}
 			
 
@@ -519,7 +559,7 @@ function iOSDetect() {
 						console.log(data);
 					});
 				}
-				}, noPosition);
+				}, noPosition, {timeout: 5000});
 			}
 			
 			function getLocation() {
@@ -727,15 +767,17 @@ function iOSDetect() {
                 window.scrollTo(1,0);
                 loading();
 				
+                /*
                 $(document).on("click", "#login", function(e){
                     e.preventDefault();
                     login();
                 });
+                */
 				
                 $(document).on("click", "#checkin", function(e){
                     e.preventDefault();
 					loading();
-					navigator.geolocation.getCurrentPosition(getPosition, noPosition);
+					navigator.geolocation.getCurrentPosition(getPosition, noPosition, {timeout: 5000});
                 });
 				
                 $(document).on("click", "#findFriends", function(e){
@@ -865,7 +907,8 @@ function iOSDetect() {
 						initCreateEventsMap(data);
 					}
 				});
-				
+
+
 				$(document).on("click", ".create-event", function(e){
 					e.preventDefault();
 					var $map	=	$(document.getElementById("map-canvas"));
@@ -874,11 +917,17 @@ function iOSDetect() {
 					
 					createEvent(latLon, data);
 				});
+				
+				
+				$(document).on("click", "#getEvents", function(e){
+					e.preventDefault();				
+					getEvents();
+				});
 
             });
             
             var templates = {
-                statusLoggedOut:    		'<div class="status">Logged Out</div><button id="login">Log In</button>',
+                statusLoggedOut:    		'<div class="status">Logged Out</div><div class="status"><a href="<?php echo $loginUrl; ?>" class="button">Log In</a></div>',
                 statusLoggedIn:     		'<div class="status">Welcome {{first_name}} {{last_name}} from {{#hometown}}{{name}}{{/hometown}}</div>' +
 											'<div class="menu_button">{{> checkInButtonPartial}}</div>' +
 											'<div class="menu_button">{{> findFriendsButtonPartial}}</div>' +
