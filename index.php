@@ -8,8 +8,8 @@ $facebook = new Facebook(array(
   'secret' => 'a8a4b0405be32159babf93ab054f35d2'
 ));
 
-$logoutUrl = $facebook->getLogoutUrl();
-$loginUrl = $facebook->getLoginUrl(array(
+$logoutUrl  = $facebook->getLogoutUrl();
+$loginUrl 	= $facebook->getLoginUrl(array(
     "display"=>"touch",
     "redirect_uri"=>"http://".$_SERVER['HTTP_HOST']."/php/fb/redirect.php"
 ));
@@ -27,7 +27,7 @@ function iOSDetect() {
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1" />
         
         <title>Roskilde 2013</title>
         <link href="/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -69,6 +69,14 @@ function iOSDetect() {
 			var schedule;
 			var openInfoWindow;
 			var createEventMarker;
+			
+			var festivalCoords   = {
+    			coords: {
+        			accuracy: 1,
+                    latitude: 55.619080,
+                    longitude: 12.077461
+                }
+			}
             
             window.fbAsyncInit = function() {
                 // init the FB JS SDK
@@ -100,17 +108,7 @@ function iOSDetect() {
             }(document));
             
 
-            /*
-            function login() {
-                FB.login(function(response) {
-                    if (response.authResponse) {
-                        loggedIn();
-                    } else {
-                        loggedOut();
-                    }
-                }); 
-            }
-            */
+            // LOGIN ----------------------------------------------------------------------------------------------------
 
             function loggedIn() {
                 FB.api('/me', function(response) {
@@ -134,7 +132,7 @@ function iOSDetect() {
                 
                 $.ajax({
                     type: "POST",
-                    url: "http://r.oskil.de/php/api.php",
+                    url: "/php/api.php",
                     data: data
                 }).done(function(data) {
 					if (data.result && !isNaN(data.result.id)) {
@@ -148,6 +146,12 @@ function iOSDetect() {
 
 				});
             }
+
+
+            // GEOLOCATION
+
+            // FUNCTIONS ----------------------------------------------------------------------------------------------------
+
 			
 			function postFriends(friends) {
 				var data 		= {};
@@ -158,7 +162,7 @@ function iOSDetect() {
 				
                 $.ajax({
                     type: "POST",
-                    url: "http://r.oskil.de/php/api.php",
+                    url: "/php/api.php",
                     data: data
                 }).done(function(data) {
 					console.log('Friends', data);
@@ -190,7 +194,7 @@ function iOSDetect() {
 					
 					$.ajax({
 						type: "POST",
-						url: "http://r.oskil.de/php/api.php",
+						url: "/php/api.php",
 						data: position
 					}).done(function(data) {
 						if (cb) { cb(data); }
@@ -208,111 +212,81 @@ function iOSDetect() {
 				
 				$.ajax({
 					type: "POST",
-					url: "http://r.oskil.de/php/api.php",
+					url: "/php/api.php",
 					data: {action: 'findFriends', id: user.id, fb_id: user.fb_id}
 				}).done(function(data) {
-					initMap(data);
+					initMap(data, true, function(data, coords, map, markers) {
+						populateMarker(data, coords, map, markers);
+					});
 				});
 			}
 			
-			function initMap(data, mode) {
-				console.log('ff', data);
+			function initMap(data, fit, cb) {
+				console.log('initMap', data);
 				$(document.getElementById('content')).html(templates.mapCanvas);
 				
 				if (typeof data === 'string') {data = JSON.parse(data) }; // FF and jQuery not recognising a JSON response
 				
 				navigator.geolocation.getCurrentPosition(function(coords) {
-					console.log(coords);
-					var m			= document.getElementById("map-canvas");
-					var me			= new google.maps.LatLng(coords.coords.latitude, coords.coords.longitude);
-					var mapOptions 	= {
-						center: me,
-						zoom: 14,
-						disableDefaultUI: true,
-						mapTypeId: google.maps.MapTypeId.ROADMAP
-					};
-					var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-					
-					setRoskildeMap(map);
-					
-					var markers = [];
-					markers.push(marker(coords.coords.latitude, coords.coords.longitude, map, 'Me', user.fb_id, false, 100));
-
-					var length 	= data.result.length;
-					var z		= length + 1;
-					for (var i = 0; i < length; i++) {
-						var d = data.result[i];
-						console.log(d);
-						var name = (mode !== 'locations') ? d.name : d.message;
-						markers.push(marker(d.latitude, d.longitude, map, name, d.fb_id, d.timestamp, z--, mode));
-					}
-					
-					fitToMarkers(markers, map);
-					
-					showCompass();
-					
-				}, noPosition, {timeout: 5000});
+				    console.log(coords);
+                    gotLocation(data, fit, cb, coords);					
+				}, function(error) {
+				    gotLocation(data, fit, cb, festivalCoords, true);
+				}, {timeout: 8000});
 				
+			}
+			
+			
+			function gotLocation(data, fit, cb, coords, error) {
+				console.log('gotLocation', data, coords);
+				
+				var m			= document.getElementById("map-canvas");
+				var me			= new google.maps.LatLng(coords.coords.latitude, coords.coords.longitude);
+				var center      = (typeof fit === 'object') ? new google.maps.LatLng(fit.coords.latitude, fit.coords.longitude) : me;
+
+				var mapOptions 	= {
+					center: center,
+					zoom: 15,
+					disableDefaultUI: true,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				};
+				var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+				
+				google.maps.event.addListenerOnce(map, 'idle', function(){
+						finishLoading();
+				});
+				
+				setRoskildeMap(map);
+				
+				var markers = [];
+				
+                if (!error) {
+                    markers.push(marker(coords.coords.latitude, coords.coords.longitude, map, 'Me', user.fb_id, false, 100));
+                }
+
+                if (cb) { cb(data, coords, map, markers); }
+                
+                if (fit === true) { fitToMarkers(markers, map); }
+				
+				showCompass();
 			}
 
 
 			function initRoskildeMap() {
-				$(document.getElementById('content')).html(templates.mapCanvas);
-				
-				navigator.geolocation.getCurrentPosition(function(coords) {
-					var m			= document.getElementById("map-canvas");
-					var center		= new google.maps.LatLng(55.619080, 12.077461);
-					var mapOptions 	= {
-						center: center,
-						zoom: 15,
-						disableDefaultUI: true,
-						mapTypeId: google.maps.MapTypeId.ROADMAP
-					};
-					var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-					
-					setRoskildeMap(map);
-					
-					var markers = [];
-					markers.push(marker(coords.coords.latitude, coords.coords.longitude, map, 'Me', user.fb_id, false, 100));
-					/*
-					// Roskilde Geo Data can go in here
-					var length = data.length;
-					for (var i = 0; i < length; i++) {
-						var d = data[i];
-						var name = (mode !== 'locations') ? d.name : d.message;
-						markers.push(marker(d.latitude, d.longitude, map, name, d.fb_id, d.timestamp, null, mode));
-					}
-					
-					fitToMarkers(markers, map);
-					*/
-					
-					showCompass();
-				}, noPosition, {timeout: 5000});
-				
+    			initMap(null, festivalCoords, function() {
+        			console.log('geoData goes here');
+    			});
 			}
 			
 			
 			function initCreateEventsMap(data) {
-				$(document.getElementById('content')).html(templates.mapCanvas + templates.createEventOptions);
-				
-				navigator.geolocation.getCurrentPosition(function(coords) {
-					console.log(coords);
-					var m			= document.getElementById("map-canvas");
-					var me			= new google.maps.LatLng(coords.coords.latitude, coords.coords.longitude);
-					var mapOptions 	= {
-						center: me,
-						zoom: 14,
-						disableDefaultUI: true,
-						mapTypeId: google.maps.MapTypeId.ROADMAP
-					};
-					var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-					
-					setRoskildeMap(map);
-					
-					marker(coords.coords.latitude, coords.coords.longitude, map, 'Me', user.fb_id, false, 100);
-					
-					$(m).data({'my-location': coords.coords.latitude + ',' + coords.coords.longitude, form: data});
-					
+    			initMap(data, false, function(data, coords, map, markers) {
+        			var m    = document.getElementById("map-canvas");
+        			var $m   = $(m);
+        			
+        			$m.after(templates.createEventOptions);
+        			$m.data({'my-location': coords.coords.latitude + ',' + coords.coords.longitude, form: data});
+        			
 					google.maps.event.addListener(map, 'click', function(e) {
 						if (createEventMarker) { createEventMarker.setMap(null); }
 						createEventMarker = marker(e.latLng.jb, e.latLng.kb, map, 'Event', "http://r.oskil.de/images/logo.png", null, null, 'createEvent');
@@ -320,30 +294,31 @@ function iOSDetect() {
 						
 						$(document.getElementById('createEventMarker')).show();
 					});
-
-					showCompass();
-					
-				}, noPosition, {timeout: 5000});
-				
+    			});
 			}
 			
 			
 			function createEvent(latLon, data) {
 				console.log(latLon, data);
 				loading();
+
+				var latLon = latLon.split(',');
+				var latitude	= latLon[0];
+				var longitude	= latLon[1];
 				
 				var obj = {
 					name: data.name,
 					description: data.description,
 					start: data.start,
 					end: data.end,
-					latLon: latLon,
+					latitude: latitude,
+					longitude: longitude,
 					user_id: user.id
 				}
 				
                 $.ajax({
                     type: "POST",
-                    url: "http://r.oskil.de/php/api.php",
+                    url: "/php/api.php",
                     data: {action: 'createEvent', event: obj}
                 }).done(function(data) {
                     //if (cb) { cb(data); }
@@ -361,14 +336,13 @@ function iOSDetect() {
     			
                 $.ajax({
                     type: "POST",
-                    url: "http://r.oskil.de/php/api.php",
+                    url: "/php/api.php",
                     data: {action: 'getEvents'}
-                }).done(function(data) {
-                    //if (cb) { cb(data); }
-					console.log('get event', data);
-					initMap(data);
-					finishLoading();
-                });   			
+				}).done(function(data) {
+					initMap(data, true, function(data, coords, map, markers) {
+						populateMarker(data, coords, map, markers);
+					});
+				});			
 			}
 			
 
@@ -443,7 +417,7 @@ function iOSDetect() {
 
 				var myOptions = {
                     content: html,
-                    pixelOffset: new google.maps.Size(-80, (boxText.offsetHeight + 30) * -1),
+                    pixelOffset: new google.maps.Size(-80, (boxText.offsetHeight + 40) * -1),
                     closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
                     infoBoxClearance: new google.maps.Size(20, 40),
                     pane: "floatPane"
@@ -542,6 +516,7 @@ function iOSDetect() {
 			}
 			
 			function rememberLocation(msg) {
+			     // TODO - Make this like create events
 				console.log('Remember Location');
 				navigator.geolocation.getCurrentPosition(function(position) {
 				if (user && user.id) {
@@ -553,25 +528,38 @@ function iOSDetect() {
 					
 					$.ajax({
 						type: "POST",
-						url: "http://r.oskil.de/php/api.php",
+						url: "/php/api.php",
 						data: position
 					}).done(function(data) {
 						console.log(data);
 					});
 				}
-				}, noPosition, {timeout: 5000});
+				}, noPosition, {timeout: 8000});
 			}
-			
+
+
 			function getLocation() {
 				$.ajax({
 					type: "POST",
-					url: "http://r.oskil.de/php/api.php",
+					url: "/php/api.php",
 					data: {action: 'getLocations', user_id: user.id, fb_id: user.fb_id, name: user.name}
 				}).done(function(data) {
-					initMap(data, 'locations');
+					initMap(data, true, function(data, coords, map, markers) {
+						populateMarker(data, coords, map, markers);
+					});
 				});
 			}
-			
+
+
+			function populateMarker(data, coords, map, markers) {
+                var length 	= data.result.length;
+                var z		= length + 1;
+                for (var i = 0; i < length; i++) {
+                    var d = data.result[i];
+                    markers.push(marker(d.latitude, d.longitude, map, d.name, null, d.timestamp, z--));
+                }
+			}
+
 			function getSchedule() {
 				loading();
 				
@@ -585,7 +573,7 @@ function iOSDetect() {
 
 					
 				if (typeof schedule !== 'object') {
-					$.getJSON('http://r.oskil.de/php/xml2jsonTest.php', function(data) {
+					$.getJSON('/php/xml2jsonTest.php', function(data) {
 						schedule = data;
 						processDates(data, dates, stages);
 					});
@@ -767,21 +755,15 @@ function iOSDetect() {
                 window.scrollTo(1,0);
                 loading();
 				
-                /*
-                $(document).on("click", "#login", function(e){
-                    e.preventDefault();
-                    login();
-                });
-                */
-				
                 $(document).on("click", "#checkin", function(e){
                     e.preventDefault();
 					loading();
-					navigator.geolocation.getCurrentPosition(getPosition, noPosition, {timeout: 5000});
+					navigator.geolocation.getCurrentPosition(getPosition, noPosition, {timeout: 8000});
                 });
 				
                 $(document).on("click", "#findFriends", function(e){
                     e.preventDefault();
+					loading();
 					findFriends();
                 });
 				
@@ -811,11 +793,13 @@ function iOSDetect() {
 
                 $(document).on("click", "#getLocation", function(e){
                     e.preventDefault();
+					loading();
 					getLocation();
                 });
 				
 				$(document).on("click", "#map", function(e){
 					e.preventDefault();
+					loading();
 					initRoskildeMap();
 				});
 
@@ -1187,6 +1171,20 @@ function iOSDetect() {
 													'</div>' +
 												'{{/datetime}}' +										
 												'<div>Remember to convert to Danish Time - Returned as 2011-10-18T00:00:00.00Z</div>' +
+												'<button type="submit">Place Location</button>' +
+												'</form>' +
+											'</div>'
+
+            }
+        </script>
+		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+        <script type="text/javascript" src="http://r.oskil.de/js/infobox_packed.js"></script>
+        <script type="text/javascript" src="http://r.oskil.de/js/richmarker-compiled.js"></script>
+        
+        <div id="loading"><div></div><div id="confirm">Done!</div></div>
+        <div id="dynamic"></div>
+    </body>
+</html>'<div>Remember to convert to Danish Time - Returned as 2011-10-18T00:00:00.00Z</div>' +
 												'<button type="submit">Place Location</button>' +
 												'</form>' +
 											'</div>'
