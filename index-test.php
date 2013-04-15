@@ -54,11 +54,7 @@ function iOSDetect() {
 
         <div id="fb-root"></div>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script src="/js/mustache.js"></script>
-        <script src="/js/helpers.js"></script>
-        <script src="/js/templates.js"></script>
-        <script src="/js/schedule.js"></script>
-        <script src="/js/events.js"></script>
+        <script src="http://r.oskil.de/js/mustache.js"></script>
         
         <script>
             // navigator.onLine - check if online!
@@ -67,8 +63,6 @@ function iOSDetect() {
                 window.location.hash = '';                                          // for older browsers, leaves a # behind
                 history.pushState('', document.title, window.location.pathname);    // nice and clean
             }
-
-            templates['statusLoggedOut'] = '<div class="status">Logged Out</div><div class="status"><a href="<?php echo $loginUrl; ?>" class="button">Log In</a></div>';
             
 			var fbUser;
             var user;
@@ -328,13 +322,7 @@ function iOSDetect() {
         			
 					google.maps.event.addListener(map, 'click', function(e) {
 						if (createEventMarker) { createEventMarker.setMap(null); }
-						//createEventMarker = marker(e.latLng.jb, e.latLng.kb, map, 'Event', "http://r.oskil.de/images/logo.png", null, null, 'createEvent');
-						createEventMarker = iconPin(e.latLng.jb, e.latLng.kb, map, {
-							icon: 		'http://r.oskil.de/images/logo.png',
-							timestamp: 	new Date().getTime(),
-							title: 		'Now',
-							zIndex: 	null
-						});
+						createEventMarker = marker(e.latLng.jb, e.latLng.kb, map, 'Event', "http://r.oskil.de/images/logo.png", null, null, 'createEvent');
 						$(m).data({'my-marker': e.latLng.jb + ',' + e.latLng.kb});
 						
 						$(document.getElementById('createEventMarker')).show();
@@ -538,7 +526,95 @@ function iOSDetect() {
 				
 				return new InfoBox(myOptions);	
 			}
+			
+			function showCompass() {
+				var spinner = document.getElementById('compass');
 
+				if (window.DeviceOrientationEvent && iOSversion()) {
+					var lastHeading = 0;
+					window.addEventListener('deviceorientation', function(e) {
+						if (e.webkitCompassHeading) {
+							var heading = (e.webkitCompassHeading + window.orientation).toFixed(2);
+							spinner.style.webkitTransform = 'rotateZ(-' + heading + 'deg)';
+							lastHeading = heading;
+						}
+					});
+				} else {
+					$(spinner).remove();	
+				}
+			}
+
+
+			function removeCompass() {
+				if (iOSversion()) {
+					window.removeEventListener('deviceorientation');
+				}
+			}
+
+
+			function iOSversion() {
+				if (/iP(hone|od|ad)/.test(navigator.platform)) {
+					// supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
+					var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+					var ver = [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+					
+					return (ver[0] >= 5);
+				}
+				
+				return false;
+			}
+
+
+			function timeDifference(previous, compact) {
+				if (!previous) { return; }
+				
+				var current		= new Date().getTime();
+				var msPerMinute = 60 * 1000;
+				var msPerHour = msPerMinute * 60;
+				var msPerDay = msPerHour * 24;
+				var msPerMonth = msPerDay * 30;
+				var msPerYear = msPerDay * 365;
+			
+				var elapsed = current - previous;
+			
+				if (elapsed < msPerMinute) {
+                    str      = (compact) ? 's' : ' seconds ago';
+                    return Math.round(elapsed/1000) + str;   
+				}
+			
+				else if (elapsed < msPerHour) {
+					var time = Math.round(elapsed/msPerMinute);
+					var str	 = (time <= 1) ? ' minute ago' : ' minutes ago';
+					str      = (compact) ? 'm' : str;
+					return time + str;   
+				}
+			
+				else if (elapsed < msPerDay ) {
+					var time = Math.round(elapsed/msPerHour);
+					var str	 = (time <= 1) ? ' hour ago' : ' hours ago';
+					str      = (compact) ? 'h' : str;
+					return time + str;   
+				}
+			
+				else if (elapsed < msPerMonth) {
+					var time = Math.round(elapsed/msPerDay);
+					var str	 = (time <= 1) ? ' day ago' : ' days ago';
+					str      = (compact) ? 'd' : str;
+					return time + str;   
+				}
+			
+				else if (elapsed < msPerYear) {
+				    if (!compact) {
+    					return 'Over a month ago';
+					}
+				}
+			
+				else {
+				    if (!compact) {
+    					return 'Over a year ago';
+					}
+				}
+			}
 			
 			function rememberLocation(msg) {
 			     // TODO - Make this like create events
@@ -561,16 +637,32 @@ function iOSDetect() {
 				}
 				}, noPosition, {timeout: 8000});
 			}
-            
-        </script>
-		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
-        <script type="text/javascript" src="http://r.oskil.de/js/infobox_packed.js"></script>
-        <script type="text/javascript" src="http://r.oskil.de/js/richmarker-compiled.js"></script>
-        
-        <div id="loading"><div></div><div id="confirm">Done!</div></div>
-        <div id="dynamic"></div>
-    </body>
-</html>dates, stages) {
+
+
+			function getSchedule() {
+				loading();
+				
+				var d = ['Sat, 30 Jun 2012 12:00:00 +0200', 'Sun, 01 Jul 2012 12:00:00 +0200', 'Mon, 02 Jul 2012 12:00:00 +0200', 'Tue, 03 Jul 2012 12:00:00 +0200', 'Wed, 04 Jul 2012 12:00:00 +0200', 'Thu, 05 Jul 2012 12:00:00 +0200', 'Fri, 06 Jul 2012 12:00:00 +0200', 'Sat, 07 Jul 2012 12:00:00 +0200', 'Sun, 08 Jul 2012 12:00:00 +0200']
+				var dates = [];
+				var stages = [];
+
+				$.each(d, function(i,v) {
+					dates.push(new Date(v).getTime() / 1000);	
+				});
+
+					
+				if (typeof schedule !== 'object') {
+					$.getJSON('/php/xml2jsonTest.php', function(data) {
+						schedule = data;
+						processDates(data, dates, stages);
+					});
+				} else {
+					processDates(schedule, dates, stages);
+				}
+			}
+
+
+			function processDates(data, dates, stages) {
 			    var days         = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 			    var daysShort    = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 			    var nth          = ['st', 'nd', 'rd', 'th'];
@@ -819,13 +911,54 @@ function iOSDetect() {
 					e.preventDefault();
 					console.log('DO BASIC DATE CHECKING',$(this));
 					console.log($(document.getElementById('createEventForm')).serializeArray());
-					$.each($(document.getElementById('createEventForm')).serializeArray(), function(i,v) {
-						console.log(i,v);
-						var time;
-						if (v.name === 'start-date' || v.name === 'start-time') {
-							console.log('322332432');
+					if (checkDateTime()) {
+						// Check dates
+					} else {
+						var startDate, startTime, endDate, endTime;
+
+						$.each($(document.getElementById('createEventForm')).serializeArray(), function(i,v) {
+							if (v.name === 'start-date') { startDate = v.value; }
+							if (v.name === 'start-time') { startTime = v.value; }
+						});
+
+						if (startDate && startTime) {
+							var $date 	= $(document.getElementById('end-date'));
+							var $time	= $(document.getElementById('end-time'));
+
+							var $option = $date.find('option');
+							var $index 	= $option.find('[value="' + startDate + '"]');
+							
+							$option.find('span').unwrap();
+							$index.prevAll().wrapAll('<div></div>');
+
+							$date.removeAttr('disabled');
+							$time.removeAttr('disabled');
 						}
-					});
+						/*
+						var start 	= [];
+						var end 	= [];
+						$.each($(document.getElementById('createEventForm')).serializeArray(), function(i,v) {
+							if (v.name === 'start-date') {
+								console.log(v.value);
+								var val = v.value.split('-');
+								start['date'] 	= val[0];
+								start['month']	= val[1];
+							} 
+
+							if (v.name === 'start-time') {
+								console.log(v.value);
+								var val = v.value.split(':');
+								start['hour'] 	= val[0];
+								start['mins']	= val[1];							
+							}
+						});
+
+						if (Object.keys(start).length === 4) {
+							var startTimestamp = new Date(new Date().getFullYear(), (start['month'] - 1), start['date'], start['hour'], start['mins'], 0);
+						}
+						console.log(start, startTimestamp, end);
+						*/
+					}
 				});
 				
 				$(document).on("submit", "#createEventForm", function(e) {
@@ -873,8 +1006,6 @@ function iOSDetect() {
 						data.start	= startTime;
 						data.end	= endTime;
 						
-						console.log(data);
-						
 						initCreateEventsMap(data);
 					}
 				});
@@ -892,6 +1023,7 @@ function iOSDetect() {
 				
 				$(document).on("click", "#getEvents", function(e){
 					e.preventDefault();				
+					loading();
 					getEvents();
 				});
 
@@ -1013,7 +1145,7 @@ function iOSDetect() {
 															'</optgroup>' +
 														'</select>' +
 
-														'<select name="start-time" required>' +
+														'<select name="start-time" class="event-date" required>' +
 															'<option disabled>Time</option>' +
 															'<optgroup label="AM">' +
 																'<option value="00:00">00:00</option>' +
@@ -1071,7 +1203,7 @@ function iOSDetect() {
 													'</div>' +
 													'<div>' +
 														'<strong>End</strong>' +
-														'<select name="end-date" class="event-date" required>' +
+														'<select id="end-date" name="end-date" class="event-date event_dropdown" required disabled>' +
 															'<option disabled>Select a date</option>' +
 															'<optgroup label="June">' +
 																'<option value="24-6">Mon 24 June</option>' +
@@ -1100,7 +1232,7 @@ function iOSDetect() {
 															'</optgroup>' +
 														'</select>' +
 
-														'<select name="end-time" required>' +
+														'<select id="end-time" name="end-time" class="event-date event_dropdown" required disabled>' +
 															'<option disabled>Time</option>' +
 															'<optgroup label="AM">' +
 																'<option value="00:00">00:00</option>' +

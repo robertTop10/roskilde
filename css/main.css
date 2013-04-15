@@ -464,6 +464,10 @@ button:active,
 	width: 50%;	
 }
 
+.event_dropdown span {
+	display: none;
+}
+
 .create_event_options > div:last-child {
 	position: relative;	
 }
