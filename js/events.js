@@ -71,7 +71,7 @@ $(document).ready(function() {
 		e.preventDefault();
 	    $('#artist-page').remove();
 	});
-	
+
 	$(document).on("click", "#createEvent", function(e){
 		e.preventDefault();
 		$(document.getElementById('content')).html(mustache(templates.create_event, {datetime: checkDateTime()}));
@@ -79,8 +79,7 @@ $(document).ready(function() {
 
 	$(document).on("change", ".event-date", function(e){
 		e.preventDefault();
-		console.log('DO BASIC DATE CHECKING',$(this));
-		console.log($(document.getElementById('createEventForm')).serializeArray());
+
 		if (checkDateTime()) {
 			// Check dates
 		} else {
@@ -92,50 +91,39 @@ $(document).ready(function() {
 			});
 
 			if (startDate && startTime) {
-				var $date 	= $(document.getElementById('end-date'));
-				var $time	= $(document.getElementById('end-time'));
+				var $date		= $(document.getElementById('end-date'));
+				var $time		= $(document.getElementById('end-time'));
 
-				var $html = $(templates.time_dropdown);
-				console.log($html.find('option'));
+				var $html		= $(templates.date_dropdown);
+				startDate		= startDate.split('-');
+
+				var endDateVal = $date.val();
+
 				$html.find('option').each(function(i, v) {
-
+					var val = $(this).val().split('-');
+					if (parseInt(val[1], 10) < parseInt(startDate[1], 10)) {
+						$(this).remove();
+					} else if (parseInt(val[0], 10) < parseInt(startDate[0], 10) && parseInt(val[1], 10) <= parseInt(startDate[1], 10)) {
+						$(this).remove();
+					} else if (endDateVal === val[0] + '-' + val[1]) {
+						$(this).attr('selected', 'selected');
+					}
 				});
 
-				console.log($html);
-
-				$date.removeAttr('disabled');
+				$date.html($html).removeAttr('disabled');
 				$time.removeAttr('disabled');
-			}
-			/*
-			var start 	= [];
-			var end 	= [];
-			$.each($(document.getElementById('createEventForm')).serializeArray(), function(i,v) {
-				if (v.name === 'start-date') {
-					console.log(v.value);
-					var val = v.value.split('-');
-					start['date'] 	= val[0];
-					start['month']	= val[1];
-				} 
 
-				if (v.name === 'start-time') {
-					console.log(v.value);
-					var val = v.value.split(':');
-					start['hour'] 	= val[0];
-					start['mins']	= val[1];							
+				if ($(this).attr('name') === 'start-time') {
+					var val = $(this).val();
+					$time.val(val);
 				}
-			});
-
-			if (Object.keys(start).length === 4) {
-				var startTimestamp = new Date(new Date().getFullYear(), (start['month'] - 1), start['date'], start['hour'], start['mins'], 0);
 			}
-			console.log(start, startTimestamp, end);
-			*/
 		}
 	});
-	
+
 	$(document).on("submit", "#createEventForm", function(e) {
 		e.preventDefault();
-		
+
 		var checkDate	= checkDateTime();
 		var proceed		= true;
 		var form		= $(this).serializeArray();
@@ -146,39 +134,45 @@ $(document).ready(function() {
 			if (v.name === 'start-date' ||  v.name === 'end-date') {
 				var alpha	= v.name.split('-')[0];
 				var dates	= v.value.split('-');
-				
+
 				data[alpha + '-date'] = dates[0];
 				data[alpha + '-month'] = dates[1];
 			} else {
 				data[v.name] = v.value;
 			}
 
-			if (proceed === true && v.name !== 'description' && v.value == false) {
-				proceed = false;	
+			if (proceed === true && v.name !== 'description' && v.value === false) {
+				proceed = false;
 			}
 		});
-		console.log(proceed, data);
-		
+
 		var length	= (checkDate) ? 4 : 6;
 		if (form.length !== length || proceed === false) {
-			alert('Something seems to be missing');	
+			alert('Something seems to be missing.');
 			return;
 		} else {
+			var startTime, endTime;
+
 			if (checkDate) {
-				var startTime	= new Date(data['start-time']).getTime();
-				var endTime		= new Date(data['end-time']).getTime();
+				startTime	= new Date(data['start-time']).getTime();
+				endTime		= new Date(data['end-time']).getTime();
 			} else {
 				var start	= data['start-time'].split(':');
 				var end		= data['end-time'].split(':');
-				
-				var startTime	= new Date(year, (data['start-month'] - 1), data['start-date'], start[0], start[1], 0).getTime();
-				var endTime		= new Date(year, (data['end-month'] - 1), data['end-date'], end[0], end[1], 0).getTime();
+
+				startTime	= new Date(year, (data['start-month'] - 1), data['start-date'], start[0], start[1], 0).getTime();
+				endTime		= new Date(year, (data['end-month'] - 1), data['end-date'], end[0], end[1], 0).getTime();
 			}
-			
+
 			data.start	= startTime;
 			data.end	= endTime;
-			
-			initCreateEventsMap(data);
+			console.log(data);
+
+			if (startTime >= endTime) {
+				alert('An event start time can\'t be before the end time.');
+			} else {
+				initCreateEventsMap(data);
+			}
 		}
 	});
 

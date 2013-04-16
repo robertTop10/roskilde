@@ -85,70 +85,20 @@ var templates = {
 										'<div>' +
 											'<strong>Start</strong>' +
 											'<select name="start-date" class="event-date" required>' +
-												'<option disabled>Select a date</option>' +
-												'<optgroup label="June">' +
-													'<option value="24-6">Mon 24 June</option>' +
-													'<option value="25-6">Tue 25 June</option>' +
-													'<option value="26-6">Wed 26 June</option>' +
-													'<option value="27-6">Thu 27 June</option>' +
-													'<option value="28-6">Fri 28 June</option>' +
-													'<option value="29-6">Sat 29 June</option>' +
-													'<option value="30-6">Sun 30 June</option>' +
-												'</optgroup>' +
-												'<optgroup label="July">' +
-													'<option value="01-7">Mon 1 July</option>' +
-													'<option value="02-7">Tue 2 July</option>' +
-													'<option value="03-7">Wed 3 July</option>' +
-													'<option value="04-7">Thu 4 July</option>' +
-													'<option value="05-7">Fri 5 July</option>' +
-													'<option value="06-7">Sat 6 July</option>' +
-													'<option value="07-7">Sun 7 July</option>' +
-													'<option value="08-7">Mon 8 July</option>' +
-													'<option value="09-7">Tue 9 July</option>' +
-													'<option value="10-7">Wed 10 July</option>' +
-													'<option value="11-7">Thu 11 July</option>' +
-													'<option value="12-7">Fri 12 July</option>' +
-													'<option value="13-7">Sat 13 July</option>' +
-													'<option value="14-7">Sun 14 July</option>' +
-												'</optgroup>' +
+												'{{> date_dropdown}}' + 
 											'</select>' +
 
 											'<select name="start-time" class="event-date" required>' +
-												'{{> time_dropdown}}' + 
+												'{{> time_dropdown}}' +
 											'</select>' +
 										'</div>' +
 										'<div>' +
 											'<strong>End</strong>' +
-											'<select id="end-date" name="end-date" class="event-date event_dropdown" required disabled>' +
-												'<option disabled>Select a date</option>' +
-												'<optgroup label="June">' +
-													'<option value="24-6">Mon 24 June</option>' +
-													'<option value="25-6">Tue 25 June</option>' +
-													'<option value="26-6">Wed 26 June</option>' +
-													'<option value="27-6">Thu 27 June</option>' +
-													'<option value="28-6">Fri 28 June</option>' +
-													'<option value="29-6">Sat 29 June</option>' +
-													'<option value="30-6">Sun 30 June</option>' +
-												'</optgroup>' +
-												'<optgroup label="July">' +
-													'<option value="01-7">Mon 1 July</option>' +
-													'<option value="02-7">Tue 2 July</option>' +
-													'<option value="03-7">Wed 3 July</option>' +
-													'<option value="04-7">Thu 4 July</option>' +
-													'<option value="05-7">Fri 5 July</option>' +
-													'<option value="06-7">Sat 6 July</option>' +
-													'<option value="07-7">Sun 7 July</option>' +
-													'<option value="08-7">Mon 8 July</option>' +
-													'<option value="09-7">Tue 9 July</option>' +
-													'<option value="10-7">Wed 10 July</option>' +
-													'<option value="11-7">Thu 11 July</option>' +
-													'<option value="12-7">Fri 12 July</option>' +
-													'<option value="13-7">Sat 13 July</option>' +
-													'<option value="14-7">Sun 14 July</option>' +
-												'</optgroup>' +
+											'<select id="end-date" name="end-date" class="event_dropdown" required disabled>' +
+												'{{> date_dropdown}}' +
 											'</select>' +
 
-											'<select id="end-time" name="end-time" class="event-date event_dropdown" required disabled>' +
+											'<select id="end-time" name="end-time" class="event_dropdown" required disabled>' +
 												'{{> time_dropdown}}' +
 											'</select>' +
 										'</div>' +
@@ -159,60 +109,86 @@ var templates = {
 								'</div>',
 
 
+ 	date_dropdown:  			'<option disabled>Select a date</option>' +
+								'<optgroup label="June">' +
+									'<option value="24-6">Mon 24 June</option>' +
+									'<option value="25-6">Tue 25 June</option>' +
+									'<option value="26-6">Wed 26 June</option>' +
+									'<option value="27-6">Thu 27 June</option>' +
+									'<option value="28-6">Fri 28 June</option>' +
+									'<option value="29-6">Sat 29 June</option>' +
+									'<option value="30-6">Sun 30 June</option>' +
+								'</optgroup>' +
+								'<optgroup label="July">' +
+									'<option value="01-7">Mon 1 July</option>' +
+									'<option value="02-7">Tue 2 July</option>' +
+									'<option value="03-7">Wed 3 July</option>' +
+									'<option value="04-7">Thu 4 July</option>' +
+									'<option value="05-7">Fri 5 July</option>' +
+									'<option value="06-7">Sat 6 July</option>' +
+									'<option value="07-7">Sun 7 July</option>' +
+									'<option value="08-7">Mon 8 July</option>' +
+									'<option value="09-7">Tue 9 July</option>' +
+									'<option value="10-7">Wed 10 July</option>' +
+									'<option value="11-7">Thu 11 July</option>' +
+									'<option value="12-7">Fri 12 July</option>' +
+									'<option value="13-7">Sat 13 July</option>' +
+									'<option value="14-7">Sun 14 July</option>' +
+								'</optgroup>',
 
 	time_dropdown: 				'<option disabled>Time</option>' +
-												'<optgroup label="AM">' +
-													'<option value="00:00">00:00</option>' +
-													'<option value="00:30">00:30</option>' +
-													'<option value="01:00">01:00</option>' +
-													'<option value="01:30">01:30</option>' +
-													'<option value="02:00">02:00</option>' +
-													'<option value="02:30">02:30</option>' +
-													'<option value="03:00">03:00</option>' +
-													'<option value="03:30">03:30</option>' +
-													'<option value="04:00">04:00</option>' +
-													'<option value="04:30">04:30</option>' +
-													'<option value="05:00">05:00</option>' +
-													'<option value="05:30">05:30</option>' +
-													'<option value="06:00">06:00</option>' +
-													'<option value="06:30">06:30</option>' +
-													'<option value="07:00">07:00</option>' +
-													'<option value="07:30">07:30</option>' +
-													'<option value="08:00">08:00</option>' +
-													'<option value="08:30">08:30</option>' +
-													'<option value="09:00">09:00</option>' +
-													'<option value="09:30">09:30</option>' +
-													'<option value="10:00">10:00</option>' +
-													'<option value="10:30">10:30</option>' +
-													'<option value="11:00">11:00</option>' +
-													'<option value="11:30">11:30</option>' +
-												'</optgroup>' +
-												'<optgroup label="PM">' +
-													'<option value="12:00">12:00</option>' +
-													'<option value="12:30">12:30</option>' +
-													'<option value="13:00">13:00</option>' +
-													'<option value="13:30">13:30</option>' +
-													'<option value="14:00">14:00</option>' +
-													'<option value="14:30">14:30</option>' +
-													'<option value="15:00">15:00</option>' +
-													'<option value="15:30">15:30</option>' +
-													'<option value="16:00">16:00</option>' +
-													'<option value="16:30">16:30</option>' +
-													'<option value="17:00">17:00</option>' +
-													'<option value="17:30">17:30</option>' +
-													'<option value="18:00">18:00</option>' +
-													'<option value="18:30">18:30</option>' +
-													'<option value="19:00">19:00</option>' +
-													'<option value="19:30">19:30</option>' +
-													'<option value="20:00">20:00</option>' +
-													'<option value="20:30">20:30</option>' +
-													'<option value="21:00">21:00</option>' +
-													'<option value="21:30">21:30</option>' +
-													'<option value="22:00">22:00</option>' +
-													'<option value="22:30">22:30</option>' +
-													'<option value="23:00">23:00</option>' +
-													'<option value="23:30">23:30</option>' +
-												'</optgroup>'
+								'<optgroup label="AM">' +
+									'<option value="00:00">00:00</option>' +
+									'<option value="00:30">00:30</option>' +
+									'<option value="01:00">01:00</option>' +
+									'<option value="01:30">01:30</option>' +
+									'<option value="02:00">02:00</option>' +
+									'<option value="02:30">02:30</option>' +
+									'<option value="03:00">03:00</option>' +
+									'<option value="03:30">03:30</option>' +
+									'<option value="04:00">04:00</option>' +
+									'<option value="04:30">04:30</option>' +
+									'<option value="05:00">05:00</option>' +
+									'<option value="05:30">05:30</option>' +
+									'<option value="06:00">06:00</option>' +
+									'<option value="06:30">06:30</option>' +
+									'<option value="07:00">07:00</option>' +
+									'<option value="07:30">07:30</option>' +
+									'<option value="08:00">08:00</option>' +
+									'<option value="08:30">08:30</option>' +
+									'<option value="09:00">09:00</option>' +
+									'<option value="09:30">09:30</option>' +
+									'<option value="10:00">10:00</option>' +
+									'<option value="10:30">10:30</option>' +
+									'<option value="11:00">11:00</option>' +
+									'<option value="11:30">11:30</option>' +
+								'</optgroup>' +
+								'<optgroup label="PM">' +
+									'<option value="12:00">12:00</option>' +
+									'<option value="12:30">12:30</option>' +
+									'<option value="13:00">13:00</option>' +
+									'<option value="13:30">13:30</option>' +
+									'<option value="14:00">14:00</option>' +
+									'<option value="14:30">14:30</option>' +
+									'<option value="15:00">15:00</option>' +
+									'<option value="15:30">15:30</option>' +
+									'<option value="16:00">16:00</option>' +
+									'<option value="16:30">16:30</option>' +
+									'<option value="17:00">17:00</option>' +
+									'<option value="17:30">17:30</option>' +
+									'<option value="18:00">18:00</option>' +
+									'<option value="18:30">18:30</option>' +
+									'<option value="19:00">19:00</option>' +
+									'<option value="19:30">19:30</option>' +
+									'<option value="20:00">20:00</option>' +
+									'<option value="20:30">20:30</option>' +
+									'<option value="21:00">21:00</option>' +
+									'<option value="21:30">21:30</option>' +
+									'<option value="22:00">22:00</option>' +
+									'<option value="22:30">22:30</option>' +
+									'<option value="23:00">23:00</option>' +
+									'<option value="23:30">23:30</option>' +
+								'</optgroup>'
 
 
 }
