@@ -1,3 +1,25 @@
+window.fbAsyncInit = function() {
+    // init the FB JS SDK
+    FB.init({
+        appId      : '357860537664045', // App ID from the App Dashboard
+        channelUrl : 'http://r.oskil.de/php/channel.php', // Channel File for x-domain communication
+        status     : true, // check the login status upon init?
+        cookie     : true, // set sessions cookies to allow your server to access the session?
+        xfbml      : false  // parse XFBML tags on this page?
+    });
+
+    // Additional initialization code such as adding Event Listeners goes here
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+            loggedIn();
+        } else {
+            loggedOut();
+        }
+    });
+    
+};
+
+
 function loggedIn() {
     FB.api('/me', function(response) {
         fbUser = response;
@@ -7,10 +29,12 @@ function loggedIn() {
     });
 }
 
+
 function loggedOut() {
     $(document.getElementById('content')).html(mustache(templates.statusLoggedOut));
 	finishLoading();
 }
+
 
 function checkUser() {
     var data    = fbUser;

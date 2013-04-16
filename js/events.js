@@ -95,11 +95,13 @@ $(document).ready(function() {
 				var $date 	= $(document.getElementById('end-date'));
 				var $time	= $(document.getElementById('end-time'));
 
-				var $option = $date.find('option');
-				var $index 	= $option.find('[value="' + startDate + '"]');
-				
-				$option.find('span').unwrap();
-				$index.prevAll().wrapAll('<div></div>');
+				var $html = $(templates.time_dropdown);
+				console.log($html.find('option'));
+				$html.find('option').each(function(i, v) {
+
+				});
+
+				console.log($html);
 
 				$date.removeAttr('disabled');
 				$time.removeAttr('disabled');

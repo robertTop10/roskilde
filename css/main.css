@@ -205,7 +205,8 @@ button:active,
 	z-index: 1;
 }
 
-.ros_tooltip .tt_time {
+.ros_tooltip .tt_time,
+.ros_tooltip .tt_details {
 	font-size: 10px;	
 }
 

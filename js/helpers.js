@@ -144,6 +144,12 @@ function iOSversion() {
 }
 
 
+function noPosition() {
+	alert('Can\'t get your position');
+	finishLoading();
+}
+
+
 function formatTime(timestamp) {
 	var string 	= '';
 	var d 		= new Date(parseInt(timestamp));

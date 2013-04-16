@@ -55,11 +55,14 @@ function iOSDetect() {
         <div id="fb-root"></div>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="/js/mustache.js"></script>
-        <script src="/js/helpers.js"></script>
-        <script src="/js/templates.js"></script>
-        <script src="/js/schedule.js"></script>
         <script src="/js/events.js"></script>
-        
+        <script src="/js/helpers.js"></script>
+        <script src="/js/icons.js"></script>
+        <script src="/js/login.js"></script>
+        <script src="/js/map.js"></script>
+        <script src="/js/schedule.js"></script>
+        <script src="/js/templates.js"></script>
+
         <script>
             // navigator.onLine - check if online!
             // http://stackoverflow.com/questions/7131909/facebook-callback-appends-to-return-url
@@ -84,80 +87,6 @@ function iOSDetect() {
                 }
 			}
             
-            window.fbAsyncInit = function() {
-                // init the FB JS SDK
-                FB.init({
-                    appId      : '357860537664045', // App ID from the App Dashboard
-                    channelUrl : 'http://r.oskil.de/php/channel.php', // Channel File for x-domain communication
-                    status     : true, // check the login status upon init?
-                    cookie     : true, // set sessions cookies to allow your server to access the session?
-                    xfbml      : false  // parse XFBML tags on this page?
-                });
-
-                // Additional initialization code such as adding Event Listeners goes here
-                FB.getLoginStatus(function(response) {
-                    if (response.status === 'connected') {
-                        loggedIn();
-                    } else {
-                        loggedOut();
-                    }
-                });
-                
-            };
-
-            (function(d){
-                var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-                if (d.getElementById(id)) {return;}
-                js = d.createElement('script'); js.id = id; js.async = true;
-                js.src = "//connect.facebook.net/en_US/all.js";
-                ref.parentNode.insertBefore(js, ref);
-            }(document));
-            
-
-            // LOGIN ----------------------------------------------------------------------------------------------------
-
-            function loggedIn() {
-                FB.api('/me', function(response) {
-                    fbUser = response;
-                    $(document.getElementById('content')).html(mustache(templates.statusLoggedIn, response));
-					                    
-                    checkUser();
-                });
-            }
-            
-            function loggedOut() {
-                $(document.getElementById('content')).html(mustache(templates.statusLoggedOut));
-				finishLoading();
-            }
-            
-            function checkUser() {
-                var data    = fbUser;
-                data.fb_id  = data.id;
-                data.action = 'auth';
-				
-                
-                $.ajax({
-                    type: "POST",
-                    url: "/php/api.php",
-                    data: data
-                }).done(function(data) {
-					if (data.result && !isNaN(data.result.id)) {
-						user = data.result;
-						FB.api('/me/friends', function(response) {
-							postFriends(response);
-						});
-					}
-					
-					finishLoading();
-
-				});
-            }
-
-
-            // GEOLOCATION
-
-            // FUNCTIONS ----------------------------------------------------------------------------------------------------
-
 			
 			function postFriends(friends) {
 				var data 		= {};
@@ -208,11 +137,6 @@ function iOSDetect() {
 				}
 			}
 			
-			function noPosition() {
-				alert('Can\'t get your position :(');
-				finishLoading();
-			}
-			
 			
 			function gotLocation(data, fit, cb, coords, error) {
 				console.log('gotLocation', data, coords);
@@ -252,63 +176,6 @@ function iOSDetect() {
 			}
 
 
-			function iconMe(lat, lon, map) {
-				var img = new google.maps.MarkerImage("http://r.oskil.de/images/me.png", null, null, new google.maps.Point(5,5), new google.maps.Size(10,10));
-				var obj = {
-					position: 	new google.maps.LatLng(lat, lon),
-					map: 		map,
-					zIndex: 	100,
-					title: 		'Me',
-					icon: 		img
-				}
-				
-				return new google.maps.Marker(obj);
-        	}
-
-
-			function iconFriend(lat, lon, map, params) {
-				var img 		= "http://graph.facebook.com/" + params.icon + "/picture";
-				var diff 		= timeDifference(params.timestamp);
-
-				var infowindow 	= createTooltip({src: img, name: params.title, time: diff});
-
-				diff 			= timeDifference(params.timestamp, true);
-
-				var obj = {
-					position: 	new google.maps.LatLng(lat, lon),
-					map: 		map,
-					zIndex: 	params.zIndex,
-					content: 	mustache(templates.marker, {src: img, time: diff}),
-					flat: 		true
-				}
-
-				var marker = new RichMarker(obj);
-
-				google.maps.event.addListener(marker, 'click', function() {
-					if (openInfoWindow) { openInfoWindow.close(); };
-					openInfoWindow = infowindow;
-					infowindow.open(map, marker);
-				});
-
-				return marker;
-			}
-
-
-			function iconPin(lat, lon, map, params) {
-				var obj = {
-					position: 	new google.maps.LatLng(lat, lon),
-					map: 		map,
-					zIndex: 	params.zIndex,
-					content: 	mustache(templates.marker, {src: params.icon}),
-					flat: 		true
-				}
-
-				var marker = new RichMarker(obj);
-
-				// TODO - Do tooltip stuff
-				
-				return marker;			
-			}
 
 
 			function initRoskildeMap() {
@@ -330,7 +197,7 @@ function iOSDetect() {
 						if (createEventMarker) { createEventMarker.setMap(null); }
 						//createEventMarker = marker(e.latLng.jb, e.latLng.kb, map, 'Event', "http://r.oskil.de/images/logo.png", null, null, 'createEvent');
 						createEventMarker = iconPin(e.latLng.jb, e.latLng.kb, map, {
-							icon: 		'http://r.oskil.de/images/logo.png',
+							icon: 		'/images/logo.png',
 							timestamp: 	new Date().getTime(),
 							title: 		'Now',
 							zIndex: 	null
@@ -373,11 +240,140 @@ function iOSDetect() {
                 });
 
 			}
-			
 
-			function setRoskildeMap(map) {
-				var se	=	new google.maps.LatLng(55.608, 12.0542);
-				var nw	=	new google.maps.LatLng(55.62535, 12.10675);
+
+			function findFriends() {
+				console.log('Find Friends');
+				
+				$.ajax({
+					type: "POST",
+					url: "/php/api.php",
+					data: {action: 'findFriends', id: user.id, fb_id: user.fb_id}
+				}).done(function(data) {
+					initMap(data, true, function(data, coords, map, markers) {
+						populateMarker(data, coords, map, markers, function(d, markers, z) {
+							return iconFriend(d.latitude, d.longitude, map, {
+								icon: 		d.fb_id,
+								timestamp: 	d.timestamp,
+								title: 		d.name,
+								zIndex: 	z
+							});
+						});
+					});
+				});
+			}
+
+
+			function getLocation() {
+				$.ajax({
+					type: "POST",
+					url: "/php/api.php",
+					data: {action: 'getLocations', user_id: user.id, fb_id: user.fb_id, name: user.name}
+				}).done(function(data) {
+					initMap(data, true, function(data, coords, map, markers) {
+						populateMarker(data, coords, map, markers, function(d, markers, z) {
+							return iconMe(d.latitude, d.longitude, map);
+						});
+					});
+				});
+			}
+
+
+			function getEvents() {   			
+                $.ajax({
+                    type: "POST",
+                    url: "/php/api.php",
+                    data: {action: 'getEvents'}
+				}).done(function(data) {
+					initMap(data, true, function(data, coords, map, markers) {
+						populateMarker(data, coords, map, markers, function(d, markers, z) {
+							console.log(d.start, d.end, new Date(parseInt(d.start)) + ' - ' + new Date(parseInt(d.end)));
+							return iconPin(d.latitude, d.longitude, map, {
+								icon: 		'/images/logo.png',
+								img: 		'/images/logo.png',
+								message: 	d.description,
+								time: 		formatTime(d.start) + ' - ' + formatTime(d.end),
+								timestamp: 	d.start,
+								title: 		d.name,
+								tooltip: 	true,
+								zIndex: 	z
+							});
+						});
+					});
+				});			
+			}
+
+
+			function populateMarker(data, coords, map, markers, cb) {
+                var length 	= data.result.length;
+                var z		= length + 1;
+                for (var i = 0; i < length; i++) {
+                    var d 	= data.result[i];
+                    markers.push(cb(d, markers, z--));
+                }
+			}
+
+			
+			function fitToMarkers(markers, map) {
+				var bounds = new google.maps.LatLngBounds();
+				var length = markers.length;
+				for (var i = 0; i < length; i++) {
+					bounds.extend(new google.maps.LatLng(markers[i]['position']['jb'], markers[i]['position']['kb']));
+					map.fitBounds(bounds);
+				}
+			}
+			
+			function createTooltip(obj) {
+				var html = mustache(templates.tooltip, obj);
+				var boxText = document.getElementById("dynamic");
+				boxText.style.width = '160px';
+				boxText.innerHTML	= '<span style="width: 18px; height: 17px; display: block; float: right; vertical-align: top;"></span>' + html; // span is to compensate for the close button
+
+				var myOptions = {
+                    content: html,
+                    pixelOffset: new google.maps.Size(-80, (boxText.offsetHeight + 40) * -1),
+                    closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
+                    infoBoxClearance: new google.maps.Size(20, 40),
+                    pane: "floatPane"
+				};
+				
+				return new InfoBox(myOptions);	
+			}
+
+			
+			function rememberLocation(msg) {
+			     // TODO - Make this like create events
+				console.log('Remember Location');
+				navigator.geolocation.getCurrentPosition(function(position) {
+				if (user && user.id) {
+					position.action		= 'postLocation';
+					position.user_id	= user.id;
+					position.fb_id		= user.fb_id;
+					position.name		= user.name;
+					position.message	= msg;
+					
+					$.ajax({
+						type: "POST",
+						url: "/php/api.php",
+						data: position
+					}).done(function(data) {
+						console.log(data);
+					});
+				}
+				}, noPosition, {timeout: 8000});
+			}
+            
+        </script>
+
+        <script type="text/javascript" src="//connect.facebook.net/en_US/all.js"></script>
+		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+        <script type="text/javascript" src="http://r.oskil.de/js/infobox_packed.js"></script>
+        <script type="text/javascript" src="http://r.oskil.de/js/richmarker-compiled.js"></script>
+        
+        <div id="loading"><div></div><div id="confirm">Done!</div></div>
+        <div id="dynamic"></div>
+    </body>
+</html> nw	=	new google.maps.LatLng(55.62535, 12.10675);
 				var imageBounds = new google.maps.LatLngBounds(se, nw);
 				var festival = new google.maps.GroundOverlay("http://r.oskil.de/images/map.gif", imageBounds, {clickable: false});
 				festival.setMap(map);	
