@@ -106,82 +106,16 @@ function iOSDetect() {
 			}
 
 			function getPosition(position) {
+				// TODO - This top parsing of co-ords needs be used on all geo-location objects
 				if (position && position.coords.latitude && position.coords.longitude) {
 					var data		= {};
-					var headings	= ['accuracy', 'heading', 'latitude','longitude'];
+					var headings	= ['accuracy', 'latitude','longitude'];
 					$.each(headings, function(i,v) {
 						if (!isNaN(position.coords[v])) { data[v] = position.coords[v]; }	
 					});
-					
-					logCheckIn({coords: data}, function(data) {
-						console.log('Logged CheckIn', data);
-						finishLoading(true);
-					});
+
+					createCheckIn(data.latitude, data.longitude, data.accuracy);
 				}
-			}
-			
-			function logCheckIn(position, cb) {
-				if (user && user.id) {
-					position.action		= 'checkin';
-					position.user_id	= user.id;
-					position.fb_id		= user.fb_id;
-					position.name		= user.name;
-					
-					$.ajax({
-						type: "POST",
-						url: "/php/api.php",
-						data: position
-					}).done(function(data) {
-						if (cb) { cb(data); }
-					});
-				}
-			}
-			
-			
-			function gotLocation(data, fit, cb, coords, error) {
-				console.log('gotLocation', data, coords);
-				
-				var m			= document.getElementById("map-canvas");
-				var me			= new google.maps.LatLng(coords.coords.latitude, coords.coords.longitude);
-				var center      = (typeof fit === 'object') ? new google.maps.LatLng(fit.coords.latitude, fit.coords.longitude) : me;
-
-				var mapOptions 	= {
-					center: center,
-					zoom: 15,
-					disableDefaultUI: true,
-					mapTypeId: google.maps.MapTypeId.ROADMAP
-				};
-				var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-				
-				google.maps.event.addListenerOnce(map, 'idle', function(){
-						finishLoading();
-				});
-				
-				setRoskildeMap(map);
-				
-				var markers = [];
-				
-                if (!error) {
-                    // Update to new callback func
-                    //markers.push(marker(coords.coords.latitude, coords.coords.longitude, map, 'Me', user.fb_id, false, 100));
-                    markers.push(iconMe(coords.coords.latitude, coords.coords.longitude, map));
-                }
-
-
-                if (cb) { cb(data, coords, map, markers); }
-                
-                if (fit === true) { fitToMarkers(markers, map); }
-				
-				showCompass();
-			}
-
-
-
-
-			function initRoskildeMap() {
-    			initMap(null, festivalCoords, function() {
-        			console.log('geoData goes here');
-    			});
 			}
 			
 			
@@ -191,7 +125,12 @@ function iOSDetect() {
         			var $m   = $(m);
         			
         			$m.after(templates.createEventOptions);
-        			$m.data({'my-location': coords.coords.latitude + ',' + coords.coords.longitude, form: data});
+        			$m.data({
+        				'my-location-latitude': coords.coords.latitude,
+        				'my-location-longitude': coords.coords.longitude,
+        				'my-location-accuracy': coords.coords.accuracy,
+        				'form': data
+        			});
         			
 					google.maps.event.addListener(map, 'click', function(e) {
 						if (createEventMarker) { createEventMarker.setMap(null); }
@@ -202,30 +141,60 @@ function iOSDetect() {
 							title: 		'Now',
 							zIndex: 	null
 						});
-						$(m).data({'my-marker': e.latLng.jb + ',' + e.latLng.kb});
+
+	        			$m.data({
+	        				'my-marker-latitude': e.latLng.jb,
+	        				'my-marker-longitude': e.latLng.kb
+	        			});
 						
 						$(document.getElementById('createEventMarker')).show();
 					});
     			});
 			}
-			
-			
-			function createEvent(latLon, data) {
-				console.log(latLon, data);
-				loading();
 
-				var latLon = latLon.split(',');
-				var latitude	= latLon[0];
-				var longitude	= latLon[1];
+
+			function createCheckIn(latitude, longitude, accuracy, data) {
+				console.log('createCheckIn');
+
+				var obj = {
+					user_id: 		user.id,
+					fb_id: 			user.fb_id,
+					user: 			user.name,
+
+					latitude: 		latitude,
+					longitude: 		longitude,
+					accuracy: 		accuracy
+				}
+				
+                $.ajax({
+                    type: "POST",
+                    url: "/php/api.php",
+                    data: {action: 'createCheckIn', event: obj}
+                }).done(function(data) {
+					console.log('createCheckIn Done', data);
+					finishLoading(true);
+					loggedIn();
+                });
+			}
+
+
+			function createEvent(latitude, longitude, accuracy, data) {
+				console.log('createEvent');
+				loading();
 				
 				var obj = {
-					name: data.name,
-					description: data.description,
-					start: data.start,
-					end: data.end,
-					latitude: latitude,
-					longitude: longitude,
-					user_id: user.id
+					user_id: 		user.id,
+					fb_id: 			user.fb_id,
+					user: 			user.name,
+
+					latitude: 		latitude,
+					longitude: 		longitude,
+					accuracy: 		accuracy,
+
+					name: 			data.name,
+					description: 	data.description,
+					start: 			data.start,
+					end: 			data.end
 				}
 				
                 $.ajax({
@@ -233,12 +202,40 @@ function iOSDetect() {
                     url: "/php/api.php",
                     data: {action: 'createEvent', event: obj}
                 }).done(function(data) {
-                    //if (cb) { cb(data); }
-					console.log('create event', data);
+					console.log('createEvent Done', data);
 					finishLoading(true);
 					loggedIn();
                 });
 
+			}
+
+
+			function createLocation(latitude, longitude, accuracy, data) {
+				console.log('createLocation');
+				loading();
+
+				var obj = {
+					user_id: 		user.id,
+					fb_id: 			user.fb_id,
+					user: 			user.name,
+
+					latitude: 		latitude,
+					longitude: 		longitude,
+					accuracy: 		accuracy,
+
+					title: 			data.title,
+					message: 		data.msg
+				}
+					
+				$.ajax({
+					type: "POST",
+					url: "/php/api.php",
+					data: {action: 'createLocation', event: obj}
+				}).done(function(data) {
+					console.log('createLocation Done', data);
+					finishLoading(true);
+					loggedIn();
+				});
 			}
 
 
@@ -255,7 +252,7 @@ function iOSDetect() {
 							return iconFriend(d.latitude, d.longitude, map, {
 								icon: 		d.fb_id,
 								timestamp: 	d.timestamp,
-								title: 		d.name,
+								title: 		d.user,
 								zIndex: 	z
 							});
 						});
@@ -272,7 +269,13 @@ function iOSDetect() {
 				}).done(function(data) {
 					initMap(data, true, function(data, coords, map, markers) {
 						populateMarker(data, coords, map, markers, function(d, markers, z) {
-							return iconMe(d.latitude, d.longitude, map);
+							return iconPin(d.latitude, d.longitude, map, {
+								icon: 		'/images/logo.png',
+								img: 		'/images/logo.png',
+								message: 	d.message,
+								title: 		d.title,
+								tooltip: 	true						
+							});
 						});
 					});
 				});
@@ -339,17 +342,18 @@ function iOSDetect() {
 				
 				return new InfoBox(myOptions);	
 			}
+            
+        </script>
 
-			
-			function rememberLocation(msg) {
-			     // TODO - Make this like create events
-				console.log('Remember Location');
-				navigator.geolocation.getCurrentPosition(function(position) {
-				if (user && user.id) {
-					position.action		= 'postLocation';
-					position.user_id	= user.id;
-					position.fb_id		= user.fb_id;
-					position.name		= user.name;
+        <script type="text/javascript" src="//connect.facebook.net/en_US/all.js"></script>
+		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+        <script type="text/javascript" src="http://r.oskil.de/js/infobox_packed.js"></script>
+        <script type="text/javascript" src="http://r.oskil.de/js/richmarker-compiled.js"></script>
+        
+        <div id="loading"><div></div><div id="confirm">Done!</div></div>
+        <div id="dynamic"></div>
+    </body>
+</html>sition.name		= user.name;
 					position.message	= msg;
 					
 					$.ajax({

@@ -24,21 +24,25 @@ $(document).ready(function() {
 
     $(document).on("click", "#remLocation", function(e){
         e.preventDefault();
-		$(document.getElementById('content')).append(mustache(templates.messageBox, {action: 'Location'}));
+        $(document.getElementById('content')).html(mustache(templates.create_location));
     });
-	
-    $(document).on("click", "#messageSubmitLocation", function(e){
-        e.preventDefault();
-		var $msg	= $(document.getElementById('message'));
-		var msg 	= $msg.find('textarea').val();
-		
-		if (msg.length > 0) {
-			rememberLocation(msg);
+
+	$(document).on("submit", "#createLocationForm", function(e) {
+		e.preventDefault();
+		var data = {
+			action: 'createLocation',
+			msg: 	$(document.getElementById('message')).val(),
+			title: 	$(document.getElementById('title')).val()	
 		}
-		
-		$msg.remove();
-		
-    });
+
+		if (data.title.length > 0) {
+			initCreateEventsMap(data);
+			//rememberLocation(title, msg);
+		} else {
+			alert('Enter a title for this location.');
+		}
+	});
+
 
     $(document).on("click", "#getLocation", function(e){
         e.preventDefault();
@@ -69,7 +73,7 @@ $(document).ready(function() {
 	
 	$(document).on("click", "#artist-close", function(e){
 		e.preventDefault();
-	    $('#artist-page').remove();
+		$('#artist-page').remove();
 	});
 
 	$(document).on("click", "#createEvent", function(e){
@@ -81,7 +85,17 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		if (checkDateTime()) {
-			// Check dates
+			// Check dates for dateinput
+			if ($(this).attr('name') === 'start-time') {
+				var $end		= $('input[name="end-time"]');
+				var startVal	= $(this).val();
+				var endVal		= $end.val();
+
+				$end.attr('min', startVal);
+				if (isNaN(new Date(endVal).getTime()) || new Date(startVal).getTime() > new Date(endVal).getTime()) {
+					$end.val(startVal);
+				}
+			}
 		} else {
 			var startDate, startTime, endDate, endTime;
 
@@ -128,7 +142,9 @@ $(document).ready(function() {
 		var proceed		= true;
 		var form		= $(this).serializeArray();
 		var year		= new Date().getFullYear();
-		var data		= {};
+		var data		= {
+			action: 'createEvent'
+		};
 
 		$.each(form, function(i,v) {
 			if (v.name === 'start-date' ||  v.name === 'end-date') {
@@ -166,7 +182,6 @@ $(document).ready(function() {
 
 			data.start	= startTime;
 			data.end	= endTime;
-			console.log(data);
 
 			if (startTime >= endTime) {
 				alert('An event start time can\'t be before the end time.');
@@ -179,11 +194,27 @@ $(document).ready(function() {
 
 	$(document).on("click", ".create-event", function(e){
 		e.preventDefault();
+
+		var lat, lon, acc;
 		var $map	=	$(document.getElementById("map-canvas"));
-		var latLon	=	($(this).attr('id') === 'createEventMe') ? $map.data('my-location') : $map.data('my-marker');
-		var data	= $map.data('form');
+
+		if ($(this).attr('id') === 'createEventMe') {
+			lat = $map.data('my-location-latitude');
+			lon = $map.data('my-location-longitude');
+			acc = $map.data('my-location-accuracy');
+		} else {
+			lat = $map.data('my-marker-latitude');
+			lon = $map.data('my-marker-longitude');
+			acc = -1;
+		}
+
+		var data	= 	$map.data('form');
 		
-		createEvent(latLon, data);
+		if (data.action === 'createEvent') {
+			createEvent(lat, lon, acc, data);
+		} else if (data.action === 'createLocation') {
+			createLocation(lat, lon, acc, data)
+		}
 	});
 	
 	

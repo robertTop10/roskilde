@@ -1,3 +1,6 @@
+// GENERIC FUNCTIONS
+// ------------------------------------------------------------
+
 function initMap(data, fit, cb) {
 	console.log('initMap', data);
 	$(document.getElementById('content')).html(templates.mapCanvas);
@@ -18,4 +21,54 @@ function setRoskildeMap(map) {
 	var imageBounds = new google.maps.LatLngBounds(se, nw);
 	var festival = new google.maps.GroundOverlay("http://r.oskil.de/images/map.gif", imageBounds, {clickable: false});
 	festival.setMap(map);	
+}
+
+
+// INITMAP CALLBACK
+// ------------------------------------------------------------
+
+function gotLocation(data, fit, cb, coords, error) {
+	console.log('gotLocation', data, coords);
+	
+	var m			= document.getElementById("map-canvas");
+	var me			= new google.maps.LatLng(coords.coords.latitude, coords.coords.longitude);
+	var center      = (typeof fit === 'object') ? new google.maps.LatLng(fit.coords.latitude, fit.coords.longitude) : me;
+
+	var mapOptions 	= {
+		center: center,
+		zoom: 15,
+		disableDefaultUI: true,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+	var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+	
+	google.maps.event.addListenerOnce(map, 'idle', function(){
+			finishLoading();
+	});
+	
+	setRoskildeMap(map);
+	
+	var markers = [];
+	
+    if (!error) {
+        // Update to new callback func
+        //markers.push(marker(coords.coords.latitude, coords.coords.longitude, map, 'Me', user.fb_id, false, 100));
+        markers.push(iconMe(coords.coords.latitude, coords.coords.longitude, map));
+    }
+
+
+    if (cb) { cb(data, coords, map, markers); }
+    
+    if (fit === true) { fitToMarkers(markers, map); }
+	
+	showCompass();
+}
+
+
+// SHOW ROSKILE MAP
+// ------------------------------------------------------------
+function initRoskildeMap() {
+	initMap(null, festivalCoords, function() {
+		console.log('geoData goes here');
+	});
 }

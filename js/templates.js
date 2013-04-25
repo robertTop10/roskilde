@@ -24,7 +24,6 @@ var templates = {
 									'<div><button id="createEventMe" class="create-event">USE MY LOCATION</button></div>' +
 									'<div><span>... or tap a location</span><button id="createEventMarker" class="create-event">USE MARKED LOCATION</button></div>' +
 								'</div>',
-	messageBox:					'<div id="message" class="message"><textarea></textarea><button id="messageSubmit{{action}}">SUBMIT</button></div>',
 	
 	marker:                     '<div class="roskilde_marker">' +
 									'<div class="ros_marker">' +
@@ -60,6 +59,23 @@ var templates = {
 	                                '</div>' +
 	                            '</div>',
 
+
+	create_location:			'<div id="createLocationPage" class="page event_page">' +
+									'<form id="createLocationForm">' +
+									'<h2>Remember a location</h2>' +
+									'<div>' +
+										'<strong>Name</strong>' +
+										'<input id="title" type="text" name="name" required />' +
+									'</div>' +
+									'<div>' +
+										'<strong>Description</strong>' +
+										'<textarea id="message" name="description"></textarea>' +
+									'</div>' +
+									'<button type="submit">Place Location</button>' +
+									'</form>' +
+								'</div>',
+
+
 	create_event:				'<div id="createEventPage" class="page event_page">' +
 									'<form id="createEventForm">' +
 									'<h2>Create an event</h2>' +
@@ -74,7 +90,7 @@ var templates = {
 									'{{#datetime}}' +
 										'<div>' +
 											'<strong>Start</strong>' +
-											'<input type="datetime" name="start-time" required />' +
+											'<input type="datetime" name="start-time" class="event-date" required />' +
 										'</div>' +
 										'<div>' +
 											'<strong>End</strong>' +
@@ -85,7 +101,7 @@ var templates = {
 										'<div>' +
 											'<strong>Start</strong>' +
 											'<select name="start-date" class="event-date" required>' +
-												'{{> date_dropdown}}' + 
+												'{{> date_dropdown}}' +
 											'</select>' +
 
 											'<select name="start-time" class="event-date" required>' +
@@ -102,14 +118,13 @@ var templates = {
 												'{{> time_dropdown}}' +
 											'</select>' +
 										'</div>' +
-									'{{/datetime}}' +										
-									'<div>Remember to convert to Danish Time - Returned as 2011-10-18T00:00:00.00Z</div>' +
+									'{{/datetime}}' +
 									'<button type="submit">Place Location</button>' +
 									'</form>' +
 								'</div>',
 
 
- 	date_dropdown:  			'<option disabled>Select a date</option>' +
+	date_dropdown:			'<option disabled>Select a date</option>' +
 								'<optgroup label="June">' +
 									'<option value="24-6">Mon 24 June</option>' +
 									'<option value="25-6">Tue 25 June</option>' +
@@ -136,7 +151,7 @@ var templates = {
 									'<option value="14-7">Sun 14 July</option>' +
 								'</optgroup>',
 
-	time_dropdown: 				'<option disabled>Time</option>' +
+	time_dropdown:				'<option disabled>Time</option>' +
 								'<optgroup label="AM">' +
 									'<option value="00:00">00:00</option>' +
 									'<option value="00:30">00:30</option>' +
