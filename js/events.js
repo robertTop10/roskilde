@@ -60,17 +60,20 @@ $(document).ready(function() {
 		e.preventDefault();
 		getSchedule();
 	});
-	
+
 	$(document).on("click", ".band", function(e){
 		e.preventDefault();
-		
+
 		var id     = $(this).data('artist').split('-');
 		var artist = schedule.results[id[0]][id[1]][id[2]];
-		
+		console.log(artist);
+		artist.start = artist.original_timestamp * 1000;
+		artist.end   = artist.start + 3600000;
+
 		$(document.getElementById('content')).append(mustache(templates.artist_page, artist));
 
 	});
-	
+
 	$(document).on("click", "#artist-close", function(e){
 		e.preventDefault();
 		$('#artist-page').remove();
@@ -219,9 +222,15 @@ $(document).ready(function() {
 	
 	
 	$(document).on("click", "#getEvents", function(e){
-		e.preventDefault();				
+		e.preventDefault();
 		loading();
 		getEvents();
+	});
+
+
+	$(document).on("click", '.add-to-schedule', function(e) {
+		e.preventDefault();
+		addToMySchedule(e);
 	});
 
 });

@@ -299,11 +299,28 @@ function iOSDetect() {
 								timestamp: 	d.start,
 								title: 		d.name,
 								tooltip: 	true,
+								schedule: 	{
+									button: 	true,
+									start: 		d.start,
+									end: 		d.end,
+									latitude: 	d.latitude,
+									longitude: 	d.longitude
+								},
 								zIndex: 	z
 							});
 						});
 					});
 				});			
+			}
+
+
+			function addToMySchedule(e) {
+				e.preventDefault();
+				console.log(e, $(e.target).data());
+				var r = confirm("Do you want to add to your schedule?");
+				if (r === true) {
+					alert("Yes"); 
+				}
 			}
 
 
@@ -353,24 +370,7 @@ function iOSDetect() {
         <div id="loading"><div></div><div id="confirm">Done!</div></div>
         <div id="dynamic"></div>
     </body>
-</html>sition.name		= user.name;
-					position.message	= msg;
-					
-					$.ajax({
-						type: "POST",
-						url: "/php/api.php",
-						data: position
-					}).done(function(data) {
-						console.log(data);
-					});
-				}
-				}, noPosition, {timeout: 8000});
-			}
-            
-        </script>
-
-        <script type="text/javascript" src="//connect.facebook.net/en_US/all.js"></script>
-		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+</html>ipt type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
         <script type="text/javascript" src="http://r.oskil.de/js/infobox_packed.js"></script>
         <script type="text/javascript" src="http://r.oskil.de/js/richmarker-compiled.js"></script>
         

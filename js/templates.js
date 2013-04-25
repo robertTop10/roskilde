@@ -24,14 +24,14 @@ var templates = {
 									'<div><button id="createEventMe" class="create-event">USE MY LOCATION</button></div>' +
 									'<div><span>... or tap a location</span><button id="createEventMarker" class="create-event">USE MARKED LOCATION</button></div>' +
 								'</div>',
-	
+
 	marker:                     '<div class="roskilde_marker">' +
 									'<div class="ros_marker">' +
 										'<img src="{{{src}}}" height="25" width="25"/>' +
 										'{{#details}}<span>{{details}}</span>{{/details}}' +
 									'</div>' +
 								'</div>',
-	                            
+
 	tooltip:					'<div class="ros_tooltip">' +
 									'<img src="{{{src}}}" class="tt_img" height="25" width="25"/>' +
 									'<div class="tt_cont">' +
@@ -41,23 +41,37 @@ var templates = {
 											'{{#message}}<div class="tt_msg">{{message}}</div>{{/message}}' +
 										'</div>' +
 									'</div>' +
+									'{{#schedule}}' +
+										'{{> tooltipAddScheduleBtn}}' +
+									'{{/schedule}}' +
 								'</div>',
-								
-	artist_page:                '<div id="artist-page" class="page artist_page">' +
-	                                '<div>' +
-		                                '<h4>{{artistName}}</h4><span id="artist-close" class="artist_close" onclick="">&times;</span>' +
-		                                '<div class="artist_details">' +
-		                                    '<img src="http://roskilde-festival.co.uk/{{{imageUrl}}}" height="112" width="112" /><br/>' +
-			                                '{{country}}<br/>' +
-			                                '{{{scene}}}<br/>' +
-			                                '{{tidspunkt}}<br/>' +
-		                                '</div>' +
 
-		                                '<div class="artist_description">' +
-			                                '{{{description}}}' +
-		                                '</div>' +
-	                                '</div>' +
-	                            '</div>',
+
+	tooltipAddScheduleBtn:		'<button class="add-to-schedule" ' +
+									'data-name="{{name}}" data-location="Roskilde" data-latitude="{{latitude}}" data-longitude="{{longitude}}" {{#message}}data-description="{{message}}"{{/message}} data-start="{{start}}" data-end="{{end}}" data-type="event"' +
+								'>Add to My Schedule</button>',
+
+
+	artist_page:                '<div id="artist-page" class="page artist_page">' +
+									'<div>' +
+										'<h4>{{artistName}}</h4><span id="artist-close" class="artist_close" onclick="">&times;</span>' +
+										'<div class="artist_details">' +
+											'<img src="http://roskilde-festival.co.uk/{{{imageUrl}}}" height="112" width="112" /><br/>' +
+											'{{country}}<br/>' +
+											'{{{scene}}}<br/>' +
+											'{{tidspunkt}}<br/>' +
+											'<div>' +
+												'<button class="add-to-schedule" onclick="alert(\"Added!\");" ' +
+													'data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{artistName}}} playing at {{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
+												'>Add to My Schedule</button>' +
+											'</div>' +
+										'</div>' +
+
+										'<div class="artist_description">' +
+											'{{{description}}}' +
+										'</div>' +
+									'</div>' +
+								'</div>',
 
 
 	create_location:			'<div id="createLocationPage" class="page event_page">' +

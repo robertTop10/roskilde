@@ -50,23 +50,31 @@ function iconPin(lat, lon, map, params) {
 	}
 
 	var marker = new RichMarker(obj);
-
+	console.log(params);
 	// TODO - Do tooltip stuff
 	if (params.tooltip === true) {
-		var infowindow 	= createTooltip({
-			src: 		params.img, 
-			name: 		params.title, 
-			details: 	params.diff, 
-			message: 	params.message,
-			time: 		params.time
+		var infowindow	= createTooltip({
+			src:		params.img,
+			name:		params.title,
+			details:	params.diff,
+			message:	params.message,
+			time:		params.time,
+			schedule:	params.schedule
 		});
 
 		google.maps.event.addListener(marker, 'click', function() {
-			if (openInfoWindow) { openInfoWindow.close(); };
+			if (openInfoWindow) { openInfoWindow.close(); }
 			openInfoWindow = infowindow;
 			infowindow.open(map, marker);
-		});					
+
+			setTimeout(function() {
+				google.maps.event.addDomListener(document.getElementsByClassName('ros_tooltip')[0], 'click', function(e) {
+					console.log('CLICK', e);
+					if ($(e.target).hasClass('add-to-schedule')) { addToMySchedule(e); }
+				});
+			}, 50);
+		});
 	}
-	
-	return marker;			
+
+	return marker;
 }

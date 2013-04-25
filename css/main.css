@@ -210,6 +210,11 @@ button:active,
 	font-size: 10px;	
 }
 
+.ros_tooltip button {
+	position: relative;
+	z-index: 1;
+}
+
 #dynamic {
 	position: absolute;
 	visibility:hidden;

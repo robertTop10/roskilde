@@ -73,27 +73,27 @@ function processDates(data, dates, stages) {
 
 	html += '</div>';
 	html += '</div>';
-	
+
 	document.getElementById('content').innerHTML = html;
-	
+
 	var width = 0;
 	$('.day').each(function(i,v) {
 		width = width + $(this).outerWidth();
 		widths.push(width);
 	});
-	
+
 	var $schedule	= $(document.getElementById('schedule-container'));
 	var $stages		= $(document.getElementById('stages'));
 	$schedule.css('width', width + 'px');
-	
+
 	if ($schedule.outerHeight() !== $stages.outerHeight()) {
 		$stages.css('height', $schedule.outerHeight());	
 	}
-	
+
 	var min = -1;
 	var max = 0;
 	var el  = document.getElementById('date');
-	
+
 	$('.schedule_scroller').on('scroll gesturechange', function(e) {
 	    if ($(e.currentTarget)[0].scrollLeft > widths[max] && (max + 1) <= widths.length) {
 		    min++;
@@ -107,7 +107,7 @@ function processDates(data, dates, stages) {
 		    el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]);
 	    }
 	});
-	
+
 	finishLoading();
 }
 
@@ -117,19 +117,19 @@ function populateStage(name, dates, stage, i) {
 	var min = dates[i];
 	var max = min + 72000;
 	var margin = 0;
-	    
+
 	while (min < max) {
 		if (stage[min]) {
 			var time = new Date(stage[min]['original_timestamp'] * 1000);
 			html += '<div class="band" style="margin-left: ' + margin + 'px;" data-artist="' + i + '-' + name + '-' + min + '" onclick=""><div>' + stage[min]['artistName'] + '</div><span>' + time.getHours() + ':' + time.getMinutes().pad() + '</span></div>';
 			margin = -90;
 		} else {
-			margin = margin + 30;	
+			margin = margin + 30;
 		}
 		min = min + 900;
 	}
 	html += '</div>';
-	
+
 	return html;
 	//console.log(new Date(max * 1000));
 }
