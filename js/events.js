@@ -70,8 +70,19 @@ $(document).ready(function() {
 		artist.start = artist.original_timestamp * 1000;
 		artist.end   = artist.start + 3600000;
 
-		$(document.getElementById('content')).append(mustache(templates.artist_page, artist));
+		var data	= JSON.parse(localStorage.getItem('mySchedule'));
+		var artId	= parseInt(artist['@id'], 10);
 
+		if (data !== null) {
+			for (i = 0, len = data.length; i < len; i++) {
+				if (data[i].id === artId && data[i].type === 'artist') {
+					artist.subscribed = true;
+					break;
+				}
+			}
+		}
+
+		$(document.getElementById('content')).append(mustache(templates.artist_page, artist));
 	});
 
 	$(document).on("click", "#artist-close", function(e){
@@ -211,16 +222,16 @@ $(document).ready(function() {
 			acc = -1;
 		}
 
-		var data	= 	$map.data('form');
-		
+		var data	=	$map.data('form');
+
 		if (data.action === 'createEvent') {
 			createEvent(lat, lon, acc, data);
 		} else if (data.action === 'createLocation') {
-			createLocation(lat, lon, acc, data)
+			createLocation(lat, lon, acc, data);
 		}
 	});
-	
-	
+
+
 	$(document).on("click", "#getEvents", function(e){
 		e.preventDefault();
 		loading();
@@ -228,9 +239,24 @@ $(document).ready(function() {
 	});
 
 
+	$(document).on("click", "#getMySchedule", function(e){
+		e.preventDefault();
+		loading();
+		getMySchedule();
+	});
+
+
 	$(document).on("click", '.add-to-schedule', function(e) {
 		e.preventDefault();
+		loading();
 		addToMySchedule(e);
+	});
+
+
+	$(document).on("click", '.remove-from-schedule', function(e) {
+		e.preventDefault();
+		loading();
+		removeFromMySchedule(e);
 	});
 
 });

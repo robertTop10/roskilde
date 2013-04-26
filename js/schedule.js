@@ -28,39 +28,39 @@ function processDates(data, dates, stages) {
     var widths       = [];
 
 	stages = data.stages;
-	
+
 	var i = 0;
-	
+
 	var date = new Date(dates[i] * 1000).getDate();
 	var html = '<div id="stages" class="stages"><div id="date" class="stage_name">' + days[new Date(dates[i] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + '</div>';
-	
+
 	$.each(data.stages, function(i,v) {
-	    html += '<div class="stage_name">' + v + '</div>';
+		html += '<div class="stage_name">' + v + '</div>';
 	});
 	html    += '</div>';
-	
+
 	var style = '';
 	if (checkCalc() === false) {
 		var width = $(document.getElementById('content')).outerWidth() - 60;
-		style = ' style="width: ' + width + 'px;"'
+		style = ' style="width: ' + width + 'px;"';
 	}
-	
+
 	html    += '<div class="schedule_scroller"' + style + '>';
 	html    += '<div id ="schedule-container" class="schedule_container">';
 
-	
-	$.each(data.keys, function(n,key) {			    
+
+	$.each(data.keys, function(n,key) {
 		html += '<div class="day">';
 		html += '<div class="stage">';
-		
+
 		var min     = dates[i];
 		var max     = min + 72000;
 		while (min < max) {
-		    var time    = new Date(min * 1000);
-		    html    += '<div class="time">' + time.getHours() + ':' + time.getMinutes().pad() + '</div>';
-		    min = min + 900;
+			var time    = new Date(min * 1000);
+			html    += '<div class="time">' + time.getHours() + ':' + time.getMinutes().pad() + '</div>';
+			min = min + 900;
 		}
-		
+
 		var date = new Date(dates[i] * 1000).getDate();
 		html += '<div class="name_day">' + days[new Date(dates[i] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + '</div></div>';
 
@@ -87,7 +87,7 @@ function processDates(data, dates, stages) {
 	$schedule.css('width', width + 'px');
 
 	if ($schedule.outerHeight() !== $stages.outerHeight()) {
-		$stages.css('height', $schedule.outerHeight());	
+		$stages.css('height', $schedule.outerHeight());
 	}
 
 	var min = -1;
@@ -95,17 +95,17 @@ function processDates(data, dates, stages) {
 	var el  = document.getElementById('date');
 
 	$('.schedule_scroller').on('scroll gesturechange', function(e) {
-	    if ($(e.currentTarget)[0].scrollLeft > widths[max] && (max + 1) <= widths.length) {
-		    min++;
-		    max++;
-		    var date = new Date(dates[max] * 1000).getDate();
-		    el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]);
-	    } else if ($(e.currentTarget)[0].scrollLeft < widths[min] && min >= 0) {
-		    min--;
-		    max--;
-		    var date = new Date(dates[max] * 1000).getDate();
-		    el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]);
-	    }
+		if ($(e.currentTarget)[0].scrollLeft > widths[max] && (max + 1) <= widths.length) {
+			min++;
+			max++;
+			var date = new Date(dates[max] * 1000).getDate();
+			el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]);
+		} else if ($(e.currentTarget)[0].scrollLeft < widths[min] && min >= 0) {
+			min--;
+			max--;
+			var date = new Date(dates[max] * 1000).getDate();
+			el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]);
+		}
 	});
 
 	finishLoading();

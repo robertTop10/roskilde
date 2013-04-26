@@ -53,12 +53,29 @@ function iconPin(lat, lon, map, params) {
 	console.log(params);
 	// TODO - Do tooltip stuff
 	if (params.tooltip === true) {
+
+		if (params.schedule) {
+			var data	= JSON.parse(localStorage.getItem('mySchedule'));
+			var eveId	= parseInt(params.schedule.id, 10);
+			if (data !== null) {
+				for (i = 0, len = data.length; i < len; i++) {
+					console.log(data[i].id, eveId, data[i].type);
+					if (data[i].id === eveId && data[i].type === 'event') {
+						params.schedule.subscribed = true;
+						break;
+					}
+				}
+			}
+		}
+
 		var infowindow	= createTooltip({
 			src:		params.img,
 			name:		params.title,
 			details:	params.diff,
+			id:			params.id,
 			message:	params.message,
 			time:		params.time,
+			ftime:		params.ftime,
 			schedule:	params.schedule
 		});
 
@@ -70,7 +87,8 @@ function iconPin(lat, lon, map, params) {
 			setTimeout(function() {
 				google.maps.event.addDomListener(document.getElementsByClassName('ros_tooltip')[0], 'click', function(e) {
 					console.log('CLICK', e);
-					if ($(e.target).hasClass('add-to-schedule')) { addToMySchedule(e); }
+					if ($(e.target).hasClass('add-to-schedule')) { loading(); addToMySchedule(e); }
+					else if ($(e.target).hasClass('remove-from-schedule')) { loading(); removeFromMySchedule(e); }
 				});
 			}, 50);
 		});

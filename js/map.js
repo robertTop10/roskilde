@@ -67,8 +67,32 @@ function gotLocation(data, fit, cb, coords, error) {
 
 // SHOW ROSKILE MAP
 // ------------------------------------------------------------
+
 function initRoskildeMap() {
 	initMap(null, festivalCoords, function() {
 		console.log('geoData goes here');
 	});
+}
+
+
+// MARKERS
+// ------------------------------------------------------------
+
+function populateMarker(data, coords, map, markers, cb) {
+    var length 	= data.result.length;
+    var z		= length + 1;
+    for (var i = 0; i < length; i++) {
+        var d 	= data.result[i];
+        markers.push(cb(d, markers, z--));
+    }
+}
+
+
+function fitToMarkers(markers, map) {
+	var bounds = new google.maps.LatLngBounds();
+	var length = markers.length;
+	for (var i = 0; i < length; i++) {
+		bounds.extend(new google.maps.LatLng(markers[i]['position']['jb'], markers[i]['position']['kb']));
+		map.fitBounds(bounds);
+	}
 }

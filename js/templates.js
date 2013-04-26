@@ -1,5 +1,5 @@
 var templates = {
-    statusLoggedIn:     		'<div class="status">Welcome {{first_name}} {{last_name}} from {{#hometown}}{{name}}{{/hometown}}</div>' +
+    statusLoggedIn:				'<div class="status">Welcome {{first_name}} {{last_name}} from {{#hometown}}{{name}}{{/hometown}}</div>' +
 								'<div class="menu_button">{{> checkInButtonPartial}}</div>' +
 								'<div class="menu_button">{{> findFriendsButtonPartial}}</div>' +
 								'<div class="menu_button">{{> locationButtonPartial}}</div>' +
@@ -7,8 +7,9 @@ var templates = {
 								'<div class="menu_button">{{> mapButtonPartial}}</div>' +
 								'<div class="menu_button">{{> scheduleButtonPartial}}</div>' +
 								'<div class="menu_button">{{> createEventPartial}}</div>' +
-								'<div class="menu_button">{{> eventButtonPartial}}</div>',
-								
+								'<div class="menu_button">{{> eventButtonPartial}}</div>' +
+								'<div class="menu_button">{{> getMySchedulePartial}}</div>',
+
 	checkInButtonPartial:		'<button id="checkin">CHECK IN</button>',
 	findFriendsButtonPartial:	'<button id="findFriends">FIND FRIENDS</button>',
 	locationButtonPartial:		'<button id="remLocation">REMEMBER LOCATION</button>',
@@ -17,9 +18,10 @@ var templates = {
 	scheduleButtonPartial:		'<button id="schedule">SCHEDULE</button>',
 	createEventPartial:			'<button id="createEvent">CREATE EVENT</button>',
 	eventButtonPartial:			'<button id="getEvents">EVENTS</button>',
-	
+	getMySchedulePartial:		'<button id="getMySchedule">MY SCHEDULE</button>',
+
 	mapCanvas:					'<div id="map-canvas" class="map_canvas"></div><div id="compass" class="compass"></div>',
-	
+
 	createEventOptions:			'<div id="createEventOptions" class="create_event_options">' +
 									'<div><button id="createEventMe" class="create-event">USE MY LOCATION</button></div>' +
 									'<div><span>... or tap a location</span><button id="createEventMarker" class="create-event">USE MARKED LOCATION</button></div>' +
@@ -38,18 +40,28 @@ var templates = {
 										'<div class="tt_name">{{name}}</div>' +
 										'<div class="tt_details">' +
 											'{{#time}}<div class="tt_time">{{time}}</div>{{/time}}' +
+											'{{#ftime}}<div class="tt_time">{{ftime}}</div>{{/ftime}}' +
 											'{{#message}}<div class="tt_msg">{{message}}</div>{{/message}}' +
 										'</div>' +
 									'</div>' +
 									'{{#schedule}}' +
-										'{{> tooltipAddScheduleBtn}}' +
+										'{{#subscribed}}' +
+											'{{> tooltipRemoveScheduleBtn}}' +
+										'{{/subscribed}}' +
+										'{{^subscribed}}' +
+											'{{> tooltipAddScheduleBtn}}' +
+										'{{/subscribed}}' +
 									'{{/schedule}}' +
 								'</div>',
 
 
 	tooltipAddScheduleBtn:		'<button class="add-to-schedule" ' +
-									'data-name="{{name}}" data-location="Roskilde" data-latitude="{{latitude}}" data-longitude="{{longitude}}" {{#message}}data-description="{{message}}"{{/message}} data-start="{{start}}" data-end="{{end}}" data-type="event"' +
+									'data-id="{{id}}" data-name="{{name}}" data-location="Roskilde" data-latitude="{{latitude}}" data-longitude="{{longitude}}" {{#message}}data-description="{{message}}"{{/message}} data-start="{{start}}" data-end="{{end}}" data-fstart="{{fstart}}" data-fend="{{fend}}" data-type="event"' +
 								'>Add to My Schedule</button>',
+
+	tooltipRemoveScheduleBtn:	'<button class="remove-from-schedule" ' +
+									'data-id="{{id}}" data-name="{{name}}" data-location="Roskilde" data-latitude="{{latitude}}" data-longitude="{{longitude}}" {{#message}}data-description="{{message}}"{{/message}} data-start="{{start}}" data-end="{{end}}" data-fstart="{{fstart}}" data-fend="{{fend}}" data-type="event"' +
+								'>Remove from My Schedule</button>',
 
 
 	artist_page:                '<div id="artist-page" class="page artist_page">' +
@@ -61,9 +73,16 @@ var templates = {
 											'{{{scene}}}<br/>' +
 											'{{tidspunkt}}<br/>' +
 											'<div>' +
-												'<button class="add-to-schedule" onclick="alert(\"Added!\");" ' +
-													'data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{artistName}}} playing at {{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
-												'>Add to My Schedule</button>' +
+												'{{#subscribed}}' +
+													'<button class="remove-from-schedule" ' +
+														'data-id="{{@id}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{artistName}}} playing at {{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
+													'>Remove from My Schedule</button>' +
+												'{{/subscribed}}' +
+												'{{^subscribed}}' +
+													'<button class="add-to-schedule" ' +
+														'data-id="{{@id}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{artistName}}} playing at {{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
+													'>Add to My Schedule</button>' +
+												'{{/subscribed}}' +
 											'</div>' +
 										'</div>' +
 
@@ -217,7 +236,17 @@ var templates = {
 									'<option value="22:30">22:30</option>' +
 									'<option value="23:00">23:00</option>' +
 									'<option value="23:30">23:30</option>' +
-								'</optgroup>'
+								'</optgroup>',
+
+	mySchedule:					'{{#results}}' +
+									'{{name}}<br/>' +
+									'{{description}}<br/>' +
+									'{{fstart}}<br/>' +
+									'{{fend}}<br/>' +
+								'{{/results}}' +
+								'{{^results}}' +
+									'You haven\'t added any events to your schedule' +
+								'{{/results}}'
 
 
 }
