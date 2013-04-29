@@ -81,7 +81,7 @@ function xmlToArray($xml, $options = array()) {
     );
 }
 
-$xmlNode = simplexml_load_file('legacy_bandobjects_251_uk.xml');
+$xmlNode = simplexml_load_file('lineup2012.xml');
 $arrayData = xmlToArray($xmlNode);
 
 date_default_timezone_set('Europe/Copenhagen');

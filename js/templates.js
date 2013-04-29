@@ -238,15 +238,28 @@ var templates = {
 									'<option value="23:30">23:30</option>' +
 								'</optgroup>',
 
-	mySchedule:					'{{#results}}' +
-									'{{name}}<br/>' +
-									'{{description}}<br/>' +
-									'{{fstart}}<br/>' +
-									'{{fend}}<br/>' +
-								'{{/results}}' +
-								'{{^results}}' +
-									'You haven\'t added any events to your schedule' +
-								'{{/results}}'
+	mySchedule:					'<div class="status">' +
+									'{{#results}}' +
+										'<div class="my_event_cont">' +
+											'<div class="my_event_times">' +
+												'<h5>{{formattedStart}}</h5>' +
+												'<h5>{{formattedEnd}}</h5>' +
+											'</div>' +
+											'<div class="my_event">' +
+												'<div class="my_event_details">' +
+													'<h2>{{name}}</h2>' +
+													'<h3>{{description}}</h3>' +
+													'<div>' +
+														'<a href="/php/ics.php?startTime={{start}}&endTime={{end}}&subject={{name}}&desc={{description}}">Add to your Calendar</a>' +
+													'</div>' +
+												'</div>' +
+											'</div>' +
+										'</div>' +
+									'{{/results}}' +
+									'{{^results}}' +
+										'You haven\'t added any events to your schedule' +
+									'{{/results}}' +
+								'</div>'
 
 
 }

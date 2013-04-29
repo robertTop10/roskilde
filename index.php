@@ -366,7 +366,7 @@ function iOSDetect() {
 					var id 			= data.id;
 					var type 		= data.type;
 
-					if (data !== null) {
+					if (data !== null && schedule !== null && schedule.length) {
 						for (i = 0, len = schedule.length; i < len; i++) {
 							console.log(schedule[i].id, id, schedule[i].type);
 							if (schedule[i].id === id && schedule[i].type === type) {
@@ -414,7 +414,18 @@ function iOSDetect() {
 			function getMySchedule() {
 				console.log('getMySchedule');
 				var data = JSON.parse(localStorage.getItem('mySchedule'));
-				console.log(data);
+
+				if (data !== null && data.length) {
+					$.each(data, function(i,v) {
+						v.formattedStart 	= formatTime(v.start);
+						v.formattedEnd 		= formatTime(v.end);
+					});
+
+					data.sort(function(a, b) {
+						return a.start - b.start;
+					});
+				}
+
 				$(document.getElementById('content')).html(mustache(templates.mySchedule, {results: data}));
 				finishLoading();
 			}

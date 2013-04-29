@@ -152,10 +152,15 @@ function noPosition() {
 
 function formatTime(timestamp) {
 	var string	= '';
+	var nth		= ['st', 'nd', 'rd', 'th'];
 	var d		= new Date(parseInt(timestamp, 10));
+
 	string		+= daysShort[d.getDay()];
 	string		+= ' ';
-	string		+= (new Date().getMonth() === d.getMonth()) ? '' : monthsShort[d.getMonth()];
+	string		+= d.getDate();
+	string		+= (d.getDate() < 3) ? nth[d.getDate() - 1] : nth[3];
+	string		+= ' ';
+	string		+= (new Date().getMonth() === d.getMonth() && new Date().getFullYear() === d.getFullYear()) ? '' : monthsShort[d.getMonth()];
 	string		+= ' ';
 	string		+= d.getHours().pad() + ':' + d.getMinutes().pad();
 
