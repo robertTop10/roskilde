@@ -22,7 +22,6 @@ window.fbAsyncInit = function() {
 
 function loggedIn() {
     FB.api('/me', function(response) {
-        console.log('response' , response);
         fbUser = response;
         $(document.getElementById('content')).html(mustache(templates.statusLoggedIn, response));
 
@@ -51,19 +50,14 @@ function checkUser() {
     var data    = fbUser;
     data.fb_id  = data.id;
     data.action = 'auth';
-    console.log('data1', data);
 
     $.ajax({
         type: "POST",
         url: "/php/api.php",
         data: data
     }).done(function(data) {
-        console.log('data', data);
 		if (data.result && !isNaN(data.result.id)) {
 			user = data.result;
-			FB.api('/me/friends', function(response) {
-				postFriends(response);
-			});
 		}
 
 		finishLoading();
