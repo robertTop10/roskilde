@@ -1,39 +1,47 @@
 $(document).ready(function() {
     window.scrollTo(1,0);
     loading();
-	
+
+
+    new FastClick(document.body);
+
+
     $(document).on("click", "#checkin", function(e){
         e.preventDefault();
 		loading();
 		navigator.geolocation.getCurrentPosition(getPosition, noPosition, {timeout: 8000});
     });
-	
+
+
     $(document).on("click", "#findFriends", function(e){
         e.preventDefault();
 		loading();
 		findFriends();
     });
-	
+
+
 	$(document).on("click", "#menu", function(e){
+		console.log('fastClick');
         e.preventDefault();
-        loading();
-        
+
 		removeCompass();
-		loggedIn();
+		mainMenu();
 	});
+
 
     $(document).on("click", "#remLocation", function(e){
         e.preventDefault();
         $(document.getElementById('content')).html(mustache(templates.create_location));
     });
 
+
 	$(document).on("submit", "#createLocationForm", function(e) {
 		e.preventDefault();
 		var data = {
 			action: 'createLocation',
-			msg: 	$(document.getElementById('message')).val(),
-			title: 	$(document.getElementById('title')).val()	
-		}
+			msg:	$(document.getElementById('message')).val(),
+			title:	$(document.getElementById('title')).val()
+		};
 
 		if (data.title.length > 0) {
 			initCreateEventsMap(data);
@@ -49,17 +57,20 @@ $(document).ready(function() {
 		loading();
 		getLocation();
     });
-	
+
+
 	$(document).on("click", "#map", function(e){
 		e.preventDefault();
 		loading();
 		initRoskildeMap();
 	});
 
+
 	$(document).on("click", "#schedule", function(e){
 		e.preventDefault();
 		getSchedule();
 	});
+
 
 	$(document).on("click", ".band", function(e){
 		e.preventDefault();
@@ -85,15 +96,18 @@ $(document).ready(function() {
 		$(document.getElementById('content')).append(mustache(templates.artist_page, artist));
 	});
 
+
 	$(document).on("click", "#artist-close", function(e){
 		e.preventDefault();
 		$('#artist-page').remove();
 	});
 
+
 	$(document).on("click", "#createEvent", function(e){
 		e.preventDefault();
 		$(document.getElementById('content')).html(mustache(templates.create_event, {datetime: checkDateTime()}));
 	});
+
 
 	$(document).on("change", ".event-date", function(e){
 		e.preventDefault();
@@ -148,6 +162,7 @@ $(document).ready(function() {
 			}
 		}
 	});
+
 
 	$(document).on("submit", "#createEventForm", function(e) {
 		e.preventDefault();

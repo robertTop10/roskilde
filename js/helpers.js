@@ -136,10 +136,10 @@ function iOSversion() {
 		// supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
 		var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
 		var ver = [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
-		
+
 		return (ver[0] >= 5);
 	}
-	
+
 	return false;
 }
 
@@ -151,13 +151,30 @@ function noPosition() {
 
 
 function formatTime(timestamp) {
-	var string 	= '';
-	var d 		= new Date(parseInt(timestamp));
-	string 		+= daysShort[d.getDay()];
-	string 		+= ' ';
-	string 	 	+= (new Date().getMonth() === d.getMonth()) ? '' : monthsShort[d.getMonth()];
-	string 		+= ' ';
-	string 		+= d.getHours().pad() + ':' + d.getMinutes().pad();
+	var string	= '';
+	var d		= new Date(parseInt(timestamp, 10));
+	string		+= daysShort[d.getDay()];
+	string		+= ' ';
+	string		+= (new Date().getMonth() === d.getMonth()) ? '' : monthsShort[d.getMonth()];
+	string		+= ' ';
+	string		+= d.getHours().pad() + ':' + d.getMinutes().pad();
 
 	return string;
+}
+
+
+function setLocalStorage(key, value) {
+	var set = true;
+
+	try {
+		localStorage.setItem(key, value);
+	} catch (error) {
+		set = false;
+
+		if (error.code === DOMException.QUOTA_EXCEEDED_ERR) {
+			alert('Whoops\n\n' + 'Unable to save data to your phone.\nIf in "Private Browsing" mode switch this off and try again.');
+		} else { throw error; }
+	}
+
+	return set;
 }

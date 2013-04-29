@@ -55,6 +55,7 @@ function iOSDetect() {
         <div id="fb-root"></div>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="/js/mustache.js"></script>
+        <script src="/js/fastclick.js"></script>
         <script src="/js/events.js"></script>
         <script src="/js/helpers.js"></script>
         <script src="/js/icons.js"></script>
@@ -335,13 +336,17 @@ function iOSDetect() {
 						result = JSON.stringify(schedule);
 					}
 
-					localStorage.setItem('mySchedule', result);
+					var set = setLocalStorage('mySchedule', result);
 
-					$(e.target).removeClass('add-to-schedule');
-					$(e.target).addClass('remove-from-schedule');
-					$(e.target).text('Remove from My Schedule');
+					if (set === true) {
+						$(e.target).removeClass('add-to-schedule');
+						$(e.target).addClass('remove-from-schedule');
+						$(e.target).text('Remove from My Schedule');
 
-					finishLoading(true);
+						finishLoading(true);
+					} else {
+						finishLoading();
+					}
 				} else {
 					finishLoading();
 				}
@@ -371,13 +376,17 @@ function iOSDetect() {
 						}
 					}
 
-					localStorage.setItem('mySchedule', JSON.stringify(schedule));
+					var set = setLocalStorage('mySchedule', JSON.stringify(schedule));
 
-					$(e.target).removeClass('remove-from-schedule');
-					$(e.target).addClass('add-to-schedule');
-					$(e.target).text('Add to My Schedule');
+					if (set === true) {
+						$(e.target).removeClass('remove-from-schedule');
+						$(e.target).addClass('add-to-schedule');
+						$(e.target).text('Add to My Schedule');
 
-					finishLoading(true);
+						finishLoading(true);
+					} else {
+						finishLoading();
+					}
 				} else {
 					finishLoading();
 				}
