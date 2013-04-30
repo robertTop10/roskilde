@@ -1,17 +1,17 @@
 function getSchedule() {
 	loading();
-	
-	var d = ['Sat, 30 Jun 2012 12:00:00 +0200', 'Sun, 01 Jul 2012 12:00:00 +0200', 'Mon, 02 Jul 2012 12:00:00 +0200', 'Tue, 03 Jul 2012 12:00:00 +0200', 'Wed, 04 Jul 2012 12:00:00 +0200', 'Thu, 05 Jul 2012 12:00:00 +0200', 'Fri, 06 Jul 2012 12:00:00 +0200', 'Sat, 07 Jul 2012 12:00:00 +0200', 'Sun, 08 Jul 2012 12:00:00 +0200']
+
+	var d = ['Sat, 30 Jun 2012 12:00:00 +0200', 'Sun, 01 Jul 2012 12:00:00 +0200', 'Mon, 02 Jul 2012 12:00:00 +0200', 'Tue, 03 Jul 2012 12:00:00 +0200', 'Wed, 04 Jul 2012 12:00:00 +0200', 'Thu, 05 Jul 2012 12:00:00 +0200', 'Fri, 06 Jul 2012 12:00:00 +0200', 'Sat, 07 Jul 2012 12:00:00 +0200', 'Sun, 08 Jul 2012 12:00:00 +0200'];
 	var dates = [];
 	var stages = [];
 
 	$.each(d, function(i,v) {
-		dates.push(new Date(v).getTime() / 1000);	
+		dates.push(new Date(v).getTime() / 1000);
 	});
 
-		
+
 	if (typeof schedule !== 'object') {
-		$.getJSON('/php/xml2jsonTest.php', function(data) {
+		$.getJSON('/php/scheduleJSON.php', function(data) {
 			schedule = data;
 			processDates(data, dates, stages);
 		});

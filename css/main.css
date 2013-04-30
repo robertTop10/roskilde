@@ -31,9 +31,12 @@ a {
 #content {
     bottom: 0;
 	position: absolute;
+	overflow-y: auto;
 	top: 50px;
 	width: 100%;
 }
+
+#content::-webkit-scrollbar { display: none; }
 
 .status {
 	margin: 10px;	
@@ -530,4 +533,11 @@ button:active,
 .my_event_cont .my_event_times h5 {
 	float: left;
 	margin-right: 20px;
+}
+
+.my_event_details > img {
+	height: 112px;
+	width: 112px;
+	float: left;
+	margin-right: 10px;
 }

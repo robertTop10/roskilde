@@ -59,7 +59,7 @@
 			console.log(dates[0]);
 			$.ajax({
 				type: "GET",
-				url: "http://r.oskil.de/php/xml2jsonTest.php",
+				url: "http://r.oskil.de/php/scheduleJSON.php",
 			}).done(function(data) {
 				processDates(data);
 			});

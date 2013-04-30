@@ -42,12 +42,12 @@ function iconFriend(lat, lon, map, params) {
 
 function iconPin(lat, lon, map, params) {
 	var obj = {
-		position: 	new google.maps.LatLng(lat, lon),
-		map: 		map,
-		zIndex: 	params.zIndex,
-		content: 	mustache(templates.marker, {src: params.icon}),
-		flat: 		true
-	}
+		position:	new google.maps.LatLng(lat, lon),
+		map:		map,
+		zIndex:		params.zIndex,
+		content:	mustache(templates.marker, {src: params.icon}),
+		flat:		true
+	};
 
 	var marker = new RichMarker(obj);
 	console.log(params);
@@ -74,7 +74,8 @@ function iconPin(lat, lon, map, params) {
 			details:	params.diff,
 			id:			params.id,
 			message:	params.message,
-			time:		params.time,
+			sTime:		params.sTime,
+			eTime:		params.eTime,
 			ftime:		params.ftime,
 			schedule:	params.schedule
 		});

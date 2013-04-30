@@ -39,8 +39,8 @@ var templates = {
 									'<div class="tt_cont">' +
 										'<div class="tt_name">{{name}}</div>' +
 										'<div class="tt_details">' +
-											'{{#time}}<div class="tt_time">{{time}}</div>{{/time}}' +
-											'{{#ftime}}<div class="tt_time">{{ftime}}</div>{{/ftime}}' +
+											'{{#sTime}}<div class="tt_time">{{sTime}}</div>{{/sTime}}' +
+											'{{#eTime}}<div class="tt_time">{{eTime}}</div>{{/eTime}}' +
 											'{{#message}}<div class="tt_msg">{{message}}</div>{{/message}}' +
 										'</div>' +
 									'</div>' +
@@ -80,7 +80,7 @@ var templates = {
 												'{{/subscribed}}' +
 												'{{^subscribed}}' +
 													'<button class="add-to-schedule" ' +
-														'data-id="{{@id}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{artistName}}} playing at {{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
+														'data-id="{{@id}}" data-image="http://roskilde-festival.co.uk/{{{imageUrl}}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{artistName}}} playing at {{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
 													'>Add to My Schedule</button>' +
 												'{{/subscribed}}' +
 											'</div>' +
@@ -247,6 +247,7 @@ var templates = {
 											'</div>' +
 											'<div class="my_event">' +
 												'<div class="my_event_details">' +
+													'{{#image}}<img src="{{{image}}}" height="112" width="112" />{{/image}}' +
 													'<h2>{{name}}</h2>' +
 													'<h3>{{description}}</h3>' +
 													'<div>' +
