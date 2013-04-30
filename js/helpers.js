@@ -22,9 +22,9 @@ function checkCalc() {
     var prop = 'width:';
     var value = 'calc(10px);';
     var el = document.createElement('div');
-    
+
     el.style.cssText = prop + ["", "-webkit-", ""].join(value + prop);
-    
+
     return !!el.style.length;
 }
 
@@ -32,18 +32,19 @@ function checkDateTime() {
 	var t = document.createElement("input");
 	t.setAttribute("type", "datetime");
 	var result = (t.type === "datetime");
-	
-	if (result === true) {
-		// Nicked from Modernizer, for Android 2.2
-		t.setAttribute("type", ":)");
-		if (t.type === ":)") { result = false; }
-	}
-	
+
+	t.value = "Stoya";
+	if (t.value === "Stoya") { result = false; }
+
+	// Nicked from Modernizer, for Android 2.2
+	t.setAttribute("type", ":)");
+	if (t.type === ":)") { result = false; }
+
 	return result;
 }
 
 function mustache(template, json) {
-    var json        = (json) ? json : {};
+    json			= (json) ? json : {};
     var partials    = templates;
 
     return Mustache.to_html(template, json, partials);
@@ -53,11 +54,11 @@ Number.prototype.pad = function() {
     var s = String(this);
     while (s.length < 2) s = "0" + s;
     return s;
-}
+};
 
 function timeDifference(previous, compact) {
 	if (!previous) { return; }
-	
+
 	var current		= new Date().getTime();
 	var msPerMinute = 60 * 1000;
 	var msPerHour = msPerMinute * 60;
@@ -69,14 +70,14 @@ function timeDifference(previous, compact) {
 
 	if (elapsed < msPerMinute) {
         str      = (compact) ? 's' : ' seconds ago';
-        return Math.round(elapsed/1000) + str;   
+        return Math.round(elapsed/1000) + str;
 	}
 
 	else if (elapsed < msPerHour) {
-		var time = Math.round(elapsed/msPerMinute);
-		var str	 = (time <= 1) ? ' minute ago' : ' minutes ago';
-		str      = (compact) ? 'm' : str;
-		return time + str;   
+		var time	= Math.round(elapsed/msPerMinute);
+		var str		= (time <= 1) ? ' minute ago' : ' minutes ago';
+		str			= (compact) ? 'm' : str;
+		return time + str;
 	}
 
 	else if (elapsed < msPerDay ) {
