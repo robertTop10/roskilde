@@ -103,7 +103,7 @@ $(document).ready(function() {
 		contentScrollTop = $(document.getElementById('content')).scrollTop();
 
 		var id     = parseFloat($(this).data('artist'));
-		var artist = artists[id];
+		var artist = artists.artists[id];
 		console.log(artist);
 		artist.start = artist.original_timestamp * 1000;
 		artist.end   = artist.start + 3600000;
@@ -317,18 +317,30 @@ $(document).ready(function() {
 		getArtists();
 	});
 
-	$(document).on("touchmove", ".quickfind", function(e) {
-		e.preventDefault();
+	if ('ontouchstart' in window) {
+		$(document).on("touchmove", ".quickfind", function(e) {
+			e.preventDefault();
 
-		var el = (e.originalEvent.targetTouches) ? document.elementFromPoint(e.originalEvent.targetTouches[0].screenX, e.originalEvent.targetTouches[0].screenY) : document.elementFromPoint(e.originalEvent.pageX, e.originalEvent.pageY);
+			var el = (e.originalEvent.targetTouches) ? document.elementFromPoint(e.originalEvent.targetTouches[0].screenX, e.originalEvent.targetTouches[0].screenY) : document.elementFromPoint(e.originalEvent.pageX, e.originalEvent.pageY);
 
-		if (el.id) {
-			if (el.id.search('link-') === 0) {
-				var letter	= el.id.substr(el.id.length - 1);
-				var top		= document.getElementById('artist-letter-' + letter).offsetTop;
-				$(document.getElementById('artists-scroller')).scrollTop(top);
+			if (el.id) {
+				if (el.id.search('link-') === 0) {
+					var letter	= el.id.substr(el.id.length - 1);
+					var top		= document.getElementById('artist-letter-' + letter);
+					if (top) {
+						$(document.getElementById('artists-scroller')).scrollTop(top.offsetTop);
+					}
+				}
 			}
-		}
-	});
+		});
+	} else {
+		$(document).on("click", ".quickfind li", function(e) {
+			var letter	= e.currentTarget.id.substr(e.currentTarget.id.length - 1);
+			var top		= document.getElementById('artist-letter-' + letter);
+			if (top) {
+				$(document.getElementById('artists-scroller')).scrollTop(top.offsetTop);
+			}
+		});
+	}
 
 });

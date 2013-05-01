@@ -274,52 +274,54 @@ var templates = {
 								'</div>',
 
 
-	listArtists:				'<div id="artists-scroller" class="scroller needsclick">' +
-									'<div class="status needsclick">' +
-										'{{#artists}}' +
-											'{{#header}}' +
-												'<div id="artist-letter-{{header}}" class="artist_header">{{header}}</div>' +
-											'{{/header}}' +
-											'{{^header}}' +
-												'<div class="artist needsclick" data-artist="{{@id}}">' +
-													'<img src="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" height="56" width="56" />' +
-													'<h4>{{{artistName}}} <small>/{{country}}</small></h4>' +
-													'<h6><small>{{text}}</small></h6>' +
-												'</div>' +
-											'{{/header}}' +
-										'{{/artists}}' +
+	listArtists:				'<div class="rel">' +
+									'<div id="artists-scroller" class="scroller needsclick">' +
+										'<div class="status needsclick">' +
+											'{{#artists}}' +
+												'{{#header}}' +
+													'<div id="artist-letter-{{header}}" class="artist_header">{{header}}</div>' +
+												'{{/header}}' +
+												'{{^header}}' +
+													'<div class="artist needsclick" data-artist="{{@id}}">' +
+														'<img src="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" height="56" width="56" />' +
+														'<h4>{{{artistName}}} <small>/{{country}}</small></h4>' +
+														'<h6><small>{{text}}</small></h6>' +
+													'</div>' +
+												'{{/header}}' +
+											'{{/artists}}' +
+										'</div>' +
 									'</div>' +
-								'</div>' +
-								'<div class="quickfind">' +
-									'<ol>' +
-										'<li id="link-#">#</li>' +
-										'<li id="link-a">A</li>' +
-										'<li id="link-b">B</li>' +
-										'<li id="link-c">C</li>' +
-										'<li id="link-d">D</li>' +
-										'<li id="link-e">E</li>' +
-										'<li id="link-f">F</li>' +
-										'<li id="link-g">G</li>' +
-										'<li id="link-h">H</li>' +
-										'<li id="link-i">I</li>' +
-										'<li id="link-j">J</li>' +
-										'<li id="link-k">K</li>' +
-										'<li id="link-l">L</li>' +
-										'<li id="link-m">M</li>' +
-										'<li id="link-n">N</li>' +
-										'<li id="link-o">O</li>' +
-										'<li id="link-p">P</li>' +
-										'<li id="link-q">Q</li>' +
-										'<li id="link-r">R</li>' +
-										'<li id="link-s">S</li>' +
-										'<li id="link-t">T</li>' +
-										'<li id="link-u">U</li>' +
-										'<li id="link-v">V</li>' +
-										'<li id="link-w">W</li>' +
-										'<li id="link-x">X</li>' +
-										'<li id="link-y">Y</li>' +
-										'<li id="link-z">Z</li>' +
-									'</ol>' +
+									'<div class="quickfind">' +
+										'<ol>' +
+											'<li id="link-#">#</li>' +
+											'<li id="link-a">A</li>' +
+											'<li id="link-b">B</li>' +
+											'<li id="link-c">C</li>' +
+											'<li id="link-d">D</li>' +
+											'<li id="link-e">E</li>' +
+											'<li id="link-f">F</li>' +
+											'<li id="link-g">G</li>' +
+											'<li id="link-h">H</li>' +
+											'<li id="link-i">I</li>' +
+											'<li id="link-j">J</li>' +
+											'<li id="link-k">K</li>' +
+											'<li id="link-l">L</li>' +
+											'<li id="link-m">M</li>' +
+											'<li id="link-n">N</li>' +
+											'<li id="link-o">O</li>' +
+											'<li id="link-p">P</li>' +
+											'<li id="link-q">Q</li>' +
+											'<li id="link-r">R</li>' +
+											'<li id="link-s">S</li>' +
+											'<li id="link-t">T</li>' +
+											'<li id="link-u">U</li>' +
+											'<li id="link-v">V</li>' +
+											'<li id="link-w">W</li>' +
+											'<li id="link-x">X</li>' +
+											'<li id="link-y">Y</li>' +
+											'<li id="link-z">Z</li>' +
+										'</ol>' +
+									'</div>' +
 								'</div>'
 
 }

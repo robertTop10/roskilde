@@ -555,6 +555,11 @@ button:active,
 
 /* ARTIST PAGE
 ============================================================= */
+.rel {
+	height: 100%;
+	position: relative;
+}
+
 .artist {
 	background-color: #000;
 	background-color: rgba(0,0,0,0.8);
@@ -566,7 +571,7 @@ button:active,
 	font-size: 14px;
 	margin-bottom: 10px;
 	overflow: hidden;
-	padding: 10px 24px 10px 10px;
+	padding: 10px 44px 10px 10px;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
@@ -591,21 +596,23 @@ button:active,
 
 .quickfind {
 	background-color: rgba(255,255,255,0.4);
-	border-radius: 10px;
+	border-radius: 20px;
 	bottom: 10px;
 	font-size: 10px;
-	padding: 10px 0;
-	position: fixed;
+	font-weight: bold;
+	padding: 20px 0;
+	position: absolute;
 	right: 10px;
 	text-align: center;
-	top: 60px;
-	width: 20px;
+	top: 10px;
+	width: 40px;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 }
 
+.quickfind:hover,
 .quickfind:active {
 	background-color: rgba(255,255,255,0.8);
 }
@@ -615,5 +622,6 @@ button:active,
 }
 
 .quickfind li {
+	cursor: pointer;
 	height: 3.7%;
 }
