@@ -1,5 +1,6 @@
 <?php
 
+ob_start("ob_gzhandler");
 header('Access-Control-Allow-Origin: *');
 header('Content-type: application/json');
 
@@ -80,8 +81,7 @@ function xmlToArray($xml, $options = array()) {
     );
 }
 
-$xmlNode = simplexml_load_file('http://labs.roskilde-festival.dk/resources/legacy_bandobjects_251_uk.xml');
-//$xmlNode = simplexml_load_file('http://roskilde-festival.dk/typo3conf/ext/tcpageheaderobjects/xml/bandobjects_251_uk.xml');
+$xmlNode = simplexml_load_file('lineup2012.xml');
 $arrayData = xmlToArray($xmlNode);
 
 foreach ($arrayData['bandPreview']['item'] as &$value) {

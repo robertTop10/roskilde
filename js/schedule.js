@@ -45,7 +45,7 @@ function processDates(data, dates, stages) {
 		style = ' style="width: ' + width + 'px;"';
 	}
 
-	html    += '<div class="schedule_scroller"' + style + '>';
+	html    += '<div class="schedule_scroller needsclick"' + style + '>';
 	html    += '<div id ="schedule-container" class="schedule_container">';
 
 
@@ -121,7 +121,7 @@ function populateStage(name, dates, stage, i) {
 	while (min < max) {
 		if (stage[min]) {
 			var time = new Date(stage[min]['original_timestamp'] * 1000);
-			html += '<div class="band" style="margin-left: ' + margin + 'px;" data-artist="' + i + '-' + name + '-' + min + '" onclick=""><div>' + stage[min]['artistName'] + '</div><span>' + time.getHours() + ':' + time.getMinutes().pad() + '</span></div>';
+			html += '<div class="band needsclick" style="margin-left: ' + margin + 'px;" data-artist="' + i + '-' + name + '-' + min + '" onclick=""><div>' + stage[min]['artistName'] + '</div><span>' + time.getHours() + ':' + time.getMinutes().pad() + '</span></div>';
 			margin = -90;
 		} else {
 			margin = margin + 30;

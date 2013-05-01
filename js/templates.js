@@ -1,5 +1,5 @@
 var templates = {
-    statusLoggedIn:				'<div class="status">Welcome {{first_name}} {{last_name}} from {{#hometown}}{{name}}{{/hometown}}</div>' +
+    statusLoggedIn:				'<div class="status">Welcome {{first_name}} {{last_name}}{{#hometown}} from {{name}}{{/hometown}}</div>' +
 								'<div class="menu_button">{{> checkInButtonPartial}}</div>' +
 								'<div class="menu_button">{{> findFriendsButtonPartial}}</div>' +
 								'<div class="menu_button">{{> locationButtonPartial}}</div>' +
@@ -8,7 +8,8 @@ var templates = {
 								'<div class="menu_button">{{> scheduleButtonPartial}}</div>' +
 								'<div class="menu_button">{{> createEventPartial}}</div>' +
 								'<div class="menu_button">{{> eventButtonPartial}}</div>' +
-								'<div class="menu_button">{{> getMySchedulePartial}}</div>',
+								'<div class="menu_button">{{> getMySchedulePartial}}</div>' +
+								'<div class="menu_button">{{> getArtistsPartial}}</div>',
 
 	checkInButtonPartial:		'<button id="checkin">CHECK IN</button>',
 	findFriendsButtonPartial:	'<button id="findFriends">FIND FRIENDS</button>',
@@ -19,6 +20,7 @@ var templates = {
 	createEventPartial:			'<button id="createEvent">CREATE EVENT</button>',
 	eventButtonPartial:			'<button id="getEvents">EVENTS</button>',
 	getMySchedulePartial:		'<button id="getMySchedule">MY SCHEDULE</button>',
+	getArtistsPartial:			'<button id="getArtists">ARTISTS</button>',
 
 	mapCanvas:					'<div id="map-canvas" class="map_canvas"></div><div id="compass" class="compass"></div>',
 
@@ -41,6 +43,7 @@ var templates = {
 										'<div class="tt_details">' +
 											'{{#sTime}}<div class="tt_time">{{sTime}}</div>{{/sTime}}' +
 											'{{#eTime}}<div class="tt_time">{{eTime}}</div>{{/eTime}}' +
+											'{{#time}}<div class="tt_time">{{time}}</div>{{/time}}' +
 											'{{#message}}<div class="tt_msg">{{message}}</div>{{/message}}' +
 										'</div>' +
 									'</div>' +
@@ -260,6 +263,17 @@ var templates = {
 									'{{^results}}' +
 										'You haven\'t added any events to your schedule' +
 									'{{/results}}' +
+								'</div>',
+
+
+	listArtists:				'<div class="status needsclick">' +
+									'{{#artists}}' +
+										'<div class="artist needsclick" data-artist="{{@id}}">' +
+											'<img src="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" height="56" width="56" />' +
+											'<h4>{{{artistName}}} <small>/{{country}}</small></h4>' +
+											'<h6><small>{{text}}</small></h6>' +
+										'</div>' +
+									'{{/artists}}' +
 								'</div>'
 
 

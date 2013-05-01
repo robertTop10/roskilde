@@ -430,6 +430,27 @@ function iOSDetect() {
 				$(document.getElementById('content')).html(mustache(templates.mySchedule, {results: data}));
 				finishLoading();
 			}
+
+
+			function getArtists() {
+				console.log('getArtists');
+
+				if (typeof artists !== 'object') {
+					$.getJSON('/php/artistsJSON.php', function(data) {
+						artists = data.artists;
+						processArtists(artists);
+					});
+				} else {
+					processArtists(artists);
+				}
+			}
+
+
+			function processArtists(artists) {
+				$(document.getElementById('content')).html(mustache(templates.listArtists, {artists: artists}));
+				console.log(artists);
+				finishLoading();
+			}
             
         </script>
 

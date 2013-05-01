@@ -97,9 +97,45 @@ $(document).ready(function() {
 	});
 
 
+	$(document).on("click", ".artist", function(e){
+		e.preventDefault();
+
+		contentScrollTop = $(document.getElementById('content')).scrollTop();
+
+		var id     = parseFloat($(this).data('artist'));
+		var artist = artists[id];
+		console.log(artist);
+		artist.start = artist.original_timestamp * 1000;
+		artist.end   = artist.start + 3600000;
+
+		var data	= JSON.parse(localStorage.getItem('mySchedule'));
+		var artId	= id;
+
+		if (data !== null) {
+			for (i = 0, len = data.length; i < len; i++) {
+				if (data[i].id === artId && data[i].type === 'artist') {
+					artist.subscribed = true;
+					break;
+				}
+			}
+		}
+
+		var $content = $(document.getElementById('content'));
+		$content.append(mustache(templates.artist_page, artist));
+		$content.find('.status').hide();
+	});
+
+
 	$(document).on("click", "#artist-close", function(e){
 		e.preventDefault();
-		$('#artist-page').remove();
+		$(document.getElementById('artist-page')).remove();
+
+		if (!isNaN(contentScrollTop)) {
+			var $content = $(document.getElementById('content'));
+			$content.find('.status').show();
+			$content.scrollTop(contentScrollTop);
+			contentScrollTop = null;
+		}
 	});
 
 
@@ -272,6 +308,13 @@ $(document).ready(function() {
 		e.preventDefault();
 		loading();
 		removeFromMySchedule(e);
+	});
+
+
+	$(document).on("click", "#getArtists", function(e) {
+		e.preventDefault();
+		loading();
+		getArtists();
 	});
 
 });
