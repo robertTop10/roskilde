@@ -31,13 +31,20 @@ a {
 #content {
     bottom: 0;
 	position: absolute;
-	overflow-y: auto;
-	-webkit-overflow-scrolling: touch;
 	top: 50px;
 	width: 100%;
 }
 
-#content::-webkit-scrollbar { display: none; }
+#content .scroller {
+	height: 100%;
+	position: absolute;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+	top: 0;
+	width: 100%;
+}
+
+#content .scroller::-webkit-scrollbar { display: none; }
 
 .status {
 	margin: 10px;	
@@ -559,7 +566,11 @@ button:active,
 	font-size: 14px;
 	margin-bottom: 10px;
 	overflow: hidden;
-	padding: 10px;
+	padding: 10px 24px 10px 10px;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .artist > img {
@@ -567,4 +578,42 @@ button:active,
 	width: 56px;
 	float: left;
 	margin-right: 10px;
+}
+
+.artist_header {
+	background-color: #ff8000;
+	font-weight: bold;
+	height: 30px;
+	line-height: 30px;
+	padding: 0 10px;
+	text-transform: uppercase;
+}
+
+.quickfind {
+	background-color: rgba(255,255,255,0.4);
+	border-radius: 10px;
+	bottom: 10px;
+	font-size: 10px;
+	padding: 10px 0;
+	position: fixed;
+	right: 10px;
+	text-align: center;
+	top: 60px;
+	width: 20px;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.quickfind:active {
+	background-color: rgba(255,255,255,0.8);
+}
+
+.quickfind ol {
+	height: 100%;
+}
+
+.quickfind li {
+	height: 3.7%;
 }

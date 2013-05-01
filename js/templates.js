@@ -1,15 +1,17 @@
 var templates = {
-    statusLoggedIn:				'<div class="status">Welcome {{first_name}} {{last_name}}{{#hometown}} from {{name}}{{/hometown}}</div>' +
-								'<div class="menu_button">{{> checkInButtonPartial}}</div>' +
-								'<div class="menu_button">{{> findFriendsButtonPartial}}</div>' +
-								'<div class="menu_button">{{> locationButtonPartial}}</div>' +
-								'<div class="menu_button">{{> getLocationButtonPartial}}</div>' +
-								'<div class="menu_button">{{> mapButtonPartial}}</div>' +
-								'<div class="menu_button">{{> scheduleButtonPartial}}</div>' +
-								'<div class="menu_button">{{> createEventPartial}}</div>' +
-								'<div class="menu_button">{{> eventButtonPartial}}</div>' +
-								'<div class="menu_button">{{> getMySchedulePartial}}</div>' +
-								'<div class="menu_button">{{> getArtistsPartial}}</div>',
+    statusLoggedIn:				'<div class="scroller">' +
+									'<div class="status">Welcome {{first_name}} {{last_name}}{{#hometown}} from {{name}}{{/hometown}}</div>' +
+									'<div class="menu_button">{{> checkInButtonPartial}}</div>' +
+									'<div class="menu_button">{{> findFriendsButtonPartial}}</div>' +
+									'<div class="menu_button">{{> locationButtonPartial}}</div>' +
+									'<div class="menu_button">{{> getLocationButtonPartial}}</div>' +
+									'<div class="menu_button">{{> mapButtonPartial}}</div>' +
+									'<div class="menu_button">{{> scheduleButtonPartial}}</div>' +
+									'<div class="menu_button">{{> createEventPartial}}</div>' +
+									'<div class="menu_button">{{> eventButtonPartial}}</div>' +
+									'<div class="menu_button">{{> getMySchedulePartial}}</div>' +
+									'<div class="menu_button">{{> getArtistsPartial}}</div>' +
+								'</div>',
 
 	checkInButtonPartial:		'<button id="checkin">CHECK IN</button>',
 	findFriendsButtonPartial:	'<button id="findFriends">FIND FRIENDS</button>',
@@ -96,67 +98,71 @@ var templates = {
 								'</div>',
 
 
-	create_location:			'<div id="createLocationPage" class="page event_page">' +
-									'<form id="createLocationForm">' +
-									'<h2>Remember a location</h2>' +
-									'<div>' +
-										'<strong>Name</strong>' +
-										'<input id="title" type="text" name="name" required />' +
+	create_location:			'<div class="scroller">' +
+									'<div id="createLocationPage" class="page event_page">' +
+										'<form id="createLocationForm">' +
+										'<h2>Remember a location</h2>' +
+										'<div>' +
+											'<strong>Name</strong>' +
+											'<input id="title" type="text" name="name" required />' +
+										'</div>' +
+										'<div>' +
+											'<strong>Description</strong>' +
+											'<textarea id="message" name="description"></textarea>' +
+										'</div>' +
+										'<button type="submit">Place Location</button>' +
+										'</form>' +
 									'</div>' +
-									'<div>' +
-										'<strong>Description</strong>' +
-										'<textarea id="message" name="description"></textarea>' +
-									'</div>' +
-									'<button type="submit">Place Location</button>' +
-									'</form>' +
 								'</div>',
 
 
-	create_event:				'<div id="createEventPage" class="page event_page">' +
-									'<form id="createEventForm">' +
-									'<h2>Create an event</h2>' +
-									'<div>' +
-										'<strong>Name</strong>' +
-										'<input type="text" name="name" required />' +
-									'</div>' +
-									'<div>' +
-										'<strong>Description</strong>' +
-										'<textarea name="description"></textarea>' +
-									'</div>' +
-									'{{#datetime}}' +
+	create_event:				'<div class="scroller">' +
+									'<div id="createEventPage" class="page event_page">' +
+										'<form id="createEventForm">' +
+										'<h2>Create an event</h2>' +
 										'<div>' +
-											'<strong>Start</strong>' +
-											'<input type="datetime" name="start-time" class="event-date" required />' +
+											'<strong>Name</strong>' +
+											'<input type="text" name="name" required />' +
 										'</div>' +
 										'<div>' +
-											'<strong>End</strong>' +
-											'<input type="datetime" name="end-time" required />' +
+											'<strong>Description</strong>' +
+											'<textarea name="description"></textarea>' +
 										'</div>' +
-									'{{/datetime}}' +
-									'{{^datetime}}' +
-										'<div>' +
-											'<strong>Start</strong>' +
-											'<select name="start-date" class="event-date" required>' +
-												'{{> date_dropdown}}' +
-											'</select>' +
+										'{{#datetime}}' +
+											'<div>' +
+												'<strong>Start</strong>' +
+												'<input type="datetime" name="start-time" class="event-date" required />' +
+											'</div>' +
+											'<div>' +
+												'<strong>End</strong>' +
+												'<input type="datetime" name="end-time" required />' +
+											'</div>' +
+										'{{/datetime}}' +
+										'{{^datetime}}' +
+											'<div>' +
+												'<strong>Start</strong>' +
+												'<select name="start-date" class="event-date" required>' +
+													'{{> date_dropdown}}' +
+												'</select>' +
 
-											'<select name="start-time" class="event-date" required>' +
-												'{{> time_dropdown}}' +
-											'</select>' +
-										'</div>' +
-										'<div>' +
-											'<strong>End</strong>' +
-											'<select id="end-date" name="end-date" class="event_dropdown" required disabled>' +
-												'{{> date_dropdown}}' +
-											'</select>' +
+												'<select name="start-time" class="event-date" required>' +
+													'{{> time_dropdown}}' +
+												'</select>' +
+											'</div>' +
+											'<div>' +
+												'<strong>End</strong>' +
+												'<select id="end-date" name="end-date" class="event_dropdown" required disabled>' +
+													'{{> date_dropdown}}' +
+												'</select>' +
 
-											'<select id="end-time" name="end-time" class="event_dropdown" required disabled>' +
-												'{{> time_dropdown}}' +
-											'</select>' +
-										'</div>' +
-									'{{/datetime}}' +
-									'<button type="submit">Place Location</button>' +
-									'</form>' +
+												'<select id="end-time" name="end-time" class="event_dropdown" required disabled>' +
+													'{{> time_dropdown}}' +
+												'</select>' +
+											'</div>' +
+										'{{/datetime}}' +
+										'<button type="submit">Place Location</button>' +
+										'</form>' +
+									'</div>' +
 								'</div>',
 
 
@@ -241,40 +247,79 @@ var templates = {
 									'<option value="23:30">23:30</option>' +
 								'</optgroup>',
 
-	mySchedule:					'<div class="status">' +
-									'{{#results}}' +
-										'<div class="my_event_cont">' +
-											'<div class="my_event_times">' +
-												'<h5>{{formattedStart}}</h5>' +
-												'<h5>{{formattedEnd}}</h5>' +
-											'</div>' +
-											'<div class="my_event">' +
-												'<div class="my_event_details">' +
-													'{{#image}}<img src="{{{image}}}" height="112" width="112" />{{/image}}' +
-													'<h2>{{name}}</h2>' +
-													'<h3>{{description}}</h3>' +
-													'<div>' +
-														'<a href="/php/ics.php?startTime={{start}}&endTime={{end}}&subject={{name}}&desc={{description}}">Add to your Calendar</a>' +
+	mySchedule:					'<div class="scroller">' +
+									'<div class="status">' +
+										'{{#results}}' +
+											'<div class="my_event_cont">' +
+												'<div class="my_event_times">' +
+													'<h5>{{formattedStart}}</h5>' +
+													'<h5>{{formattedEnd}}</h5>' +
+												'</div>' +
+												'<div class="my_event">' +
+													'<div class="my_event_details">' +
+														'{{#image}}<img src="{{{image}}}" height="112" width="112" />{{/image}}' +
+														'<h2>{{name}}</h2>' +
+														'<h3>{{description}}</h3>' +
+														'<div>' +
+															'<a href="/php/ics.php?startTime={{start}}&endTime={{end}}&subject={{name}}&desc={{description}}">Add to your Calendar</a>' +
+														'</div>' +
 													'</div>' +
 												'</div>' +
 											'</div>' +
-										'</div>' +
-									'{{/results}}' +
-									'{{^results}}' +
-										'You haven\'t added any events to your schedule' +
-									'{{/results}}' +
+										'{{/results}}' +
+										'{{^results}}' +
+											'You haven\'t added any events to your schedule' +
+										'{{/results}}' +
+									'</div>' +
 								'</div>',
 
 
-	listArtists:				'<div class="status needsclick">' +
-									'{{#artists}}' +
-										'<div class="artist needsclick" data-artist="{{@id}}">' +
-											'<img src="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" height="56" width="56" />' +
-											'<h4>{{{artistName}}} <small>/{{country}}</small></h4>' +
-											'<h6><small>{{text}}</small></h6>' +
-										'</div>' +
-									'{{/artists}}' +
+	listArtists:				'<div id="artists-scroller" class="scroller needsclick">' +
+									'<div class="status needsclick">' +
+										'{{#artists}}' +
+											'{{#header}}' +
+												'<div id="artist-letter-{{header}}" class="artist_header">{{header}}</div>' +
+											'{{/header}}' +
+											'{{^header}}' +
+												'<div class="artist needsclick" data-artist="{{@id}}">' +
+													'<img src="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" height="56" width="56" />' +
+													'<h4>{{{artistName}}} <small>/{{country}}</small></h4>' +
+													'<h6><small>{{text}}</small></h6>' +
+												'</div>' +
+											'{{/header}}' +
+										'{{/artists}}' +
+									'</div>' +
+								'</div>' +
+								'<div class="quickfind">' +
+									'<ol>' +
+										'<li id="link-#">#</li>' +
+										'<li id="link-a">A</li>' +
+										'<li id="link-b">B</li>' +
+										'<li id="link-c">C</li>' +
+										'<li id="link-d">D</li>' +
+										'<li id="link-e">E</li>' +
+										'<li id="link-f">F</li>' +
+										'<li id="link-g">G</li>' +
+										'<li id="link-h">H</li>' +
+										'<li id="link-i">I</li>' +
+										'<li id="link-j">J</li>' +
+										'<li id="link-k">K</li>' +
+										'<li id="link-l">L</li>' +
+										'<li id="link-m">M</li>' +
+										'<li id="link-n">N</li>' +
+										'<li id="link-o">O</li>' +
+										'<li id="link-p">P</li>' +
+										'<li id="link-q">Q</li>' +
+										'<li id="link-r">R</li>' +
+										'<li id="link-s">S</li>' +
+										'<li id="link-t">T</li>' +
+										'<li id="link-u">U</li>' +
+										'<li id="link-v">V</li>' +
+										'<li id="link-w">W</li>' +
+										'<li id="link-x">X</li>' +
+										'<li id="link-y">Y</li>' +
+										'<li id="link-z">Z</li>' +
+									'</ol>' +
 								'</div>'
-
 
 }

@@ -89,5 +89,8 @@ foreach ($arrayData['bandPreview']['item'] as &$value) {
     unset($value['tab']);
 }
 
-$arrayData = array('artists' => $arrayData['bandPreview']['item']);
+// TODO - Change to this years
+$indexes = (object) array(0 => "#", 1 => "a", 15 => "b", 33 => "c", 47 => "d", 58 => "e", 63 => "f", 72 => "g", 80 => "h", 87 => "i", 90 => "j", 93 => "k", 104 => "l", 109 => "m", 125 => "n", 130 => "o", 134 => "p", 140 => "r", 151 => "s", 171 => "t", 182 => "u", 183 => "v", 187 => "w", 194 => "y" );
+
+$arrayData = array('artists' => $arrayData['bandPreview']['item'], 'indexes' => $indexes);
 echo json_encode($arrayData);

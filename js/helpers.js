@@ -184,3 +184,14 @@ function setLocalStorage(key, value) {
 
 	return set;
 }
+
+
+function ajaxFail(error) {
+	if (error.status === 401) {
+		alert('We\'re unable to correctly authenticate you.\nRefreshing the page should fix this problem.');
+	} else {
+		alert('There seems to be a problem on our server.\nRefreshing the page should fix this problem.');
+	}
+
+	finishLoading();
+}

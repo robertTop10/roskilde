@@ -317,4 +317,18 @@ $(document).ready(function() {
 		getArtists();
 	});
 
+	$(document).on("touchmove", ".quickfind", function(e) {
+		e.preventDefault();
+
+		var el = (e.originalEvent.targetTouches) ? document.elementFromPoint(e.originalEvent.targetTouches[0].screenX, e.originalEvent.targetTouches[0].screenY) : document.elementFromPoint(e.originalEvent.pageX, e.originalEvent.pageY);
+
+		if (el.id) {
+			if (el.id.search('link-') === 0) {
+				var letter	= el.id.substr(el.id.length - 1);
+				var top		= document.getElementById('artist-letter-' + letter).offsetTop;
+				$(document.getElementById('artists-scroller')).scrollTop(top);
+			}
+		}
+	});
+
 });

@@ -102,7 +102,7 @@ function iOSDetect() {
                     data: data
                 }).done(function(data) {
 					console.log('Friends', data);
-                });
+                }).fail(function(error) { ajaxFail(error); });
 
 			}
 
@@ -175,7 +175,7 @@ function iOSDetect() {
 					console.log('createCheckIn Done', data);
 					finishLoading(true);
 					loggedIn();
-                });
+                }).fail(function(error) { ajaxFail(error); });
 			}
 
 
@@ -206,7 +206,7 @@ function iOSDetect() {
 					console.log('createEvent Done', data);
 					finishLoading(true);
 					loggedIn();
-                });
+                }).fail(function(error) { ajaxFail(error); });
 
 			}
 
@@ -236,7 +236,7 @@ function iOSDetect() {
 					console.log('createLocation Done', data);
 					finishLoading(true);
 					loggedIn();
-				});
+				}).fail(function(error) { ajaxFail(error); });
 			}
 
 
@@ -258,7 +258,7 @@ function iOSDetect() {
 							});
 						});
 					});
-				});
+				}).fail(function(error) { ajaxFail(error); });
 			}
 
 
@@ -279,7 +279,7 @@ function iOSDetect() {
 							});
 						});
 					});
-				});
+				}).fail(function(error) { ajaxFail(error); });
 			}
 
 
@@ -316,7 +316,7 @@ function iOSDetect() {
 							});
 						});
 					});
-				});			
+				}).fail(function(error) { ajaxFail(error); });		
 			}
 
 
@@ -437,8 +437,8 @@ function iOSDetect() {
 
 				if (typeof artists !== 'object') {
 					$.getJSON('/php/artistsJSON.php', function(data) {
-						artists = data.artists;
-						processArtists(artists);
+						artists = data;
+						processArtists(data);
 					});
 				} else {
 					processArtists(artists);
@@ -447,8 +447,17 @@ function iOSDetect() {
 
 
 			function processArtists(artists) {
-				$(document.getElementById('content')).html(mustache(templates.listArtists, {artists: artists}));
-				console.log(artists);
+				var a = [];
+				$.each(artists.artists, function(i,v) {
+					if (artists.indexes[i]) {
+						a.push({header: artists.indexes[i]});
+					}
+
+					a.push(v);
+				});
+
+				$(document.getElementById('content')).html(mustache(templates.listArtists, {artists: a}));
+				console.log(a);
 				finishLoading();
 			}
             
@@ -456,8 +465,8 @@ function iOSDetect() {
 
         <script type="text/javascript" src="//connect.facebook.net/en_US/all.js"></script>
 		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
-        <script type="text/javascript" src="http://r.oskil.de/js/infobox_packed.js"></script>
-        <script type="text/javascript" src="http://r.oskil.de/js/richmarker-compiled.js"></script>
+        <script type="text/javascript" src="/js/infobox_packed.js"></script>
+        <script type="text/javascript" src="/js/richmarker-compiled.js"></script>
         
         <div id="loading"><div></div><div id="confirm">Done!</div></div>
         <div id="dynamic"></div>

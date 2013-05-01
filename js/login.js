@@ -12,6 +12,9 @@ window.fbAsyncInit = function() {
     FB.getLoginStatus(function(response) {
         if (response.status === 'connected') {
             loggedIn();
+            if (response.authResponse && response.authResponse.userID) {
+                document.cookie = "roskildeapp=" + response.authResponse.userID;
+            }
         } else {
             loggedOut();
         }
@@ -26,13 +29,15 @@ function loggedIn() {
         $(document.getElementById('content')).html(mustache(templates.statusLoggedIn, response));
 
         checkUser();
+
+        document.cookie = "roskildeapp=" + response.id;
     });
 }
 
 
 function loggedOut() {
     $(document.getElementById('content')).html(mustache(templates.statusLoggedOut));
-	finishLoading();
+    finishLoading();
 }
 
 
@@ -56,11 +61,11 @@ function checkUser() {
         url: "/php/api.php",
         data: data
     }).done(function(data) {
-		if (data.result && !isNaN(data.result.id)) {
-			user = data.result;
-		}
+        if (data.result && !isNaN(data.result.id)) {
+            user = data.result;
+        }
 
-		finishLoading();
+        finishLoading();
 
-	});
+    }).fail(function(error) { ajaxFail(error); });
 }
