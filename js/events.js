@@ -26,6 +26,10 @@ $(document).ready(function() {
 
 		removeCompass();
 		mainMenu();
+
+        // Free up memory
+        map		= null;
+        markers = null;
 	});
 
 
@@ -261,7 +265,11 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		var lat, lon, acc;
-		var $map	=	$(document.getElementById("map-canvas"));
+
+		var iframe	= document.getElementById('map-iframe');
+		iframe		= iframe.contentDocument || iframe.contentWindow.document;
+
+		var $map	=	$(iframe.getElementById("map-canvas"));
 
 		if ($(this).attr('id') === 'createEventMe') {
 			lat = $map.data('my-location-latitude');

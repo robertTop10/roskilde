@@ -30,7 +30,10 @@ function setRoskildeMap(map) {
 function gotLocation(data, fit, cb, coords, error) {
 	console.log('gotLocation', data, coords);
 
-	var m			= document.getElementById("map-canvas");
+	var iframe	= document.getElementById('map-iframe');
+	iframe		= iframe.contentDocument || iframe.contentWindow.document;
+
+	var m			= iframe.getElementById("map-canvas");
 	var me			= new google.maps.LatLng(coords.coords.latitude, coords.coords.longitude);
 	var center      = (typeof fit === 'object') ? new google.maps.LatLng(fit.coords.latitude, fit.coords.longitude) : me;
 
@@ -40,7 +43,8 @@ function gotLocation(data, fit, cb, coords, error) {
 		disableDefaultUI: true,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
-	var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+	map = new google.maps.Map(iframe.getElementById("map-canvas"), mapOptions);
 
 	google.maps.event.addListenerOnce(map, 'idle', function(){
 			finishLoading();
@@ -48,7 +52,7 @@ function gotLocation(data, fit, cb, coords, error) {
 
 	setRoskildeMap(map);
 
-	var markers = [];
+	markers = [];
 
     if (!error) {
         // Update to new callback func

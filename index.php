@@ -80,6 +80,10 @@ function iOSDetect() {
 			var openInfoWindow;
 			var createEventMarker;
 			
+			// map.js - Keep these global and delete them when on menu to keep memory down
+			var map;
+			var markers;
+			
 			var festivalCoords   = {
     			coords: {
         			accuracy: 1,
@@ -122,7 +126,10 @@ function iOSDetect() {
 			
 			function initCreateEventsMap(data) {
     			initMap(data, false, function(data, coords, map, markers) {
-        			var m    = document.getElementById("map-canvas");
+					var iframe	= document.getElementById('map-iframe');
+					iframe		= iframe.contentDocument || iframe.contentWindow.document;
+
+					var m		= iframe.getElementById("map-canvas");
         			var $m   = $(m);
         			
         			$m.after(templates.createEventOptions);

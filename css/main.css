@@ -28,6 +28,10 @@ a {
 	color: #e25b00;
 }
 
+iframe {
+	display: block;
+}
+
 #content {
     bottom: 0;
 	position: absolute;
@@ -111,6 +115,7 @@ button:active,
 /* MAP */
 .map_canvas {
 	background-color: #CCC;
+	border: 0;
 	/*display: none;*/
 	height: 100%;
 	width: 100%;
