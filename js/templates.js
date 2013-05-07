@@ -1,6 +1,6 @@
 var templates = {
     statusLoggedIn:				'<div class="scroller">' +
-									'<div class="status">Welcome {{first_name}} {{last_name}}{{#hometown}} from {{name}}{{/hometown}}</div>' +
+									'<div class="menu_button full">{{> getMySchedulePartial}}</div>' +
 									'<div class="menu_button">{{> checkInButtonPartial}}</div>' +
 									'<div class="menu_button">{{> findFriendsButtonPartial}}</div>' +
 									'<div class="menu_button">{{> locationButtonPartial}}</div>' +
@@ -9,20 +9,26 @@ var templates = {
 									'<div class="menu_button">{{> scheduleButtonPartial}}</div>' +
 									'<div class="menu_button">{{> createEventPartial}}</div>' +
 									'<div class="menu_button">{{> eventButtonPartial}}</div>' +
-									'<div class="menu_button">{{> getMySchedulePartial}}</div>' +
 									'<div class="menu_button">{{> getArtistsPartial}}</div>' +
+									'<div class="menu_button">{{> morePartial}}</div>' +
 								'</div>',
 
 	checkInButtonPartial:		'<button id="checkin">CHECK IN</button>',
-	findFriendsButtonPartial:	'<button id="findFriends">FIND FRIENDS</button>',
+	findFriendsButtonPartial:	'<button id="findFriends">FIND MY FRIENDS</button>',
 	locationButtonPartial:		'<button id="remLocation">REMEMBER LOCATION</button>',
-	getLocationButtonPartial:	'<button id="getLocation">LOCATIONS</button>',
-	mapButtonPartial:			'<button id="map">MAP</button>',
-	scheduleButtonPartial:		'<button id="schedule">SCHEDULE</button>',
+	getLocationButtonPartial:	'<button id="getLocation">MY LOCATIONS</button>',
+	mapButtonPartial:			'<button id="map">FESTIVAL MAP</button>',
+	scheduleButtonPartial:		'<button id="schedule">FESTIVAL SCHEDULE</button>',
 	createEventPartial:			'<button id="createEvent">CREATE EVENT</button>',
 	eventButtonPartial:			'<button id="getEvents">EVENTS</button>',
 	getMySchedulePartial:		'<button id="getMySchedule">MY SCHEDULE</button>',
 	getArtistsPartial:			'<button id="getArtists">ARTISTS</button>',
+	morePartial: 				'<button id="moreStuff">MORE</button>',
+
+	getNewsFeedPartial: 		'<button id="getNews">News</button>',
+	getTwitterFeedPartial: 		'<button id="getTweets">Twitter</button>',
+
+	userAvatarImg: 				'<img src="https://graph.facebook.com/{{id}}/picture?width=80&height=80" height="40" width="40" />',
 
 	mapCanvas:					'<iframe id="map-iframe" src="/html/frame.html" class="map_canvas" height="100%" width="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>' +
 								'<div id="compass" class="compass"></div>',
@@ -269,7 +275,11 @@ var templates = {
 											'</div>' +
 										'{{/results}}' +
 										'{{^results}}' +
-											'You haven\'t added any events to your schedule' +
+											'<p>You haven\'t added any events to your schedule</p>' +
+											'<p><strong>Creating your own schedule</strong></p>' +
+											'<p>You can create your own personalised schedule by adding events and artists to it.</p>' +
+											'<p>On the "Events" or an "Artist" page ("Festival Schedule" or "Artists" > Click on a band you\'re interested in) and click "Add to My Schedule"</p>' +
+											'<p>Viola, all the events and artists you\'ve added will appear here, making it easy to keep track of what you want to do at Roskilde.</p>' +
 										'{{/results}}' +
 									'</div>' +
 								'</div>',
@@ -283,7 +293,7 @@ var templates = {
 													'<div id="artist-letter-{{header}}" class="artist_header">{{header}}</div>' +
 												'{{/header}}' +
 												'{{^header}}' +
-													'<div class="artist needsclick" data-artist="{{@id}}">' +
+													'<div class="dark_box artist needsclick" data-artist="{{@id}}">' +
 														'<img src="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" height="56" width="56" />' +
 														'<h4>{{{artistName}}} <small>/{{country}}</small></h4>' +
 														'<h6><small>{{text}}</small></h6>' +
@@ -322,6 +332,36 @@ var templates = {
 											'<li id="link-y">Y</li>' +
 											'<li id="link-z">Z</li>' +
 										'</ol>' +
+									'</div>' +
+								'</div>',
+
+	moreThings: 				'<div class="scroller">' +
+									'<div class="second_page">' +
+										'<div class="menu_button">{{> getNewsFeedPartial}}</div>' +
+										'<div class="menu_button">{{> getTwitterFeedPartial}}</div>' +
+									'</div>' +
+								'</div>',
+
+
+	news: 						'<div class="scroller">' +
+									'<div class="status">' +
+										'{{#news}}' +
+											'<div class="dark_box tweet">' +
+												'<h2>{{title}}</h2>' +
+												'{{{description}}}' +
+											'</div>' +
+										'{{/news}}' +
+									'</div>' +
+								'</div>',
+
+
+	tweets: 					'<div class="scroller">' +
+									'<div class="status">' +
+										'{{#tweets}}' +
+											'<div class="dark_box tweet">' +
+												'{{text}}' +
+											'</div>' +
+										'{{/tweets}}' +
 									'</div>' +
 								'</div>'
 

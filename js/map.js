@@ -7,11 +7,13 @@ function initMap(data, fit, cb) {
 
 	if (typeof data === 'string') {data = JSON.parse(data); } // FF and jQuery not recognising a JSON response
 
-	navigator.geolocation.getCurrentPosition(function(coords) {
-        gotLocation(data, fit, cb, coords);
-	}, function(error) {
-		gotLocation(data, fit, cb, festivalCoords, true);
-	}, {timeout: 8000});
+	$(document.getElementById('map-iframe')).load(function (){
+		navigator.geolocation.getCurrentPosition(function(coords) {
+			gotLocation(data, fit, cb, coords);
+		}, function(error) {
+			gotLocation(data, fit, cb, festivalCoords, true);
+		}, {timeout: 8000});
+	});
 }
 
 
@@ -33,6 +35,8 @@ function gotLocation(data, fit, cb, coords, error) {
 	var iframe	= document.getElementById('map-iframe');
 	iframe		= iframe.contentDocument || iframe.contentWindow.document;
 
+	console.log(iframe);
+
 	var m			= iframe.getElementById("map-canvas");
 	var me			= new google.maps.LatLng(coords.coords.latitude, coords.coords.longitude);
 	var center      = (typeof fit === 'object') ? new google.maps.LatLng(fit.coords.latitude, fit.coords.longitude) : me;
@@ -47,7 +51,7 @@ function gotLocation(data, fit, cb, coords, error) {
 	map = new google.maps.Map(iframe.getElementById("map-canvas"), mapOptions);
 
 	google.maps.event.addListenerOnce(map, 'idle', function(){
-			finishLoading();
+		finishLoading();
 	});
 
 	setRoskildeMap(map);
@@ -96,7 +100,7 @@ function fitToMarkers(markers, map) {
 	var bounds = new google.maps.LatLngBounds();
 	var length = markers.length;
 	for (var i = 0; i < length; i++) {
-		bounds.extend(new google.maps.LatLng(markers[i]['position']['jb'], markers[i]['position']['kb']));
+		bounds.extend(new google.maps.LatLng(markers[i].getPosition().lat(), markers[i].getPosition().lng()));
 		map.fitBounds(bounds);
 	}
 }

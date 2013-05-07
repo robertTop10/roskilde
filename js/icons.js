@@ -86,7 +86,10 @@ function iconPin(lat, lon, map, params) {
 			infowindow.open(map, marker);
 
 			setTimeout(function() {
-				google.maps.event.addDomListener(document.getElementsByClassName('ros_tooltip')[0], 'click', function(e) {
+				var iframe	= document.getElementById('map-iframe');
+				iframe		= iframe.contentDocument || iframe.contentWindow.document;
+
+				google.maps.event.addDomListener(iframe.getElementsByClassName('ros_tooltip')[0], 'click', function(e) {
 					console.log('CLICK', e);
 					if ($(e.target).hasClass('add-to-schedule')) { loading(); addToMySchedule(e); }
 					else if ($(e.target).hasClass('remove-from-schedule')) { loading(); removeFromMySchedule(e); }

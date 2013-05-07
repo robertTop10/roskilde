@@ -6,20 +6,6 @@ $(document).ready(function() {
     new FastClick(document.body);
 
 
-    $(document).on("click", "#checkin", function(e){
-        e.preventDefault();
-		loading();
-		navigator.geolocation.getCurrentPosition(getPosition, noPosition, {timeout: 8000});
-    });
-
-
-    $(document).on("click", "#findFriends", function(e){
-        e.preventDefault();
-		loading();
-		findFriends();
-    });
-
-
 	$(document).on("click", "#menu", function(e){
 		console.log('fastClick');
         e.preventDefault();
@@ -27,15 +13,29 @@ $(document).ready(function() {
 		removeCompass();
 		mainMenu();
 
-        // Free up memory
-        map		= null;
-        markers = null;
+		pushState(null, document.title, '/', true);
 	});
+
+
+    $(document).on("click", "#checkin", function(e){
+        e.preventDefault();
+		loading();
+		navigator.geolocation.getCurrentPosition(getPosition, noPosition, {timeout: 8000});
+    });
+
+
+    $(document).on("click", "#findFriends", function(e) {
+        e.preventDefault();
+		loading();
+		findFriends();
+		pushState(null, document.title, '/find-friends');
+    });
 
 
     $(document).on("click", "#remLocation", function(e){
         e.preventDefault();
         $(document.getElementById('content')).html(mustache(templates.create_location));
+        pushState(null, document.title, '/remember-location');
     });
 
 
@@ -60,6 +60,7 @@ $(document).ready(function() {
         e.preventDefault();
 		loading();
 		getLocation();
+		pushState(null, document.title, '/my-locations');
     });
 
 
@@ -67,12 +68,14 @@ $(document).ready(function() {
 		e.preventDefault();
 		loading();
 		initRoskildeMap();
+		pushState(null, document.title, '/festival-map');
 	});
 
 
 	$(document).on("click", "#schedule", function(e){
 		e.preventDefault();
 		getSchedule();
+		pushState(null, document.title, '/festival-schedule');
 	});
 
 
@@ -104,7 +107,7 @@ $(document).ready(function() {
 	$(document).on("click", ".artist", function(e){
 		e.preventDefault();
 
-		contentScrollTop = $(document.getElementById('content')).scrollTop();
+		contentScrollTop = $(document.getElementById('artists-scroller')).scrollTop();
 
 		var id     = parseFloat($(this).data('artist'));
 		var artist = artists.artists[id];
@@ -137,7 +140,7 @@ $(document).ready(function() {
 		if (!isNaN(contentScrollTop)) {
 			var $content = $(document.getElementById('content'));
 			$content.find('.status').show();
-			$content.scrollTop(contentScrollTop);
+			$(document.getElementById('artists-scroller')).scrollTop(contentScrollTop);
 			contentScrollTop = null;
 		}
 	});
@@ -146,6 +149,7 @@ $(document).ready(function() {
 	$(document).on("click", "#createEvent", function(e){
 		e.preventDefault();
 		$(document.getElementById('content')).html(mustache(templates.create_event, {datetime: checkDateTime()}));
+		pushState(null, document.title, '/create-event');
 	});
 
 
@@ -295,6 +299,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		loading();
 		getEvents();
+		pushState(null, document.title, '/events');
 	});
 
 
@@ -302,6 +307,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		loading();
 		getMySchedule();
+		pushState(null, document.title, '/my-schedule');
 	});
 
 
@@ -323,6 +329,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		loading();
 		getArtists();
+		pushState(null, document.title, '/artists');
 	});
 
 	if ('ontouchstart' in window) {
@@ -350,5 +357,27 @@ $(document).ready(function() {
 			}
 		});
 	}
+
+
+    $(document).on("click", "#moreStuff", function(e){
+        e.preventDefault();
+		$(document.getElementById('content')).html(mustache(templates.moreThings));
+    });
+
+
+    $(document).on("click", "#getTweets", function(e){
+        e.preventDefault();
+        loading();
+		getTweets();
+		pushState(null, document.title, '/tweets');
+    });
+
+
+    $(document).on("click", "#getNews", function(e){
+        e.preventDefault();
+        loading();
+		getNews();
+		pushState(null, document.title, '/news');
+    });
 
 });

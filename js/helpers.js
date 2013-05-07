@@ -187,11 +187,24 @@ function setLocalStorage(key, value) {
 
 
 function ajaxFail(error) {
-	if (error.status === 401) {
-		alert('We\'re unable to correctly authenticate you.\nRefreshing the page should fix this problem.');
-	} else {
-		alert('There seems to be a problem on our server.\nRefreshing the page should fix this problem.');
+	if (error.status > 0) {
+		if (error.status === 401) {
+			alert('We\'re unable to correctly authenticate you.\nRefreshing the page should fix this problem.');
+		} else {
+			alert('There seems to be a problem on our server.\nRefreshing the page should fix this problem.');
+		}
 	}
 
 	finishLoading();
+}
+
+
+function pushState(obj, title, path, replaceState) {
+	if (typeof history.pushState === "function") {
+		if (replaceState === true) {
+			history.replaceState(obj, title, path);
+		} else {
+			history.pushState(obj, title, path);
+		}
+	}
 }

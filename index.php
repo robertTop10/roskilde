@@ -21,6 +21,11 @@ function iOSDetect() {
    } else { $device = 'default'; }	
    return($device);
 }
+
+// Get User ID
+$FBuser = $facebook->getUser();
+
+$avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="https://graph.facebook.com/'.$FBuser.'/picture?width=80&height=80" height="40" width="40" /></div>' : '<div id="user-avatar" class="none"></div>';
 ?>
 <!DOCTYPE HTML>
 <!--html lang="en" manifest="/php/cache-manifest.appcache"-->
@@ -48,7 +53,7 @@ function iOSDetect() {
     </head>
     
     <body<?php if(iOSDetect() == 'iPhone') { echo ' class="ios"';} ?>>
-        <div id="menu" class="menu" onclick="">Roskilde 2013. Menu</div>
+        <div id="menu" class="menu">Roskilde 2013<?php echo $avatar; ?></div>
         <div id="content"></div>
         
 
@@ -67,10 +72,22 @@ function iOSDetect() {
         <script>
             // navigator.onLine - check if online!
             // http://stackoverflow.com/questions/7131909/facebook-callback-appends-to-return-url
-            if (window.location.hash == '#_=_') {
-                window.location.hash = '';                                          // for older browsers, leaves a # behind
-                history.pushState('', document.title, window.location.pathname);    // nice and clean
-            }
+
+            window.location.hash = '';
+
+           	if (typeof history.pushState === "function") {
+	           	pushState('', document.title, window.location.pathname, true);
+
+	           	window.addEventListener("popstate", function(e) {
+	           		if (window.location.pathname === '/') {
+	           			removeCompass();
+						mainMenu();
+	           		} else {
+	           			// Basically disables the forward button for now, till we can introduce routing
+	           			pushState('', document.title, '/', true);
+	           		}
+				});
+           	}
 
             templates['statusLoggedOut'] = '<div class="status">Logged Out</div><div class="status"><a href="<?php echo $loginUrl; ?>" class="button">Log In</a></div>';
             
@@ -83,6 +100,9 @@ function iOSDetect() {
 			// map.js - Keep these global and delete them when on menu to keep memory down
 			var map;
 			var markers;
+
+			// Keep track of AJAX request and abort them if need be.
+			var xhr;
 			
 			var festivalCoords   = {
     			coords: {
@@ -100,7 +120,7 @@ function iOSDetect() {
 				data.fb_id		= user.fb_id;
 				data.friends	= friends.data;
 				
-                $.ajax({
+                xhr = $.ajax({
                     type: "POST",
                     url: "/php/api.php",
                     data: data
@@ -127,12 +147,13 @@ function iOSDetect() {
 			function initCreateEventsMap(data) {
     			initMap(data, false, function(data, coords, map, markers) {
 					var iframe	= document.getElementById('map-iframe');
+					$(iframe).after(templates.createEventOptions);
+
 					iframe		= iframe.contentDocument || iframe.contentWindow.document;
 
 					var m		= iframe.getElementById("map-canvas");
-        			var $m   = $(m);
+        			var $m   	= $(m);
         			
-        			$m.after(templates.createEventOptions);
         			$m.data({
         				'my-location-latitude': coords.coords.latitude,
         				'my-location-longitude': coords.coords.longitude,
@@ -174,7 +195,7 @@ function iOSDetect() {
 					accuracy: 		accuracy
 				}
 				
-                $.ajax({
+                xhr = $.ajax({
                     type: "POST",
                     url: "/php/api.php",
                     data: {action: 'createCheckIn', event: obj}
@@ -205,7 +226,7 @@ function iOSDetect() {
 					end: 			data.end
 				}
 				
-                $.ajax({
+                xhr = $.ajax({
                     type: "POST",
                     url: "/php/api.php",
                     data: {action: 'createEvent', event: obj}
@@ -235,7 +256,7 @@ function iOSDetect() {
 					message: 		data.msg
 				}
 					
-				$.ajax({
+				xhr = $.ajax({
 					type: "POST",
 					url: "/php/api.php",
 					data: {action: 'createLocation', event: obj}
@@ -250,7 +271,7 @@ function iOSDetect() {
 			function findFriends() {
 				console.log('Find Friends');
 				
-				$.ajax({
+				xhr = $.ajax({
 					type: "POST",
 					url: "/php/api.php",
 					data: {action: 'findFriends', id: user.id, fb_id: user.fb_id}
@@ -270,7 +291,7 @@ function iOSDetect() {
 
 
 			function getLocation() {
-				$.ajax({
+				xhr = $.ajax({
 					type: "POST",
 					url: "/php/api.php",
 					data: {action: 'getLocations', user_id: user.id, fb_id: user.fb_id, name: user.name}
@@ -291,7 +312,7 @@ function iOSDetect() {
 
 
 			function getEvents() {   			
-                $.ajax({
+                xhr = $.ajax({
                     type: "POST",
                     url: "/php/api.php",
                     data: {action: 'getEvents'}
@@ -466,6 +487,39 @@ function iOSDetect() {
 				$(document.getElementById('content')).html(mustache(templates.listArtists, {artists: a}));
 				console.log(a);
 				finishLoading();
+			}
+
+
+			function getNews() {
+				if (navigator.onLine) {
+					$.getJSON('/php/newsJSON.php', function(data) {
+						console.log(data);
+						$(document.getElementById('content')).html(mustache(templates.news, {news: data}));
+
+						$(document.getElementById('content')).find('a').each(function(i, v) {
+							$(this).attr('target', '_blank');
+						});
+
+						finishLoading();
+					});
+				} else {
+					alert('Sorry, Roskilde news can only be accessed when online.');
+					finishLoading();
+				}
+			}
+
+
+			function getTweets() {
+				if (navigator.onLine) {
+					$.getJSON('/php/twitterJSON.php', function(data) {
+						console.log(data);
+						$(document.getElementById('content')).html(mustache(templates.tweets, {tweets: data}));
+						finishLoading();
+					});
+				} else {
+					alert('Sorry, Roskilde tweets can only be accessed when online.');
+					finishLoading();
+				}
 			}
             
         </script>

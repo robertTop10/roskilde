@@ -12,7 +12,7 @@ window.fbAsyncInit = function() {
     FB.getLoginStatus(function(response) {
         if (response.status === 'connected') {
             loggedIn();
-            if (response.authResponse && response.authResponse.userID) {
+            if (response.authResponse && !isNaN(response.authResponse.userID)) {
                 document.cookie = "roskildeapp=" + response.authResponse.userID;
             }
         } else {
@@ -25,12 +25,15 @@ window.fbAsyncInit = function() {
 
 function loggedIn() {
     FB.api('/me', function(response) {
-        fbUser = response;
-        $(document.getElementById('content')).html(mustache(templates.statusLoggedIn, response));
+        if (!isNaN(response.id)) {
+            fbUser = response;
 
-        checkUser();
+            $(document.getElementById('content')).html(mustache(templates.statusLoggedIn, response));
 
-        document.cookie = "roskildeapp=" + response.id;
+            checkUser();
+            $(document.getElementById('user-avatar')).html(mustache(templates.userAvatarImg, response)).removeClass('none');
+            document.cookie = "roskildeapp=" + response.id;
+        }
     });
 }
 
@@ -45,8 +48,13 @@ function loggedOut() {
 function mainMenu() {
     if (user && user.id) {
         $(document.getElementById('content')).html(mustache(templates.statusLoggedIn, user));
+        finishLoading();
     } else {
         loggedIn();
+    }
+    if (xhr && xhr.abort) {
+        console.log(xhr);
+        xhr.abort();
     }
 }
 
