@@ -45,6 +45,7 @@ function checkDateTime() {
 
 function mustache(template, json) {
     json			= (json) ? json : {};
+    json.danish		= danish;
     var partials    = templates;
 
     return Mustache.to_html(template, json, partials);

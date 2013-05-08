@@ -33,6 +33,16 @@ function loggedIn() {
             checkUser();
             $(document.getElementById('user-avatar')).html(mustache(templates.userAvatarImg, response)).removeClass('none');
             document.cookie = "roskildeapp=" + response.id;
+
+            if (localStorage.getItem('danish') === null) {
+                if (response.locale === 'da_DK') {
+                    console.log('Seeing Danish from FB!');
+                    danish = true;
+                }
+            } else {
+                console.log('User toggled Danish');
+                danish = localStorage.getItem('danish');
+            }
         }
     });
 }
@@ -40,6 +50,7 @@ function loggedIn() {
 
 function loggedOut() {
     $(document.getElementById('content')).html(mustache(templates.statusLoggedOut));
+    $(document.getElementById('user-avatar')).addClass('none');
     finishLoading();
 }
 

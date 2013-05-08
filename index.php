@@ -91,9 +91,14 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
             templates['statusLoggedOut'] = '<div class="status">Logged Out</div><div class="status"><a href="<?php echo $loginUrl; ?>" class="button">Log In</a></div>';
             
+            // User vars
 			var fbUser;
             var user;
+
+            // Cache schedule obj
 			var schedule;
+
+			// Map Markers
 			var openInfoWindow;
 			var createEventMarker;
 			
@@ -103,7 +108,11 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
 			// Keep track of AJAX request and abort them if need be.
 			var xhr;
-			
+
+			// Language
+			var danish = false;
+
+
 			var festivalCoords   = {
     			coords: {
         			accuracy: 1,

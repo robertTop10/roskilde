@@ -335,7 +335,7 @@ var templates = {
 									'</div>' +
 								'</div>',
 
-	moreThings: 				'<div class="scroller">' +
+	moreThings:					'<div class="scroller">' +
 									'<div class="second_page">' +
 										'<div class="menu_button">{{> getNewsFeedPartial}}</div>' +
 										'<div class="menu_button">{{> getTwitterFeedPartial}}</div>' +
@@ -343,7 +343,7 @@ var templates = {
 								'</div>',
 
 
-	news: 						'<div class="scroller">' +
+	news:						'<div class="scroller">' +
 									'<div class="status">' +
 										'{{#news}}' +
 											'<div class="dark_box tweet">' +
@@ -355,11 +355,13 @@ var templates = {
 								'</div>',
 
 
-	tweets: 					'<div class="scroller">' +
+	tweets:						'<div class="scroller">' +
 									'<div class="status">' +
 										'{{#tweets}}' +
 											'<div class="dark_box tweet">' +
-												'{{text}}' +
+												'<a href="http://twitter.com/{{from_user}}/status/{{id_str}}" target="_blank">' +
+													'{{text}}' +
+												'</a>' +
 											'</div>' +
 										'{{/tweets}}' +
 									'</div>' +
