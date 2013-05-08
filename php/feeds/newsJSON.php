@@ -81,7 +81,10 @@ function xmlToArray($xml, $options = array()) {
     );
 }
 
-$xmlNode = simplexml_load_file('http://roskilde-festival.dk/rss.xml?tx_tcnews_pi1[rss]=uk&tx_tcnews_pi1[rsspid]=318&no_cache=1');
+
+$lang = (isset($_COOKIE["roskildedanish"]) && $_COOKIE["roskildedanish"] === 'true') ? 'dk' : 'uk';
+
+$xmlNode = simplexml_load_file('http://roskilde-festival.dk/rss.xml?tx_tcnews_pi1[rss]='.$lang.'&tx_tcnews_pi1[rsspid]=318&no_cache=1');
 $arrayData = xmlToArray($xmlNode);
 
 //echo json_encode($arrayData->rss->channel->item);

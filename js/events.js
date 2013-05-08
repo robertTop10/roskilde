@@ -16,6 +16,27 @@ $(document).ready(function() {
 		pushState(null, document.title, '/', true);
 	});
 
+	$(document).on("click", "#user-avatar", function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		var lang = (danish) ? 'English' : 'Danish';
+		var r = confirm('Change language to ' + lang + '?');
+		if (r === true) {
+			danish = (danish) ? false : true;
+
+			var lng = (danish) ? 'dk' : 'en';
+			$(this).attr('class', lng);
+
+			setLocalStorage('danish', danish);
+			document.cookie = "roskildedanish=" + danish;
+
+			removeCompass();
+			mainMenu();
+
+			pushState(null, document.title, '/', true);
+		}
+	});
+
 
     $(document).on("click", "#checkin", function(e){
         e.preventDefault();

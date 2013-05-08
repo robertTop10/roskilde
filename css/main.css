@@ -667,6 +667,28 @@ button:active,
 	width: 40px;
 }
 
+#user-avatar.en::after,
+#user-avatar.dk::after {
+	background-size: cover;
+	background-repeat: no-repeat;
+	border: 1px solid rgba(0,0,0,0.25);
+	bottom: 0;
+	content: '';
+	display: block;
+	height: 10px;
+	position: absolute;
+	right: 0;
+	width: 20px;
+}
+
+#user-avatar.en::after {
+	background-image: url('../images/en.png');
+}
+
+#user-avatar.dk::after {
+	background-image: url('../images/dk.gif');
+}
+
 .none {
 	display: none;
 }

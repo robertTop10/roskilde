@@ -112,6 +112,9 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 			// Language
 			var danish = false;
 
+			// For resetting scroll position
+			var contentScrollTop;
+
 
 			var festivalCoords   = {
     			coords: {

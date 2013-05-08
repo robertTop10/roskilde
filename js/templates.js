@@ -13,20 +13,20 @@ var templates = {
 									'<div class="menu_button">{{> morePartial}}</div>' +
 								'</div>',
 
-	checkInButtonPartial:		'<button id="checkin">CHECK IN</button>',
-	findFriendsButtonPartial:	'<button id="findFriends">FIND MY FRIENDS</button>',
-	locationButtonPartial:		'<button id="remLocation">REMEMBER LOCATION</button>',
-	getLocationButtonPartial:	'<button id="getLocation">MY LOCATIONS</button>',
-	mapButtonPartial:			'<button id="map">FESTIVAL MAP</button>',
-	scheduleButtonPartial:		'<button id="schedule">FESTIVAL SCHEDULE</button>',
-	createEventPartial:			'<button id="createEvent">CREATE EVENT</button>',
-	eventButtonPartial:			'<button id="getEvents">EVENTS</button>',
-	getMySchedulePartial:		'<button id="getMySchedule">MY SCHEDULE</button>',
-	getArtistsPartial:			'<button id="getArtists">ARTISTS</button>',
-	morePartial: 				'<button id="moreStuff">MORE</button>',
+	checkInButtonPartial:		'<button id="checkin">{{#danish}}TJEKKE IND{{/danish}}{{^danish}}CHECK IN{{/danish}}</button>',
+	findFriendsButtonPartial:	'<button id="findFriends">{{#danish}}FINDE MINE VENNER{{/danish}}{{^danish}}FIND MY FRIENDS{{/danish}}</button>',
+	locationButtonPartial:		'<button id="remLocation">{{#danish}}HUSK STED{{/danish}}{{^danish}}REMEMBER LOCATION{{/danish}}</button>',
+	getLocationButtonPartial:	'<button id="getLocation">{{#danish}}MINE STEDER{{/danish}}{{^danish}}MY LOCATIONS{{/danish}}</button>',
+	mapButtonPartial:			'<button id="map">{{#danish}}FESTIVAL KORT{{/danish}}{{^danish}}FESTIVAL MAP{{/danish}}</button>',
+	scheduleButtonPartial:		'<button id="schedule">{{#danish}}FESTIVAL TIDSPLAN{{/danish}}{{^danish}}FESTIVAL SCHEDULE{{/danish}}</button>',
+	createEventPartial:			'<button id="createEvent">{{#danish}}SKABE BEGIVENHED{{/danish}}{{^danish}}CREATE EVENT{{/danish}}</button>',
+	eventButtonPartial:			'<button id="getEvents">{{#danish}}ARRANGEMENTER{{/danish}}{{^danish}}EVENTS{{/danish}}</button>',
+	getMySchedulePartial:		'<button id="getMySchedule">{{#danish}}MIN TIDSPLAN{{/danish}}{{^danish}}MY SCHEDULE{{/danish}}</button>',
+	getArtistsPartial:			'<button id="getArtists">{{#danish}}KUNSTNERE{{/danish}}{{^danish}}ARTISTS{{/danish}}</button>',
+	morePartial:				'<button id="moreStuff">{{#danish}}MERE{{/danish}}{{^danish}}MORE{{/danish}}</button>',
 
-	getNewsFeedPartial: 		'<button id="getNews">News</button>',
-	getTwitterFeedPartial: 		'<button id="getTweets">Twitter</button>',
+	getNewsFeedPartial: 		'<button id="getNews">{{#danish}}NYHEDER{{/danish}}{{^danish}}NEWS{{/danish}}</button>',
+	getTwitterFeedPartial: 		'<button id="getTweets">TWITTER</button>',
 
 	userAvatarImg: 				'<img src="https://graph.facebook.com/{{id}}/picture?width=80&height=80" height="40" width="40" />',
 

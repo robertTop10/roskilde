@@ -28,12 +28,6 @@ function loggedIn() {
         if (!isNaN(response.id)) {
             fbUser = response;
 
-            $(document.getElementById('content')).html(mustache(templates.statusLoggedIn, response));
-
-            checkUser();
-            $(document.getElementById('user-avatar')).html(mustache(templates.userAvatarImg, response)).removeClass('none');
-            document.cookie = "roskildeapp=" + response.id;
-
             if (localStorage.getItem('danish') === null) {
                 if (response.locale === 'da_DK') {
                     console.log('Seeing Danish from FB!');
@@ -41,8 +35,19 @@ function loggedIn() {
                 }
             } else {
                 console.log('User toggled Danish');
-                danish = localStorage.getItem('danish');
+                danish = (localStorage.getItem('danish') === "true");
             }
+
+            $(document.getElementById('content')).html(mustache(templates.statusLoggedIn, response));
+
+            checkUser();
+            $(document.getElementById('user-avatar')).html(mustache(templates.userAvatarImg, response)).removeClass('none');
+
+            var lng = (danish) ? 'dk' : 'en';
+            $(document.getElementById('user-avatar')).addClass(lng);
+
+            document.cookie = "roskildedanish=" + danish;
+            document.cookie = "roskildeapp=" + response.id;
         }
     });
 }
