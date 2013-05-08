@@ -473,7 +473,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 				console.log('getArtists');
 
 				if (typeof artists !== 'object') {
-					$.getJSON('/php/artistsJSON.php', function(data) {
+					$.getJSON('/php/feeds/artistsJSON.php', function(data) {
 						artists = data;
 						processArtists(data);
 					});
@@ -501,7 +501,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
 			function getNews() {
 				if (navigator.onLine) {
-					$.getJSON('/php/newsJSON.php', function(data) {
+					$.getJSON('/php/feeds/newsJSON.php', function(data) {
 						console.log(data);
 						$(document.getElementById('content')).html(mustache(templates.news, {news: data}));
 
@@ -520,7 +520,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
 			function getTweets() {
 				if (navigator.onLine) {
-					$.getJSON('/php/twitterJSON.php', function(data) {
+					$.getJSON('/php/feeds/twitterJSON.php', function(data) {
 						console.log(data);
 						$(document.getElementById('content')).html(mustache(templates.tweets, {tweets: data}));
 						finishLoading();

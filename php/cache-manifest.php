@@ -21,8 +21,8 @@ http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 /js/mustache.js
 
 # Schelude
-/php/scheduleJSON.php
-/php/artistsJSON.php
+/php/feeds/scheduleJSON.php
+/php/feeds/artistsJSON.php
 
 # Google Maps
 http://maps.googleapis.com/maps/api/js?sensor=true

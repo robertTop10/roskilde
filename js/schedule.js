@@ -11,7 +11,7 @@ function getSchedule() {
 
 
 	if (typeof schedule !== 'object') {
-		$.getJSON('/php/scheduleJSON.php', function(data) {
+		$.getJSON('/php/feeds/scheduleJSON.php', function(data) {
 			schedule = data;
 			processDates(data, dates, stages);
 		});
