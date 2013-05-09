@@ -92,7 +92,7 @@ var templates = {
 												'{{/subscribed}}' +
 												'{{^subscribed}}' +
 													'<button class="add-to-schedule" ' +
-														'data-id="{{@id}}" data-image="http://roskilde-festival.co.uk/{{{imageUrl}}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{artistName}}} playing at {{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
+														'data-id="{{@id}}" data-image="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{artistName}}} playing at {{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
 													'>Add to My Schedule</button>' +
 												'{{/subscribed}}' +
 											'</div>' +

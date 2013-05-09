@@ -176,7 +176,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 					google.maps.event.addListener(map, 'click', function(e) {
 						if (createEventMarker) { createEventMarker.setMap(null); }
 						//createEventMarker = marker(e.latLng.jb, e.latLng.kb, map, 'Event', "http://r.oskil.de/images/logo.png", null, null, 'createEvent');
-						createEventMarker = iconPin(e.latLng.jb, e.latLng.kb, map, {
+						createEventMarker = iconPin(e.latLng.lat(), e.latLng.lng(), map, {
 							icon: 		'/images/logo.png',
 							timestamp: 	new Date().getTime(),
 							title: 		'Now',
@@ -184,8 +184,8 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 						});
 
 	        			$m.data({
-	        				'my-marker-latitude': e.latLng.jb,
-	        				'my-marker-longitude': e.latLng.kb
+	        				'my-marker-latitude': e.latLng.lat(),
+	        				'my-marker-longitude': e.latLng.lng()
 	        			});
 						
 						$(document.getElementById('createEventMarker')).show();

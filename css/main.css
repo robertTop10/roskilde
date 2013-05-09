@@ -578,8 +578,8 @@ button:active,
 }
 
 .my_event_details > img {
-	height: 112px;
-	width: 112px;
+	height: 56px;
+	width: 56px;
 	float: left;
 	margin-right: 10px;
 }
