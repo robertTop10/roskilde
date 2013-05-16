@@ -20,6 +20,12 @@ window.fbAsyncInit = function() {
         }
     });
 
+    console.log('onLine', navigator.onLine);
+    if (navigator.onLine === false) {
+        console.log('offline');
+        offlineAccess();
+    }
+
 };
 
 
@@ -87,9 +93,25 @@ function checkUser() {
     }).done(function(data) {
         if (data.result && !isNaN(data.result.id)) {
             user = data.result;
+            setLocalStorage('user', JSON.stringify(data.result), true);
         }
 
         finishLoading();
 
     }).fail(function(error) { ajaxFail(error); });
+}
+
+
+function offlineAccess() {
+    console.log('offlineAccess');
+
+    var u = localStorage.getItem('user');
+    var t = templates.statusLoggedOut;
+    if (u) {
+        user    = JSON.parse(u);
+        t       = templates.statusLoggedIn;
+    }
+
+    $(document.getElementById('content')).html(mustache(t, user));
+    finishLoading();
 }

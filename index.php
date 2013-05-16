@@ -28,7 +28,7 @@ $FBuser = $facebook->getUser();
 $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="https://graph.facebook.com/'.$FBuser.'/picture?width=80&height=80" height="40" width="40" /></div>' : '<div id="user-avatar" class="none"></div>';
 ?>
 <!DOCTYPE HTML>
-<!--html lang="en" manifest="/php/cache-manifest.appcache"-->
+<!-- html lang="en" manifest="/php/cache-manifest.appcache" -->
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -70,6 +70,10 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
         <script src="/js/templates.js"></script>
 
         <script>
+	        //console.log(applicationCache.status);
+	        
+        	appCacheStatus();
+
             // navigator.onLine - check if online!
             // http://stackoverflow.com/questions/7131909/facebook-callback-appends-to-return-url
 
@@ -283,43 +287,96 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 			function findFriends() {
 				console.log('Find Friends');
 				
-				xhr = $.ajax({
-					type: "POST",
-					url: "/php/api.php",
-					data: {action: 'findFriends', id: user.id, fb_id: user.fb_id}
-				}).done(function(data) {
-					initMap(data, true, function(data, coords, map, markers) {
-						populateMarker(data, coords, map, markers, function(d, markers, z) {
-							return iconFriend(d.latitude, d.longitude, map, {
-								icon: 		d.fb_id,
-								timestamp: 	d.timestamp,
-								title: 		d.user,
-								zIndex: 	z
+				if (navigator.onLine === true) {
+					xhr = $.ajax({
+						type: "POST",
+						url: "/php/api.php",
+						data: {action: 'findFriends', id: user.id, fb_id: user.fb_id}
+					}).done(function(data) {
+						initMap(data, true, function(data, coords, map, markers) {
+							populateMarker(data, coords, map, markers, function(d, markers, z) {
+								return iconFriend(d.latitude, d.longitude, map, {
+									icon: 		d.fb_id,
+									timestamp: 	d.timestamp,
+									title: 		d.user,
+									zIndex: 	z
+								});
 							});
 						});
-					});
-				}).fail(function(error) { ajaxFail(error); });
+						
+						setLocalStorage('friends', JSON.stringify({time: new Date().getTime(), friends: data}), true);
+					}).fail(function(error) { ajaxFail(error); });
+				} else {
+					var data = JSON.parse(localStorage.getItem('friends'));
+
+					if (data !== null) {
+						alert('Your phone is offline. This data is cached from:\n\n' + timeDifference(data.time));
+
+						data = data.friends;
+
+						initMap(data, true, function(data, coords, map, markers) {
+							populateMarker(data, coords, map, markers, function(d, markers, z) {
+								return iconFriend(d.latitude, d.longitude, map, {
+									icon: 		d.fb_id,
+									timestamp: 	d.timestamp,
+									title: 		d.user,
+									zIndex: 	z
+								});
+							});
+						});
+					} else {
+						alert('Sorry, your phone is offline and there is no cached data.');
+						mainMenu();
+					}
+				}
 			}
 
 
 			function getLocation() {
-				xhr = $.ajax({
-					type: "POST",
-					url: "/php/api.php",
-					data: {action: 'getLocations', user_id: user.id, fb_id: user.fb_id, name: user.name}
-				}).done(function(data) {
-					initMap(data, true, function(data, coords, map, markers) {
-						populateMarker(data, coords, map, markers, function(d, markers, z) {
-							return iconPin(d.latitude, d.longitude, map, {
-								icon: 		'/images/logo.png',
-								img: 		'/images/logo.png',
-								message: 	d.message,
-								title: 		d.title,
-								tooltip: 	true						
+				if (navigator.onLine === true) {
+					xhr = $.ajax({
+						type: "POST",
+						url: "/php/api.php",
+						data: {action: 'getLocations', user_id: user.id, fb_id: user.fb_id, name: user.name}
+					}).done(function(data) {
+						initMap(data, true, function(data, coords, map, markers) {
+							populateMarker(data, coords, map, markers, function(d, markers, z) {
+								return iconPin(d.latitude, d.longitude, map, {
+									icon: 		'/images/logo.png',
+									img: 		'/images/logo.png',
+									message: 	d.message,
+									title: 		d.title,
+									tooltip: 	true						
+								});
 							});
 						});
-					});
-				}).fail(function(error) { ajaxFail(error); });
+
+						setLocalStorage('locations', JSON.stringify({time: new Date().getTime(), locations: data}), true);
+					}).fail(function(error) { ajaxFail(error); });
+				} else {
+					var data = JSON.parse(localStorage.getItem('locations'));
+
+					if (data !== null) {
+						alert('Your phone is offline. This data is cached from:\n\n' + timeDifference(data.time));
+
+						data = data.locations;
+
+						initMap(data, true, function(data, coords, map, markers) {
+							populateMarker(data, coords, map, markers, function(d, markers, z) {
+								return iconPin(d.latitude, d.longitude, map, {
+									icon: 		'/images/logo.png',
+									img: 		'/images/logo.png',
+									message: 	d.message,
+									title: 		d.title,
+									tooltip: 	true						
+								});
+							});
+						});
+					} else {
+						alert('Sorry, your phone is offline and there is no cached data.');
+						mainMenu();
+					}
+				}
 			}
 
 
@@ -363,7 +420,8 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 			function addToMySchedule(e) {
 				e.preventDefault();
 				console.log(e, $(e.target).data());
-				var r = confirm("Do you want to add to your schedule?");
+				var text = (danish) ? "Vil du tilføje dette til dit skema?" : "Do you want to add to your schedule?";
+				var r = confirm(text);
 				if (r === true) {
 					console.log('Adding event');
 					var schedule 	= JSON.parse(localStorage.getItem('mySchedule'));
@@ -382,7 +440,8 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 					if (set === true) {
 						$(e.target).removeClass('add-to-schedule');
 						$(e.target).addClass('remove-from-schedule');
-						$(e.target).text('Remove from My Schedule');
+						var str = (danish) ?  'Fjern fra mit skema' : 'Remove from My Schedule';
+						$(e.target).text(str);
 
 						finishLoading(true);
 					} else {
@@ -397,7 +456,8 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 			function removeFromMySchedule(e) {
 				e.preventDefault();
 				console.log(e, $(e.target).data());
-				var r = confirm("Do you want to remove this from your schedule?");
+				var text = (danish) ? "Vil du fjerne dette fra dit skema?" : "Do you want to remove this from your schedule?";
+				var r = confirm(text);
 				if (r === true) {
 					console.log('Removing event');
 					var schedule 	= JSON.parse(localStorage.getItem('mySchedule'));
@@ -422,7 +482,8 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 					if (set === true) {
 						$(e.target).removeClass('remove-from-schedule');
 						$(e.target).addClass('add-to-schedule');
-						$(e.target).text('Add to My Schedule');
+						var str = (danish) ? 'Tilføj til mit skema' : 'Add to My Schedule';
+						$(e.target).text(str);
 
 						finishLoading(true);
 					} else {
@@ -454,7 +515,8 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
 			function getMySchedule() {
 				console.log('getMySchedule');
-				var data = JSON.parse(localStorage.getItem('mySchedule'));
+				var data 	= JSON.parse(localStorage.getItem('mySchedule'));
+				var exists	= 0;
 
 				if (data !== null && data.length) {
 					$.each(data, function(i,v) {
@@ -465,9 +527,11 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 					data.sort(function(a, b) {
 						return a.start - b.start;
 					});
+
+					exists = data.length;
 				}
 
-				$(document.getElementById('content')).html(mustache(templates.mySchedule, {results: data}));
+				$(document.getElementById('content')).html(mustache(templates.mySchedule, {results: data, length: exists, restore: (user.backup === '1') }));
 				finishLoading();
 			}
 
@@ -532,6 +596,48 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 					alert('Sorry, Roskilde tweets can only be accessed when online.');
 					finishLoading();
 				}
+			}
+
+			function backupSchedule() {
+				var data = localStorage.getItem('mySchedule');
+
+				if (data) {
+					xhr = $.ajax({
+	                    type: "POST",
+	                    url: "/php/api.php",
+	                    data: {action: 'backupSchedule', data: data }
+					}).done(function(data) {
+						if (data.status === true) {
+							user.backup = '1';
+
+							if (!document.getElementById('restoreSchedule')) {
+								$(document.getElementById('cloud-schedule')).append(templates.restoreButton);
+							}
+						}
+
+						finishLoading(true);
+					});
+				} else {
+					alert('Sorry, cannot access your schedule.');
+					finishLoading();
+				}
+			}
+
+			function restoreSchedule() {
+				xhr = $.ajax({
+                    type: "POST",
+                    url: "/php/api.php",
+                    data: {action: 'restoreSchedule' }
+				}).done(function(data) {
+					console.log('done', data);
+					if (data.result && data.result[0]) {
+						setLocalStorage('mySchedule', data.result[0]);
+						getMySchedule();
+					} else {
+						alert('Sorry, couldn\'t restore your schedule. Try refreshing the page and trying again');
+						finishLoading();
+					}
+				});
 			}
             
         </script>

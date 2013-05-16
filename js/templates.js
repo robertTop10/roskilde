@@ -13,13 +13,13 @@ var templates = {
 									'<div class="menu_button">{{> morePartial}}</div>' +
 								'</div>',
 
-	checkInButtonPartial:		'<button id="checkin">{{#danish}}TJEKKE IND{{/danish}}{{^danish}}CHECK IN{{/danish}}</button>',
-	findFriendsButtonPartial:	'<button id="findFriends">{{#danish}}FINDE MINE VENNER{{/danish}}{{^danish}}FIND MY FRIENDS{{/danish}}</button>',
+	checkInButtonPartial:		'<button id="checkin">{{#danish}}TJEK IND{{/danish}}{{^danish}}CHECK IN{{/danish}}</button>',
+	findFriendsButtonPartial:	'<button id="findFriends">{{#danish}}FIND MINE VENNER{{/danish}}{{^danish}}FIND MY FRIENDS{{/danish}}</button>',
 	locationButtonPartial:		'<button id="remLocation">{{#danish}}HUSK STED{{/danish}}{{^danish}}REMEMBER LOCATION{{/danish}}</button>',
 	getLocationButtonPartial:	'<button id="getLocation">{{#danish}}MINE STEDER{{/danish}}{{^danish}}MY LOCATIONS{{/danish}}</button>',
 	mapButtonPartial:			'<button id="map">{{#danish}}FESTIVAL KORT{{/danish}}{{^danish}}FESTIVAL MAP{{/danish}}</button>',
 	scheduleButtonPartial:		'<button id="schedule">{{#danish}}FESTIVAL TIDSPLAN{{/danish}}{{^danish}}FESTIVAL SCHEDULE{{/danish}}</button>',
-	createEventPartial:			'<button id="createEvent">{{#danish}}SKABE BEGIVENHED{{/danish}}{{^danish}}CREATE EVENT{{/danish}}</button>',
+	createEventPartial:			'<button id="createEvent">{{#danish}}SKAB BEGIVENHED{{/danish}}{{^danish}}CREATE EVENT{{/danish}}</button>',
 	eventButtonPartial:			'<button id="getEvents">{{#danish}}ARRANGEMENTER{{/danish}}{{^danish}}EVENTS{{/danish}}</button>',
 	getMySchedulePartial:		'<button id="getMySchedule">{{#danish}}MIN TIDSPLAN{{/danish}}{{^danish}}MY SCHEDULE{{/danish}}</button>',
 	getArtistsPartial:			'<button id="getArtists">{{#danish}}KUNSTNERE{{/danish}}{{^danish}}ARTISTS{{/danish}}</button>',
@@ -69,11 +69,11 @@ var templates = {
 
 	tooltipAddScheduleBtn:		'<button class="add-to-schedule" ' +
 									'data-id="{{id}}" data-name="{{name}}" data-location="Roskilde" data-latitude="{{latitude}}" data-longitude="{{longitude}}" {{#message}}data-description="{{message}}"{{/message}} data-start="{{start}}" data-end="{{end}}" data-fstart="{{fstart}}" data-fend="{{fend}}" data-type="event"' +
-								'>Add to My Schedule</button>',
+								'>{{#danish}}Tilføj til mit skema{{/danish}}{{^danish}}Add to My Schedule{{/danish}}</button>',
 
 	tooltipRemoveScheduleBtn:	'<button class="remove-from-schedule" ' +
 									'data-id="{{id}}" data-name="{{name}}" data-location="Roskilde" data-latitude="{{latitude}}" data-longitude="{{longitude}}" {{#message}}data-description="{{message}}"{{/message}} data-start="{{start}}" data-end="{{end}}" data-fstart="{{fstart}}" data-fend="{{fend}}" data-type="event"' +
-								'>Remove from My Schedule</button>',
+								'>{{#danish}}Fjern fra mit skema{{/danish}}{{^danish}}Remove from My Schedule{{/danish}}</button>',
 
 
 	artist_page:                '<div id="artist-page" class="page artist_page">' +
@@ -87,13 +87,13 @@ var templates = {
 											'<div>' +
 												'{{#subscribed}}' +
 													'<button class="remove-from-schedule" ' +
-														'data-id="{{@id}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{artistName}}} playing at {{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
-													'>Remove from My Schedule</button>' +
+														'data-id="{{@id}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{artistName}}} {{#danish}}spiller på{{/danish}}{{^danish}}playing at{{/danish}} {{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
+													'>{{#danish}}Fjern fra mit skema{{/danish}}{{^danish}}Remove from My Schedule{{/danish}}</button>' +
 												'{{/subscribed}}' +
 												'{{^subscribed}}' +
 													'<button class="add-to-schedule" ' +
-														'data-id="{{@id}}" data-image="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{artistName}}} playing at {{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
-													'>Add to My Schedule</button>' +
+														'data-id="{{@id}}" data-image="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{artistName}}} {{#danish}}spiller på{{/danish}}{{^danish}}playing at{{/danish}} {{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
+													'>{{#danish}}Tilføj til mit skema{{/danish}}{{^danish}}Add to My Schedule{{/danish}}</button>' +
 												'{{/subscribed}}' +
 											'</div>' +
 										'</div>' +
@@ -268,12 +268,15 @@ var templates = {
 														'<h2>{{name}}</h2>' +
 														'<h3>{{description}}</h3>' +
 														'<div>' +
-															'<a href="/php/ics.php?startTime={{start}}&endTime={{end}}&subject={{name}}&desc={{description}}">Add to your Calendar</a>' +
+															'<a href="/php/ics.php?startTime={{start}}&endTime={{end}}&subject={{name}}&desc={{description}}">{{#danish}}Tilføj til kalender{{/danish}}{{^danish}}Add to your Calendar{{/danish}}</a>' +
 														'</div>' +
 													'</div>' +
 												'</div>' +
 											'</div>' +
 										'{{/results}}' +
+										'{{#length}}' +
+											'{{> backupPartial}}' +
+										'{{/length}}' +
 										'{{^results}}' +
 											'<p>You haven\'t added any events to your schedule</p>' +
 											'<p><strong>Creating your own schedule</strong></p>' +
@@ -281,8 +284,22 @@ var templates = {
 											'<p>On the "Events" or an "Artist" page ("Festival Schedule" or "Artists" > Click on a band you\'re interested in) and click "Add to My Schedule"</p>' +
 											'<p>Viola, all the events and artists you\'ve added will appear here, making it easy to keep track of what you want to do at Roskilde.</p>' +
 										'{{/results}}' +
+										'{{^length}}' +
+											'{{#restore}}{{> backupPartial}}{{/restore}}' +
+										'{{/length}}' +
 									'</div>' +
 								'</div>',
+
+
+	backupPartial:				'<div id="cloud-schedule">' +
+									'<hr/>' +
+									'<p>To save battery life, we store your schedule on your phone.</p>' +
+									'<p>You can backup your schedule online, so you can view it on multiple devices or if you need to clear your browser\'s data.</p>' +
+									'{{#length}}<button id="backupSchedule">BACKUP MY SCHEDULE</button>{{/length}}' +
+									'{{#restore}}{{> restoreButton}}{{/restore}}' +
+								'</div>',
+
+	restoreButton:				'<button id="restoreSchedule">RESTORE MY SCHEDULE</button>',
 
 
 	listArtists:				'<div class="rel">' +
@@ -346,8 +363,9 @@ var templates = {
 	news:						'<div class="scroller">' +
 									'<div class="status">' +
 										'{{#news}}' +
-											'<div class="dark_box tweet">' +
+											'<div class="dark_box news">' +
 												'<h2>{{title}}</h2>' +
+												'{{#image}}<img src="{{image}}" height="61" width="61"/>{{/image}}' +
 												'{{{description}}}' +
 											'</div>' +
 										'{{/news}}' +
@@ -360,7 +378,9 @@ var templates = {
 										'{{#tweets}}' +
 											'<div class="dark_box tweet">' +
 												'<a href="http://twitter.com/{{from_user}}/status/{{id_str}}" target="_blank">' +
-													'{{text}}' +
+													'{{#img}}<img src="{{img}}" height="36" width="36"/>{{/img}}' +
+													'<h3>{{from_user_name}}</h3>' +
+													'{{{html}}}' +
 												'</a>' +
 											'</div>' +
 										'{{/tweets}}' +

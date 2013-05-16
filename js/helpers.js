@@ -60,6 +60,8 @@ Number.prototype.pad = function() {
 function timeDifference(previous, compact) {
 	if (!previous) { return; }
 
+	var str;
+
 	var current		= new Date().getTime();
 	var msPerMinute = 60 * 1000;
 	var msPerHour = msPerMinute * 60;
@@ -70,27 +72,43 @@ function timeDifference(previous, compact) {
 	var elapsed = current - previous;
 
 	if (elapsed < msPerMinute) {
-        str      = (compact) ? 's' : ' seconds ago';
+		if (danish === true) {
+			str      = (compact) ? 's' : ' sekunder siden';
+		} else {
+			str      = (compact) ? 's' : ' seconds ago';
+		}
         return Math.round(elapsed/1000) + str;
 	}
 
 	else if (elapsed < msPerHour) {
 		var time	= Math.round(elapsed/msPerMinute);
-		var str		= (time <= 1) ? ' minute ago' : ' minutes ago';
+		if (danish === true) {
+			str		= (time <= 1) ? ' minut siden' : ' minutter siden';
+		} else {
+			str		= (time <= 1) ? ' minute ago' : ' minutes ago';
+		}
 		str			= (compact) ? 'm' : str;
 		return time + str;
 	}
 
 	else if (elapsed < msPerDay ) {
 		var time = Math.round(elapsed/msPerHour);
-		var str	 = (time <= 1) ? ' hour ago' : ' hours ago';
+		if (danish === true) {
+			str = (time <= 1) ? ' time siden' : ' timer siden';
+		} else {
+			str = (time <= 1) ? ' hour ago' : ' hours ago';
+		}
 		str      = (compact) ? 'h' : str;
 		return time + str;   
 	}
 
 	else if (elapsed < msPerMonth) {
 		var time = Math.round(elapsed/msPerDay);
-		var str	 = (time <= 1) ? ' day ago' : ' days ago';
+		if (danish === true) {
+			str	= (time <= 1) ? ' dag siden' : ' dage siden';
+		} else {
+			str = (time <= 1) ? ' day ago' : ' days ago';
+		}
 		str      = (compact) ? 'd' : str;
 		return time + str;   
 	}
@@ -170,7 +188,7 @@ function formatTime(timestamp) {
 }
 
 
-function setLocalStorage(key, value) {
+function setLocalStorage(key, value, grace) {
 	var set = true;
 
 	try {
@@ -178,9 +196,14 @@ function setLocalStorage(key, value) {
 	} catch (error) {
 		set = false;
 
-		if (error.code === DOMException.QUOTA_EXCEEDED_ERR) {
-			alert('Whoops\n\n' + 'Unable to save data to your phone.\nIf in "Private Browsing" mode switch this off and try again.');
-		} else { throw error; }
+		if (!grace) {
+			if (error.code === DOMException.QUOTA_EXCEEDED_ERR) {
+				alert('Whoops\n\n' + 'Unable to save data to your phone.\nIf in "Private Browsing" mode switch this off and try again.');
+			} else {
+				alert('Whoops\n\n' + 'Unable to save data to your phone.');
+				//throw error; 
+			}
+		}
 	}
 
 	return set;
@@ -208,4 +231,50 @@ function pushState(obj, title, path, replaceState) {
 			history.pushState(obj, title, path);
 		}
 	}
+}
+
+
+function appCacheStatus() {
+	var cacheStatusValues = [];
+	cacheStatusValues[0] = 'uncached';
+	cacheStatusValues[1] = 'idle';
+	cacheStatusValues[2] = 'checking';
+	cacheStatusValues[3] = 'downloading';
+	cacheStatusValues[4] = 'updateready';
+	cacheStatusValues[5] = 'obsolete';
+
+	var cache = window.applicationCache;
+	cache.addEventListener('cached', logEvent, false);
+	cache.addEventListener('checking', logEvent, false);
+	cache.addEventListener('downloading', logEvent, false);
+	cache.addEventListener('error', logEvent, false);
+	cache.addEventListener('noupdate', logEvent, false);
+	cache.addEventListener('obsolete', logEvent, false);
+	cache.addEventListener('progress', logEvent, false);
+	cache.addEventListener('updateready', logEvent, false);
+
+	function logEvent(e) {
+	    var online, status, type, message;
+	    online = (navigator.onLine) ? 'yes' : 'no';
+	    status = cacheStatusValues[cache.status];
+	    type = e.type;
+	    message = 'online: ' + online;
+	    message+= ', event: ' + type;
+	    message+= ', status: ' + status;
+	    if (type == 'error' && navigator.onLine) {
+	        message+= ' (prolly a syntax error in manifest)';
+	    }
+	    console.log(message);
+	}
+
+	window.applicationCache.addEventListener(
+	    'updateready',
+	    function(){
+	        window.applicationCache.swapCache();
+	        console.log('swap cache has been called');
+	    },
+	    false
+	);
+
+	//setInterval(function(){cache.update()}, 10000);
 }

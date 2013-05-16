@@ -380,13 +380,13 @@ $(document).ready(function() {
 	}
 
 
-    $(document).on("click", "#moreStuff", function(e){
+    $(document).on("click", "#moreStuff", function(e) {
         e.preventDefault();
 		$(document.getElementById('content')).html(mustache(templates.moreThings));
     });
 
 
-    $(document).on("click", "#getTweets", function(e){
+    $(document).on("click", "#getTweets", function(e) {
         e.preventDefault();
         loading();
 		getTweets();
@@ -394,11 +394,27 @@ $(document).ready(function() {
     });
 
 
-    $(document).on("click", "#getNews", function(e){
+    $(document).on("click", "#getNews", function(e) {
         e.preventDefault();
         loading();
 		getNews();
 		pushState(null, document.title, '/news');
+    });
+
+    $(document).on("click", "#backupSchedule", function(e) {
+    	console.log('backup');
+        e.preventDefault();
+        loading();
+        backupSchedule();
+    });
+
+    $(document).on("click", "#restoreSchedule", function(e) {
+        e.preventDefault();
+        var r = confirm('Are you sure you want to restore your schedule?');
+		if (r === true) {
+			loading();
+			restoreSchedule();
+		}
     });
 
 });
