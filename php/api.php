@@ -308,6 +308,7 @@ function getUser($id) {
 	global $db;
 	$result = mysqli_query($db, "SELECT * FROM `users` where fb_id=".$id);
     echo '2'.PHP_EOL;
+    echo "SELECT * FROM `users` where fb_id=".$id.PHP_EOL;
     echo ($result).PHP_EOL;
 	return $result;
 }
