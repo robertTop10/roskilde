@@ -55,10 +55,6 @@ if ($_POST) {
     if ($_POST['action'] === 'auth' && $_POST['fb_id']) {
         $id     = mysqli_real_escape_string($db, $_POST['fb_id']);
 
-        echo $_POST['fb_id'].PHP_EOL;
-        echo $id.PHP_EOL;
-        echo $FBuser.PHP_EOL;
-
         $result = getUser($id);
         
         $num_rows = ($result) ? mysqli_num_rows($result) : 0;
@@ -82,6 +78,9 @@ if ($_POST) {
             
             $query  = "INSERT INTO `roskilde`.`users` (".$field.") VALUES (".$value.")";
             $result = mysqli_query($db, $query);
+
+            echo '1'.PHP_EOL;
+            echo $query.PHP_EOL;
 			
 			if ($result) {
         		$result = getUser($id);
@@ -308,7 +307,8 @@ if ($_POST) {
 function getUser($id) {
 	global $db;
 	$result = mysqli_query($db, "SELECT * FROM `users` where fb_id=".$id);
-	echo "SELECT * FROM `users` where fb_id=".$id;
+    echo '2'.PHP_EOL;
+    echo ($result).PHP_EOL;
 	return $result;
 }
 
