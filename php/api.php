@@ -55,6 +55,9 @@ if ($_POST) {
     if ($_POST['action'] === 'auth' && $_POST['fb_id']) {
         $id     = mysqli_real_escape_string($db, $_POST['fb_id']);
         $result = getUser($id);
+
+        echo ($result);
+        echo mysqli_num_rows($result);
         
         $num_rows = ($result) ? mysqli_num_rows($result) : 0;
         
