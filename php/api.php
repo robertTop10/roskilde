@@ -78,11 +78,8 @@ if ($_POST) {
             
             $query  = "INSERT INTO `roskilde`.`users` (".$field.") VALUES (".$value.")";
             $result = mysqli_query($db, $query);
-
-            echo '1'.PHP_EOL;
-            echo $query.PHP_EOL;
 			
-			if ($result) {
+			if (mysqli_num_rows($result) > 0) {
         		$result = getUser($id);
 				$user	= parseUser($result);
 
@@ -307,9 +304,7 @@ if ($_POST) {
 function getUser($id) {
 	global $db;
 	$result = mysqli_query($db, "SELECT * FROM `users` where fb_id=".$id);
-    echo '2'.PHP_EOL;
-    echo "SELECT * FROM `users` where fb_id=".$id.PHP_EOL;
-    echo ($result).PHP_EOL;
+	
 	return $result;
 }
 
