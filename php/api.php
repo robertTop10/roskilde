@@ -302,7 +302,7 @@ if ($_POST) {
 
 function getUser($id) {
 	global $db;
-	$result = mysqli_query($db, "SELECT * FROM `users` where fb_id=".$id);
+	$result = mysqli_query($db, "SELECT * FROM `roskilde`.`users` where fb_id=".$id);
 	return $result;
 }
 
