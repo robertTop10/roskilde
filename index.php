@@ -31,6 +31,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 <!-- html lang="en" manifest="/php/cache-manifest.appcache" -->
 <html lang="en">
     <head>
+    	<!-- Amazon -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1" />
         
