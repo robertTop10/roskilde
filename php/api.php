@@ -54,8 +54,12 @@ if ($_POST) {
     // Check if user exists
     if ($_POST['action'] === 'auth' && $_POST['fb_id']) {
         $id     = mysqli_real_escape_string($db, $_POST['fb_id']);
+
+        echo $_POST['fb_id'].PHP_EOL;
+        echo $id.PHP_EOL;
+        echo $FBuser.PHP_EOL;
+
         $result = getUser($id);
-        if ($result) { echo 'Fuck Yeah';} else {echo 'No';}
         
         $num_rows = ($result) ? mysqli_num_rows($result) : 0;
         
