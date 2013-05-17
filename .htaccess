@@ -1,0 +1,16 @@
+Options +FollowSymlinks
+RewriteEngine on
+RewriteBase /
+RewriteRule ^(.+)\.appcache$ /$1.php [NC,L]
+
+Redirect /my-schedule /
+Redirect /find-friends /
+Redirect /remember-location /
+Redirect /my-locations /
+Redirect /festival-map /
+Redirect /festival-schedule /
+Redirect /create-event /
+Redirect /events /
+Redirect /artists /
+Redirect /news /
+Redirect /tweets /
