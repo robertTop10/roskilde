@@ -294,24 +294,22 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 						url: "/php/api.php",
 						data: {action: 'findFriends', id: user.id, fb_id: user.fb_id}
 					}).done(function(data) {
-							if (data.results.length > 0) {
-							initMap(data, true, function(data, coords, map, markers) {
-								populateMarker(data, coords, map, markers, function(d, markers, z) {
-									return iconFriend(d.latitude, d.longitude, map, {
-										icon: 		d.fb_id,
-										timestamp: 	d.timestamp,
-										title: 		d.user,
-										zIndex: 	z
-									});
+						if (data.result.length === 0) {
+							alert('None of your friends have checked in.');
+						}
+						initMap(data, true, function(data, coords, map, markers) {
+							populateMarker(data, coords, map, markers, function(d, markers, z) {
+								return iconFriend(d.latitude, d.longitude, map, {
+									icon: 		d.fb_id,
+									timestamp: 	d.timestamp,
+									title: 		d.user,
+									zIndex: 	z
 								});
 							});
-							
-							setLocalStorage('friends', JSON.stringify({time: new Date().getTime(), friends: data}), true);
-						} else {
-							alert('None of your friends have checked in.');
-							finishLoading();
-						}
-					
+						});
+						
+						setLocalStorage('friends', JSON.stringify({time: new Date().getTime(), friends: data}), true);
+
 					}).fail(function(error) { ajaxFail(error); });
 				} else {
 					var data = JSON.parse(localStorage.getItem('friends'));
