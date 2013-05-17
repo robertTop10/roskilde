@@ -56,7 +56,7 @@ if ($_POST) {
         $id     = mysqli_real_escape_string($db, $_POST['fb_id']);
         $result = getUser($id);
         
-        $num_rows = mysqli_num_rows($result);
+        $num_rows = ($result) ? mysqli_num_rows($result) : 0;
         
         if ($num_rows === 0) {
             // Create new user
