@@ -79,7 +79,6 @@ if ($_POST) {
             $result = mysqli_query($db, $query);
 			
 			if ($result) {
-				echo 'YESSSSS'.PHP_EOL;
         		$result = getUser($id);
 				$user	= parseUser($result);
 
@@ -304,17 +303,18 @@ if ($_POST) {
 function getUser($id) {
 	global $db;
 	$result = mysqli_query($db, "SELECT * FROM `users` where fb_id=".$id);
-	echo "SELECT * FROM `users` where fb_id=".$id;
 	return $result;
 }
 
 
 function parseUser($result) {
-	while ($row = mysqli_fetch_assoc($result)) {
-		$user = $row;
+	if ($result) {
+		while ($row = mysqli_fetch_assoc($result)) {
+			$user = $row;
+		}
+		
+		return $user;
 	}
-	
-	return $user;
 }
 
 
