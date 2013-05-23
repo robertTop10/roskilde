@@ -297,25 +297,30 @@ button:active,
 }
 
 #loading > div:first-child {
-	background-image: url('../images/spinner-logo.png');
-	background-repeat: no-repeat;
-	background-position: 50%;
-	background-size: 100% 121px;
-	height: 200px;
+	background-color: rgba(0,0,0,0.8);
 	margin: -100px;
 	position: fixed;
 	left: 50%;
 	top: 50%;
-	width: 200px;
 
 	-webkit-perspective: 600px;
 	perspective: 600px;
+}
+
+#loading > div:first-child span {
+	background-image: url('../images/spinner-logo.png');
+	background-repeat: no-repeat;
+	background-position: 50%;
+	background-size: 180px 109px;
+	display: block;
+	height: 200px;
+	width: 200px;
 
 	-webkit-animation-duration: 2s;
 	-webkit-animation-name: spinner;
 	-webkit-animation-iteration-count: infinite;
 	-webkit-animation-timing-function: linear;
-	
+
 	animation-duration: 2s;
 	animation-name: spinner;
 	animation-iteration-count: infinite;

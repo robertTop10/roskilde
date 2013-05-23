@@ -652,7 +652,10 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
         <script type="text/javascript" src="/js/infobox_packed.js"></script>
         <script type="text/javascript" src="/js/richmarker-compiled.js"></script>
         
-        <div id="loading"><div></div><div id="confirm">Done!</div></div>
+        <div id="loading">
+        	<div><span></span></div>
+        	<div id="confirm">Done!</div>
+       	</div>
         <div id="dynamic"></div>
     </body>
 </html>
