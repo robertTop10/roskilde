@@ -303,8 +303,8 @@ button:active,
 	left: 50%;
 	top: 50%;
 
-	-webkit-perspective: 600px;
-	perspective: 600px;
+	-webkit-perspective: 500px;
+	perspective: 500px;
 }
 
 #loading > div:first-child span {
@@ -315,13 +315,15 @@ button:active,
 	display: block;
 	height: 200px;
 	width: 200px;
+	-webkit-backface-visibility: visible;
+	backface-visibility: visible;
 
-	-webkit-animation-duration: 2s;
+	-webkit-animation-duration: 1s;
 	-webkit-animation-name: spinner;
 	-webkit-animation-iteration-count: infinite;
 	-webkit-animation-timing-function: linear;
 
-	animation-duration: 2s;
+	animation-duration: 1s;
 	animation-name: spinner;
 	animation-iteration-count: infinite;
 	animation-timing-function: linear;
