@@ -298,10 +298,12 @@ button:active,
 
 #loading > div:first-child {
 	background-color: rgba(0,0,0,0.8);
-	margin: -100px;
+	height: 100px;
+	margin: -50px;
 	position: fixed;
 	left: 50%;
 	top: 50%;
+	width: 100px;
 
 	-webkit-perspective: 500px;
 	perspective: 500px;
@@ -311,10 +313,10 @@ button:active,
 	background-image: url('../images/spinner-logo.png');
 	background-repeat: no-repeat;
 	background-position: 50%;
-	background-size: 180px 109px;
+	background-size: 90px 54px;
 	display: block;
-	height: 200px;
-	width: 200px;
+	height: 100px;
+	width: 100px;
 	-webkit-backface-visibility: visible;
 	backface-visibility: visible;
 
