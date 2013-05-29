@@ -9,14 +9,23 @@ CACHE:
 
 # CSS
 http://yui.yahooapis.com/3.9.1/build/cssreset/cssreset-min.css
-/css/main.css
+/css/new.css
 
 # Images
 <?php
 	if ($handle = opendir('../images')) {
 	    while (false !== ($entry = readdir($handle))) {
-	    	if (substr($entry, -4) === '.gif' || substr($entry, -4) === '.png' || substr($entry, -4) === '.ico') {
+	    	if (substr($entry, -4) === '.gif' || substr($entry, -4) === '.png' || substr($entry, -4) === '.ico' || substr($entry, -4) === '.jpg') {
 	        	echo "/images/$entry\n";
+	    	}
+	    }
+
+	    closedir($handle);
+	}
+	if ($handle = opendir('../new-images')) {
+	    while (false !== ($entry = readdir($handle))) {
+	    	if (substr($entry, -4) === '.gif' || substr($entry, -4) === '.png' || substr($entry, -4) === '.ico' || substr($entry, -4) === '.jpg') {
+	        	echo "/new-images/$entry\n";
 	    	}
 	    }
 
@@ -40,7 +49,7 @@ http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 
 # Google Maps
 http://maps.googleapis.com/maps/api/js?sensor=true
-http://maps.gstatic.com/intl/en_us/mapfiles/api-3/12/11/main.js
+http://maps.gstatic.com/intl/en_us/mapfiles/api-3/13/2/main.js
 
 # Schelude
 /php/feeds/scheduleJSON.php
