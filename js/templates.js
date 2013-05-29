@@ -1,16 +1,24 @@
 var templates = {
     statusLoggedIn:				'<div class="scroller">' +
-									'<div class="menu_button full">{{> getMySchedulePartial}}</div>' +
-									'<div class="menu_button">{{> checkInButtonPartial}}</div>' +
-									'<div class="menu_button">{{> findFriendsButtonPartial}}</div>' +
-									'<div class="menu_button">{{> locationButtonPartial}}</div>' +
-									'<div class="menu_button">{{> getLocationButtonPartial}}</div>' +
-									'<div class="menu_button">{{> mapButtonPartial}}</div>' +
-									'<div class="menu_button">{{> scheduleButtonPartial}}</div>' +
-									'<div class="menu_button">{{> createEventPartial}}</div>' +
-									'<div class="menu_button">{{> eventButtonPartial}}</div>' +
-									'<div class="menu_button">{{> getArtistsPartial}}</div>' +
-									'<div class="menu_button">{{> morePartial}}</div>' +
+    								'<div class="main_menu_logo"></div>' +
+    								'<div class="menu_row red">' +
+										'<div class="menu_button">{{> getMySchedulePartial}}</div>' +
+										'<div class="menu_button">{{> scheduleButtonPartial}}</div>' +
+										'<div class="menu_button">{{> checkInButtonPartial}}</div>' +
+										'<div class="menu_button">{{> findFriendsButtonPartial}}</div>' +
+									'</div>' +
+    								'<div class="menu_row">' +
+	    								'<div class="menu_button">{{> locationButtonPartial}}</div>' +
+										'<div class="menu_button">{{> getLocationButtonPartial}}</div>' +
+										'<div class="menu_button">{{> createEventPartial}}</div>' +
+										'<div class="menu_button">{{> eventButtonPartial}}</div>' +
+									'</div>' +
+    								'<div class="menu_row black">' +
+	    								'<div class="menu_button">{{> mapButtonPartial}}</div>' +
+										'<div class="menu_button">{{> getArtistsPartial}}</div>' +
+										'<div class="menu_button">{{> getNewsFeedPartial}}</div>' +
+										'<div class="menu_button">{{> getTwitterFeedPartial}}</div>' +
+									'</div>' +
 								'</div>',
 
 	checkInButtonPartial:		'<button id="checkin">{{#danish}}TJEK IND{{/danish}}{{^danish}}CHECK IN{{/danish}}</button>',
@@ -77,45 +85,50 @@ var templates = {
 
 
 	artist_page:                '<div id="artist-page" class="page artist_page">' +
-									'<div>' +
-										'<h4>{{artistName}}</h4><span id="artist-close" class="artist_close" onclick="">&times;</span>' +
-										'<div class="artist_details">' +
-											'<img src="http://roskilde-festival.co.uk/{{{imageUrl}}}" height="112" width="112" /><br/>' +
-											'{{country}}<br/>' +
-											'{{{scene}}}<br/>' +
-											'{{tidspunkt}}<br/>' +
-											'<div>' +
-												'{{#subscribed}}' +
-													'<button class="remove-from-schedule" ' +
-														'data-id="{{@id}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{artistName}}} {{#danish}}spiller på{{/danish}}{{^danish}}playing at{{/danish}} {{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
-													'>{{#danish}}Fjern fra mit skema{{/danish}}{{^danish}}Remove from My Schedule{{/danish}}</button>' +
-												'{{/subscribed}}' +
-												'{{^subscribed}}' +
-													'<button class="add-to-schedule" ' +
-														'data-id="{{@id}}" data-image="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{artistName}}} {{#danish}}spiller på{{/danish}}{{^danish}}playing at{{/danish}} {{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
-													'>{{#danish}}Tilføj til mit skema{{/danish}}{{^danish}}Add to My Schedule{{/danish}}</button>' +
-												'{{/subscribed}}' +
+										'<h4>{{artistName}}<small>/{{country}}</small></h4>' +
+										'<span id="artist-close" class="artist_close">&times;</span>' +
+										'<div class="artist_overview">' +
+											'<div class="artist_frame">' +
+												'<img src="http://roskilde-festival.co.uk/{{{imageUrl}}}" height="112" width="112" />' +
+											'</div>' +
+											'<div class="artist_details">' +
+												'<h6>{{formattedStartTime}} - {{formattedStartDate}}</h6>' +
+												'<h6>{{{scene}}}</h6>' +
 											'</div>' +
 										'</div>' +
+										'<div>' +
+											'{{#subscribed}}' +
+												'<button class="remove-from-schedule" ' +
+													'data-id="{{@id}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
+												'>{{#danish}}Fjern fra mit skema{{/danish}}{{^danish}}Remove from My Schedule{{/danish}}</button>' +
+											'{{/subscribed}}' +
+											'{{^subscribed}}' +
+												'<button class="add-to-schedule" ' +
+													'data-id="{{@id}}" data-image="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
+												'>{{#danish}}Tilføj til mit skema{{/danish}}{{^danish}}Add to My Schedule{{/danish}}</button>' +
+											'{{/subscribed}}' +
+										'</div>' +
 
-										'<div class="artist_description">' +
+										'<div class="artist_description text_bg">' +
 											'{{{description}}}' +
 										'</div>' +
-									'</div>' +
 								'</div>',
 
 
 	create_location:			'<div class="scroller">' +
-									'<div id="createLocationPage" class="page event_page">' +
+									'<div id="createLocationPage" class="page event_page form_page">' +
 										'<form id="createLocationForm">' +
-										'<h2>Remember a location</h2>' +
 										'<div>' +
 											'<strong>Name</strong>' +
-											'<input id="title" type="text" name="name" required />' +
+											'<div class="form_background">' +
+												'<input id="title" type="text" name="name" autocomplete="off" required />' +
+											'</div>' +
 										'</div>' +
 										'<div>' +
 											'<strong>Description</strong>' +
-											'<textarea id="message" name="description"></textarea>' +
+											'<div class="form_background">' +
+												'<textarea id="message" name="description"></textarea>' +
+											'</div>' +
 										'</div>' +
 										'<button type="submit">Place Location</button>' +
 										'</form>' +
@@ -124,16 +137,19 @@ var templates = {
 
 
 	create_event:				'<div class="scroller">' +
-									'<div id="createEventPage" class="page event_page">' +
+									'<div id="createEventPage" class="page event_page form_page">' +
 										'<form id="createEventForm">' +
-										'<h2>Create an event</h2>' +
 										'<div>' +
 											'<strong>Name</strong>' +
-											'<input type="text" name="name" required />' +
+											'<div class="form_background">' +
+												'<input type="text" name="name" required />' +
+											'</div>' +
 										'</div>' +
 										'<div>' +
 											'<strong>Description</strong>' +
-											'<textarea name="description"></textarea>' +
+											'<div class="form_background">' +
+												'<textarea name="description"></textarea>' +
+											'</div>' +
 										'</div>' +
 										'{{#datetime}}' +
 											'<div>' +
@@ -258,19 +274,19 @@ var templates = {
 									'<div class="status">' +
 										'{{#results}}' +
 											'<div class="my_event_cont">' +
-												'<div class="my_event_times">' +
-													'<h5>{{formattedStart}}</h5>' +
-													'<h5>{{formattedEnd}}</h5>' +
-												'</div>' +
-												'<div class="my_event">' +
-													'<div class="my_event_details">' +
-														'{{#image}}<img src="{{{image}}}" height="112" width="112" />{{/image}}' +
-														'<h2>{{name}}</h2>' +
-														'<h3>{{description}}</h3>' +
-														'<div>' +
-															'<a href="/php/ics.php?startTime={{start}}&endTime={{end}}&subject={{name}}&desc={{description}}">{{#danish}}Tilføj til kalender{{/danish}}{{^danish}}Add to your Calendar{{/danish}}</a>' +
-														'</div>' +
+												'<h2>{{name}}</h2>' +
+												'<div class="artist_overview">' +
+													'<div class="artist_frame_small">' +
+														'{{#image}}<img src="{{{image}}}" height="56" width="56" />{{/image}}' +
+														'{{^image}}<img src="/new-images/schedule-logo.png" height="56" width="56" />{{/image}}' +
 													'</div>' +
+													'<div class="artist_details_small">' +
+														'<h6>{{formattedStart}}{{#formattedEnd}} - {{formattedEnd}}{{/formattedEnd}}</h6>' +
+														'<h6>{{description}}</h6>' +
+													'</div>' +
+												'</div>' +
+												'<div class="my_event_cal">' +
+													'<a href="/php/ics.php?startTime={{start}}&endTime={{end}}&subject={{name}}&desc={{description}}">{{#danish}}Tilføj til kalender{{/danish}}{{^danish}}Add to your Calendar{{/danish}}</a>' +
 												'</div>' +
 											'</div>' +
 										'{{/results}}' +
@@ -278,11 +294,13 @@ var templates = {
 											'{{> backupPartial}}' +
 										'{{/length}}' +
 										'{{^results}}' +
-											'<p>You haven\'t added any events to your schedule</p>' +
-											'<p><strong>Creating your own schedule</strong></p>' +
-											'<p>You can create your own personalised schedule by adding events and artists to it.</p>' +
-											'<p>On the "Events" or an "Artist" page ("Festival Schedule" or "Artists" > Click on a band you\'re interested in) and click "Add to My Schedule"</p>' +
-											'<p>Viola, all the events and artists you\'ve added will appear here, making it easy to keep track of what you want to do at Roskilde.</p>' +
+											'<div class="text_bg">' +
+												'<p>You haven\'t added any events to your schedule</p>' +
+												'<p><strong>Creating your own schedule</strong></p>' +
+												'<p>You can create your own personalised schedule by adding events and artists to it.</p>' +
+												'<p>On the "Events" or an "Artist" page ("Festival Schedule" or "Artists" > Click on a band you\'re interested in) and click "Add to My Schedule"</p>' +
+												'<p>Viola, all the events and artists you\'ve added will appear here, making it easy to keep track of what you want to do at Roskilde.</p>' +
+											'</div>' +
 										'{{/results}}' +
 										'{{^length}}' +
 											'{{#restore}}{{> backupPartial}}{{/restore}}' +
@@ -293,8 +311,10 @@ var templates = {
 
 	backupPartial:				'<div id="cloud-schedule">' +
 									'<hr/>' +
-									'<p>To save battery life, we store your schedule on your phone.</p>' +
-									'<p>You can backup your schedule online, so you can view it on multiple devices or if you need to clear your browser\'s data.</p>' +
+									'<div class="text_bg">' +
+										'<p>To save battery life, we store your schedule on your phone.</p>' +
+										'<p>You can backup your schedule online, so you can view it on multiple devices or if you need to clear your browser\'s data.</p>' +
+									'</div>' +
 									'{{#length}}<button id="backupSchedule">BACKUP MY SCHEDULE</button>{{/length}}' +
 									'{{#restore}}{{> restoreButton}}{{/restore}}' +
 								'</div>',
@@ -302,53 +322,55 @@ var templates = {
 	restoreButton:				'<button id="restoreSchedule">RESTORE MY SCHEDULE</button>',
 
 
-	listArtists:				'<div class="rel">' +
-									'<div id="artists-scroller" class="scroller needsclick">' +
-										'<div class="status needsclick">' +
-											'{{#artists}}' +
-												'{{#header}}' +
-													'<div id="artist-letter-{{header}}" class="artist_header">{{header}}</div>' +
-												'{{/header}}' +
-												'{{^header}}' +
-													'<div class="dark_box artist needsclick" data-artist="{{@id}}">' +
-														'<img src="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" height="56" width="56" />' +
-														'<h4>{{{artistName}}} <small>/{{country}}</small></h4>' +
-														'<h6><small>{{text}}</small></h6>' +
-													'</div>' +
-												'{{/header}}' +
-											'{{/artists}}' +
+	listArtists:				'<div id="hide-content">' +
+									'<div class="rel">' +
+										'<div id="artists-scroller" class="scroller needsclick">' +
+											'<div class="status needsclick">' +
+												'{{#artists}}' +
+													'{{#header}}' +
+														'<div id="artist-letter-{{header}}" class="artist_header">{{header}}</div>' +
+													'{{/header}}' +
+													'{{^header}}' +
+														'<div class="dark_box artist needsclick" data-artist="{{@id}}">' +
+															'<img src="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" height="56" width="56" />' +
+															'<h4>{{{artistName}}} <small>/{{country}}</small></h4>' +
+															'<h6><small>{{text}}</small></h6>' +
+														'</div>' +
+													'{{/header}}' +
+												'{{/artists}}' +
+											'</div>' +
 										'</div>' +
-									'</div>' +
-									'<div class="quickfind">' +
-										'<ol>' +
-											'<li id="link-#">#</li>' +
-											'<li id="link-a">A</li>' +
-											'<li id="link-b">B</li>' +
-											'<li id="link-c">C</li>' +
-											'<li id="link-d">D</li>' +
-											'<li id="link-e">E</li>' +
-											'<li id="link-f">F</li>' +
-											'<li id="link-g">G</li>' +
-											'<li id="link-h">H</li>' +
-											'<li id="link-i">I</li>' +
-											'<li id="link-j">J</li>' +
-											'<li id="link-k">K</li>' +
-											'<li id="link-l">L</li>' +
-											'<li id="link-m">M</li>' +
-											'<li id="link-n">N</li>' +
-											'<li id="link-o">O</li>' +
-											'<li id="link-p">P</li>' +
-											'<li id="link-q">Q</li>' +
-											'<li id="link-r">R</li>' +
-											'<li id="link-s">S</li>' +
-											'<li id="link-t">T</li>' +
-											'<li id="link-u">U</li>' +
-											'<li id="link-v">V</li>' +
-											'<li id="link-w">W</li>' +
-											'<li id="link-x">X</li>' +
-											'<li id="link-y">Y</li>' +
-											'<li id="link-z">Z</li>' +
-										'</ol>' +
+										'<div class="quickfind">' +
+											'<ol>' +
+												'<li id="link-#">#</li>' +
+												'<li id="link-a">A</li>' +
+												'<li id="link-b">B</li>' +
+												'<li id="link-c">C</li>' +
+												'<li id="link-d">D</li>' +
+												'<li id="link-e">E</li>' +
+												'<li id="link-f">F</li>' +
+												'<li id="link-g">G</li>' +
+												'<li id="link-h">H</li>' +
+												'<li id="link-i">I</li>' +
+												'<li id="link-j">J</li>' +
+												'<li id="link-k">K</li>' +
+												'<li id="link-l">L</li>' +
+												'<li id="link-m">M</li>' +
+												'<li id="link-n">N</li>' +
+												'<li id="link-o">O</li>' +
+												'<li id="link-p">P</li>' +
+												'<li id="link-q">Q</li>' +
+												'<li id="link-r">R</li>' +
+												'<li id="link-s">S</li>' +
+												'<li id="link-t">T</li>' +
+												'<li id="link-u">U</li>' +
+												'<li id="link-v">V</li>' +
+												'<li id="link-w">W</li>' +
+												'<li id="link-x">X</li>' +
+												'<li id="link-y">Y</li>' +
+												'<li id="link-z">Z</li>' +
+											'</ol>' +
+										'</div>' +
 									'</div>' +
 								'</div>',
 

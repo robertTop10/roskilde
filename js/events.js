@@ -5,10 +5,14 @@ $(document).ready(function() {
 
     new FastClick(document.body);
 
+    var $sectionTitle = $(document.getElementById('section-title'));
 
-	$(document).on("click", "#menu", function(e){
+
+	$(document).on("click", "#home-button", function(e){
 		console.log('fastClick');
         e.preventDefault();
+
+        $sectionTitle.empty().removeClass('two_lines');
 
 		removeCompass();
 		mainMenu();
@@ -49,12 +53,16 @@ $(document).ready(function() {
         e.preventDefault();
 		loading();
 		findFriends();
+
 		pushState(null, document.title, '/find-friends');
     });
 
 
     $(document).on("click", "#remLocation", function(e){
         e.preventDefault();
+
+        $sectionTitle.html('Remember<br/>location').addClass('two_lines');
+
         $(document.getElementById('content')).html(mustache(templates.create_location));
         pushState(null, document.title, '/remember-location');
     });
@@ -81,6 +89,7 @@ $(document).ready(function() {
         e.preventDefault();
 		loading();
 		getLocation();
+
 		pushState(null, document.title, '/my-locations');
     });
 
@@ -90,11 +99,14 @@ $(document).ready(function() {
 		loading();
 		initRoskildeMap();
 		pushState(null, document.title, '/festival-map');
+
+		$sectionTitle.html('Festival<br/>Map').addClass('two_lines');
 	});
 
 
 	$(document).on("click", "#schedule", function(e){
 		e.preventDefault();
+
 		getSchedule();
 		pushState(null, document.title, '/festival-schedule');
 	});
@@ -109,6 +121,18 @@ $(document).ready(function() {
 		artist.start = artist.original_timestamp * 1000;
 		artist.end   = artist.start + 3600000;
 
+		var daysShort	= ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+		var monthNames 	= [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+		var nth 		= ['st', 'nd', 'rd', 'th'];
+
+		var d 			= new Date(artist.start);
+
+		var digit		= 	d.getDate().toString().slice(-1);
+		var day 		= 	(digit > 0 && digit <= 3) ? nth[digit - 1] : nth[3];
+
+		artist.formattedStartTime 	= d.getHours().pad() + ':' + d.getMinutes().pad();
+		artist.formattedStartDate 	= daysShort[d.getDay()] + ', ' + d.getDate() + day + ' ' + monthNames[d.getMonth()];
+
 		var data	= JSON.parse(localStorage.getItem('mySchedule'));
 		var artId	= parseInt(artist['@id'], 10);
 
@@ -121,6 +145,7 @@ $(document).ready(function() {
 			}
 		}
 
+		$(document.getElementById('hide-content')).hide();
 		$(document.getElementById('content')).append(mustache(templates.artist_page, artist));
 	});
 
@@ -132,9 +157,21 @@ $(document).ready(function() {
 
 		var id     = parseFloat($(this).data('artist'));
 		var artist = artists.artists[id];
-		console.log(artist);
+
 		artist.start = artist.original_timestamp * 1000;
 		artist.end   = artist.start + 3600000;
+
+		var daysShort	= ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+		var monthNames 	= [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+		var nth 		= ['st', 'nd', 'rd', 'th'];
+
+		var d 			= new Date(artist.start);
+
+		var digit		= 	d.getDate().toString().slice(-1);
+		var day 		= 	(digit > 0 && digit <= 3) ? nth[digit - 1] : nth[3];
+
+		artist.formattedStartTime 	= d.getHours().pad() + ':' + d.getMinutes().pad();
+		artist.formattedStartDate 	= daysShort[d.getDay()] + ', ' + d.getDate() + day + ' ' + monthNames[d.getMonth()];
 
 		var data	= JSON.parse(localStorage.getItem('mySchedule'));
 		var artId	= id;
@@ -148,14 +185,14 @@ $(document).ready(function() {
 			}
 		}
 
-		var $content = $(document.getElementById('content'));
-		$content.append(mustache(templates.artist_page, artist));
-		$content.find('.status').hide();
+		$(document.getElementById('hide-content')).hide();
+		$(document.getElementById('content')).append(mustache(templates.artist_page, artist));
 	});
 
 
 	$(document).on("click", "#artist-close", function(e){
 		e.preventDefault();
+		$(document.getElementById('hide-content')).show();
 		$(document.getElementById('artist-page')).remove();
 
 		if (!isNaN(contentScrollTop)) {
@@ -170,6 +207,9 @@ $(document).ready(function() {
 	$(document).on("click", "#createEvent", function(e){
 		e.preventDefault();
 		$(document.getElementById('content')).html(mustache(templates.create_event, {datetime: checkDateTime()}));
+		
+		$sectionTitle.html('Create<br/>Event').addClass('two_lines');
+		
 		pushState(null, document.title, '/create-event');
 	});
 
@@ -320,6 +360,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		loading();
 		getEvents();
+
 		pushState(null, document.title, '/events');
 	});
 
@@ -328,7 +369,9 @@ $(document).ready(function() {
 		e.preventDefault();
 		loading();
 		getMySchedule();
+
 		pushState(null, document.title, '/my-schedule');
+		$sectionTitle.html('My<br/>Schedule').addClass('two_lines');
 	});
 
 
@@ -350,6 +393,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		loading();
 		getArtists();
+
 		pushState(null, document.title, '/artists');
 	});
 

@@ -16,8 +16,8 @@ header("Pragma: no-cache");
 header('Access-Control-Allow-Origin: *');
 header('Content-type: application/json');
 
-//$db = mysqli_connect('roskilde.robert-daly.com', 'dalyr95', 'internet1', 'roskilde');
-$db = mysqli_connect($_SERVER['RDS_HOSTNAME'], $_SERVER['RDS_USERNAME'], $_SERVER['RDS_PASSWORD'], $_SERVER['RDS_DB_NAME'], $_SERVER['RDS_PORT']);
+$db = mysqli_connect('roskilde.robert-daly.com', 'dalyr95', 'internet1', 'roskilde');
+//$db = mysqli_connect($_SERVER['RDS_HOSTNAME'], $_SERVER['RDS_USERNAME'], $_SERVER['RDS_PASSWORD'], $_SERVER['RDS_DB_NAME'], $_SERVER['RDS_PORT']);
 
 if (mysqli_connect_errno()) {
 	header("HTTP/1.1 500 Internal Server Error");

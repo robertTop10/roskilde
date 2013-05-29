@@ -1,7 +1,7 @@
 function getSchedule() {
 	loading();
 
-	var d = ['Sat, 30 Jun 2012 12:00:00 +0200', 'Sun, 01 Jul 2012 12:00:00 +0200', 'Mon, 02 Jul 2012 12:00:00 +0200', 'Tue, 03 Jul 2012 12:00:00 +0200', 'Wed, 04 Jul 2012 12:00:00 +0200', 'Thu, 05 Jul 2012 12:00:00 +0200', 'Fri, 06 Jul 2012 12:00:00 +0200', 'Sat, 07 Jul 2012 12:00:00 +0200', 'Sun, 08 Jul 2012 12:00:00 +0200'];
+	var d = ['Sun, 01 Jul 2012 12:00:00 +0200', 'Mon, 02 Jul 2012 12:00:00 +0200', 'Tue, 03 Jul 2012 12:00:00 +0200', 'Wed, 04 Jul 2012 12:00:00 +0200', 'Thu, 05 Jul 2012 12:00:00 +0200', 'Fri, 06 Jul 2012 12:00:00 +0200', 'Sat, 07 Jul 2012 12:00:00 +0200', 'Sun, 08 Jul 2012 12:00:00 +0200'];
 	var dates = [];
 	var stages = [];
 
@@ -32,10 +32,18 @@ function processDates(data, dates, stages) {
 	var i = 0;
 
 	var date = new Date(dates[i] * 1000).getDate();
-	var html = '<div id="stages" class="stages"><div id="date" class="stage_name">' + days[new Date(dates[i] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + '</div>';
+	var html = 	'<div id="hide-content">' +
+				'<div id="stages" class="stages">' +
+				'<div class="stage_name stage_header">' +
+				'<div id="date">' +
+					date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + 
+					'<span class="block">' + daysShort[new Date(dates[i] * 1000).getDay()] + '</span>' + 
+				'</div></div>';
 
 	$.each(data.stages, function(i,v) {
-		html += '<div class="stage_name">' + v + '</div>';
+		html += '<div class="stage_name stage_' + v.toLowerCase() + '">' +
+					'<div class="show_name"><span>' + v + '</span></div>' +
+				'</div>';
 	});
 	html    += '</div>';
 
@@ -57,12 +65,19 @@ function processDates(data, dates, stages) {
 		var max     = min + 72000;
 		while (min < max) {
 			var time    = new Date(min * 1000);
-			html    += '<div class="time">' + time.getHours() + ':' + time.getMinutes().pad() + '</div>';
+			html    += '<div class="time"><div>'
+			if (time.getMinutes() === 0) {
+				var hours = (time.getHours() < 12) ? time.getHours() : time.getHours() - 12;
+				html += (hours === 0) ? 12 : hours;
+				html += (time.getHours() < 12) ? '<span class="block">AM</span>' : '<span class="block">PM</span>'; 
+			}
+			html 	+= '</div></div>';
 			min = min + 900;
 		}
 
 		var date = new Date(dates[i] * 1000).getDate();
-		html += '<div class="name_day">' + days[new Date(dates[i] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + '</div></div>';
+		//html += '<div class="name_day">' + days[new Date(dates[i] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + '</div></div>';
+		html += '</div>';
 
 		$.each(data.results[key], function(name, stage) {
 			html += populateStage(name, dates, stage, i);
@@ -73,8 +88,11 @@ function processDates(data, dates, stages) {
 
 	html += '</div>';
 	html += '</div>';
+	html += '</div>';
 
 	document.getElementById('content').innerHTML = html;
+
+	$(document.getElementById('section-title')).html('Schedule').removeClass('two_lines');
 
 	var width = 0;
 	$('.day').each(function(i,v) {
@@ -99,12 +117,12 @@ function processDates(data, dates, stages) {
 			min++;
 			max++;
 			var date = new Date(dates[max] * 1000).getDate();
-			el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]);
+			el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + '<span class="block">' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + '</span>';
 		} else if ($(e.currentTarget)[0].scrollLeft < widths[min] && min >= 0) {
 			min--;
 			max--;
 			var date = new Date(dates[max] * 1000).getDate();
-			el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + ' ' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]);
+			el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + '<span class="block">' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + '</span>';
 		}
 	});
 
@@ -121,7 +139,7 @@ function populateStage(name, dates, stage, i) {
 	while (min < max) {
 		if (stage[min]) {
 			var time = new Date(stage[min]['original_timestamp'] * 1000);
-			html += '<div class="band needsclick" style="margin-left: ' + margin + 'px;" data-artist="' + i + '-' + name + '-' + min + '" onclick=""><div>' + stage[min]['artistName'] + '</div><span>' + time.getHours() + ':' + time.getMinutes().pad() + '</span></div>';
+			html += '<div class="band needsclick" style="margin-left: ' + margin + 'px;" data-artist="' + schedule['keys'][i] + '-' + name + '-' + min + '" onclick=""><div>' + stage[min]['artistName'] + '</div><span>' + time.getHours() + ':' + time.getMinutes().pad() + '</span></div>';
 			margin = -90;
 		} else {
 			margin = margin + 30;
@@ -131,5 +149,4 @@ function populateStage(name, dates, stage, i) {
 	html += '</div>';
 
 	return html;
-	//console.log(new Date(max * 1000));
 }

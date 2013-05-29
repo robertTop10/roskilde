@@ -144,8 +144,10 @@ foreach ($days as $key=>$day) {
 }
 */
 
-foreach ($days as &$day) {
+foreach ($days as $key=>$day) {
+    $artists = 0;
 	foreach ($day as &$stage) {
+        $artists = $artists + count($stage);
 		/*
 		usort($stage, function($a, $b) {
 			return $a['timestamp'] - $b['timestamp'];
@@ -153,6 +155,10 @@ foreach ($days as &$day) {
 		*/
 		ksort($stage);		
 	}
+
+    if ($artists === 0) {
+        unset($days[$key]);
+    }
 }
 
 $result = (object) array("results"=>$days, "keys"=>array_keys($days), "stages"=>$stageNames);
