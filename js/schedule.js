@@ -101,12 +101,9 @@ function processDates(data, dates, stages) {
 	});
 
 	var $schedule	= $(document.getElementById('schedule-container'));
-	var $stages		= $(document.getElementById('stages'));
 	$schedule.css('width', width + 'px');
 
-	if ($schedule.outerHeight() !== $stages.outerHeight()) {
-		$stages.css('height', $schedule.outerHeight());
-	}
+	resizeStages();
 
 	var min = -1;
 	var max = 0;
@@ -149,4 +146,13 @@ function populateStage(name, dates, stage, i) {
 	html += '</div>';
 
 	return html;
+}
+
+function resizeStages() {
+	var $schedule	= $(document.getElementById('schedule-container'));
+	var $stages		= $(document.getElementById('stages'));
+
+	if ($schedule.outerHeight() !== $stages.outerHeight()) {
+		$stages.css('height', $schedule.outerHeight());
+	}
 }
