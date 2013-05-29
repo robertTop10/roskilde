@@ -314,7 +314,7 @@ button:active,
 }
 
 .compass {
-	background-image: url('../images/compass.png');
+	background-image: url('../new-images/compass.png');
 	background-repeat: no-repeat;
 	background-position: 50%;
 	background-size: 40px;
@@ -475,7 +475,7 @@ button:active,
 }
 
 #loading > div:first-child span {
-	background-image: url('../images/spinner-logo.png');
+	background-image: url('../new-images/spinner-logo.png');
 	background-repeat: no-repeat;
 	background-position: 50%;
 	background-size: 80px 49px;
@@ -1059,11 +1059,11 @@ button:active,
 }
 
 #user-avatar.en::after {
-	background-image: url('../images/en.png');
+	background-image: url('../new-images/en.png');
 }
 
 #user-avatar.dk::after {
-	background-image: url('../images/dk.gif');
+	background-image: url('../new-images/dk.gif');
 }
 
 .none {

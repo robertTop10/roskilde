@@ -13,15 +13,6 @@ http://yui.yahooapis.com/3.9.1/build/cssreset/cssreset-min.css
 
 # Images
 <?php
-	if ($handle = opendir('../images')) {
-	    while (false !== ($entry = readdir($handle))) {
-	    	if (substr($entry, -4) === '.gif' || substr($entry, -4) === '.png' || substr($entry, -4) === '.ico' || substr($entry, -4) === '.jpg') {
-	        	echo "/images/$entry\n";
-	    	}
-	    }
-
-	    closedir($handle);
-	}
 	if ($handle = opendir('../new-images')) {
 	    while (false !== ($entry = readdir($handle))) {
 	    	if (substr($entry, -4) === '.gif' || substr($entry, -4) === '.png' || substr($entry, -4) === '.ico' || substr($entry, -4) === '.jpg') {

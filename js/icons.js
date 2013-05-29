@@ -1,5 +1,5 @@
 function iconMe(lat, lon, map) {
-	var img = new google.maps.MarkerImage("/images/me.png", null, null, new google.maps.Point(5,5), new google.maps.Size(10,10));
+	var img = new google.maps.MarkerImage("/new-images/me.png", null, null, new google.maps.Point(5,5), new google.maps.Size(10,10));
 	var obj = {
 		position: 	new google.maps.LatLng(lat, lon),
 		map: 		map,

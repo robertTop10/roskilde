@@ -21,7 +21,7 @@ function setRoskildeMap(map) {
 	var se	=	new google.maps.LatLng(55.608, 12.0542);
 	var nw	=	new google.maps.LatLng(55.62535, 12.10675);
 	var imageBounds = new google.maps.LatLngBounds(se, nw);
-	var festival = new google.maps.GroundOverlay("http://r.oskil.de/images/map.gif", imageBounds, {clickable: false});
+	var festival = new google.maps.GroundOverlay("http://r.oskil.de/new-images/map.gif", imageBounds, {clickable: false});
 	festival.setMap(map);
 }
 
