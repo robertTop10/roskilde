@@ -61,7 +61,7 @@ iframe,
 #content {
     bottom: 0;
 	position: absolute;
-	top: 70px;
+	top: 62px;
 	width: 100%;
 }
 
@@ -81,29 +81,64 @@ iframe,
 #content .scroller::-webkit-scrollbar { display: none; }
 
 .status {
-	color: #c9c9bd;
+	color: #fff;
 	margin: 10px;	
 }
 
 button,
 .button {
 	-webkit-appearance: none;
-	background-color: #f2f2f2;
-	border: 1px solid #d9d9d9;
+	background: #d5774a; /* Old browsers */
+	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d5774a), color-stop(100%,#be4e27)); /* Chrome,Safari4+ */
+	background: url('../new-images/effect.png'), -webkit-linear-gradient(top,  #d5774a 0%,#be4e27 100%); /* Chrome10+,Safari5.1+ */
+	background: url('../new-images/effect.png'), linear-gradient(to bottom,  #d5774a 0%,#be4e27 100%); /* W3C */
+
+	border: 1px solid rgba(0,0,0,0.5);
+	border-radius: 2px;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	color: #000;
+	color: #fff;
 	cursor: pointer;
 	display: block;
+	font-family: 'Arial Black', Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
 	height: 60px;
 	text-align: center;
 	text-decoration: none;
+	text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
 	width: 100%;
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	-webkit-user-select: none;
 	user-select: none;
 }
+
+button:active,
+.button:active {
+	background: #ab6641; /* Old browsers */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ab6641), color-stop(100%,#9b4a29)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ab6641 0%,#9b4a29 100%); /* Chrome10+,Safari5.1+ */
+	background: linear-gradient(to bottom,  #ab6641 0%,#9b4a29 100%); /* W3C */
+	box-shadow: inset 0 2px 0 rgba(0,0,0,0.2);
+	color: #ccc;
+}
+
+.fb_button {
+	background: #486296; /* Old browsers */
+	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#486296), color-stop(100%,#244993)); /* Chrome,Safari4+ */
+	background: url('../new-images/effect.png'), -webkit-linear-gradient(top,  #486296 0%,#244993 100%); /* Chrome10+,Safari5.1+ */
+	background: url('../new-images/effect.png'), linear-gradient(to bottom,  #486296 0%,#244993 100%); /* W3C */
+}
+
+.fb_button:active {
+	background: #2a4d93; /* Old browsers */
+	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2a4d93), color-stop(100%,#003091)); /* Chrome,Safari4+ */
+	background: url('../new-images/effect.png'), -webkit-linear-gradient(top,  #2a4d93 0%,#003091 100%); /* Chrome10+,Safari5.1+ */
+	background: url('../new-images/effect.png'), linear-gradient(to bottom,  #2a4d93 0%,#003091 100%); /* W3C */
+}
+
 
 button:active,
 .button:active {
@@ -142,8 +177,9 @@ button:active,
 }
 
 .menu_button button {
-	background-color: transparent;
+	background: transparent;
 	border: 0;
+	box-shadow: none;
 	color: #fff;
 	height: auto;
 	font-family: 'Arial Black', Arial, Helvetica, sans-serif;
@@ -189,6 +225,8 @@ button:active,
 }
 
 .menu_button button:active {
+	background: none;
+	box-shadow: none;
 	padding-top: 62px;
 	text-shadow: 0 0 2px white;
 }
@@ -242,7 +280,7 @@ button:active,
 /* MENU */
 .menu {
 	color: transparent;
-	height: 70px;
+	height: 62px;
 	position: relative;
 	text-indent: -9999px;
 	z-index: 10000;
@@ -847,11 +885,11 @@ button:active,
 .event_page input,
 .event_page textarea {
 	min-height: 30px;
-	padding: 0 10px;
+	padding: 0 6px;
 }
 
 .event_page textarea {
-	padding: 10px;
+	padding: 6px;
 }
 
 .create_event_options {
@@ -941,6 +979,7 @@ button:active,
 	box-sizing: border-box;
 	color: #414340;
 	font-family: 'Arial Black', Arial, Helvetica, sans-serif;
+	font-size: 14px;
 	margin-top: 5px;
 	margin-left: 70px;
 	min-height: 65px;
@@ -948,8 +987,19 @@ button:active,
 	position: relative;
 }
 
+.my_event_cont .my_event_end {
+	font-size: 10px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: normal;
+}
+
 .my_event_cont .my_event_cal {
 	text-align: right;
+}
+
+.my_event_cont .my_event_cal a {
+	background: rgba(0,0,0,0.5);
+	padding: 2px 4px;
 }
 
 
@@ -1032,9 +1082,9 @@ button:active,
 	cursor: pointer;
 	height: 40px;
 	position: absolute;
-	right: 15px;
+	right: 12px;
 	overflow: hidden;
-	top: 15px;
+	top: 12px;
 	width: 40px;
 	z-index: 10000;
 }

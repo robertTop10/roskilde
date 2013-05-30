@@ -92,7 +92,7 @@ function processDates(data, dates, stages) {
 
 	document.getElementById('content').innerHTML = html;
 
-	$(document.getElementById('section-title')).html('Schedule').removeClass('two_lines');
+	changeTitle('schedule');
 
 	var width = 0;
 	$('.day').each(function(i,v) {

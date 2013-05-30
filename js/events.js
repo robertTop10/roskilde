@@ -12,7 +12,7 @@ $(document).ready(function() {
 		console.log('fastClick');
         e.preventDefault();
 
-        $sectionTitle.empty().removeClass('two_lines');
+        changeTitle();
 
 		removeCompass();
 		mainMenu();
@@ -36,6 +36,9 @@ $(document).ready(function() {
 
 			removeCompass();
 			mainMenu();
+
+			// Delete stored artists as they're not in the wrong language
+			artists = null;
 
 			pushState(null, document.title, '/', true);
 		}
@@ -61,7 +64,7 @@ $(document).ready(function() {
     $(document).on("click", "#remLocation", function(e){
         e.preventDefault();
 
-        $sectionTitle.html('Remember<br/>location').addClass('two_lines');
+        changeTitle('remLocation');
 
         $(document.getElementById('content')).html(mustache(templates.create_location));
         pushState(null, document.title, '/remember-location');
@@ -100,7 +103,7 @@ $(document).ready(function() {
 		initRoskildeMap();
 		pushState(null, document.title, '/festival-map');
 
-		$sectionTitle.html('Festival<br/>Map').addClass('two_lines');
+		changeTitle('map');
 	});
 
 
@@ -207,9 +210,9 @@ $(document).ready(function() {
 	$(document).on("click", "#createEvent", function(e){
 		e.preventDefault();
 		$(document.getElementById('content')).html(mustache(templates.create_event, {datetime: checkDateTime()}));
-		
-		$sectionTitle.html('Create<br/>Event').addClass('two_lines');
-		
+
+		changeTitle('createEvent');
+
 		pushState(null, document.title, '/create-event');
 	});
 
@@ -371,7 +374,7 @@ $(document).ready(function() {
 		getMySchedule();
 
 		pushState(null, document.title, '/my-schedule');
-		$sectionTitle.html('My<br/>Schedule').addClass('two_lines');
+		changeTitle('getMySchedule');
 	});
 
 

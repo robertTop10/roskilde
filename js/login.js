@@ -54,6 +54,8 @@ function loggedIn() {
 
             document.cookie = "roskildedanish=" + danish;
             document.cookie = "roskildeapp=" + response.id;
+        } else {
+            loggedOut();
         }
     });
 }

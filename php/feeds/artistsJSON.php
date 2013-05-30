@@ -81,8 +81,10 @@ function xmlToArray($xml, $options = array()) {
     );
 }
 
-$xmlNode = simplexml_load_file('lineup2012.xml');
-$arrayData = xmlToArray($xmlNode);
+$lang       = ($_COOKIE['roskildedanish'] === 'true') ? 'dn' : 'en';
+
+$xmlNode    = simplexml_load_file('lineup2012-'.$lang.'.xml');
+$arrayData  = xmlToArray($xmlNode);
 
 foreach ($arrayData['bandPreview']['item'] as &$value) {
     $value['description'] = nl2br(strip_tags($value['description']));

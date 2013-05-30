@@ -91,7 +91,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 	           	window.addEventListener("popstate", function(e) {
 	           		if (window.location.pathname === '/') {
 	           			removeCompass();
-	           			$(document.getElementById('section-title')).empty().removeClass('two_lines');
+	           			changeTitle();
 						mainMenu();
 	           		} else {
 	           			// Basically disables the forward button for now, till we can introduce routing
@@ -100,7 +100,17 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 				});
            	}
 
-            templates['statusLoggedOut'] = '<div class="status">Logged Out</div><div class="status"><a href="<?php echo $loginUrl; ?>" class="button">Log In</a></div>';
+            templates['statusLoggedOut'] 	= 	'<div class="status">';
+            templates['statusLoggedOut'] 	+= 	'<div class="main_menu_logo"></div>';
+            templates['statusLoggedOut'] 	+= 	'<ul>';
+            templates['statusLoggedOut'] 	+= 	'<li>Check in and find your friends</li>';
+            templates['statusLoggedOut'] 	+= 	'<li>Festival <a id="schedule" href="#">Schedule</a> and <a id="getArtists" href="#">Artists</a></li>';
+            templates['statusLoggedOut'] 	+= 	'<li>Create your own schedule</li>';
+            templates['statusLoggedOut'] 	+= 	'<li>Create events for the whole festival to see</li>';
+            templates['statusLoggedOut'] 	+= 	'<li>Available offline</li>';
+            templates['statusLoggedOut'] 	+= 	'</ul>';
+            templates['statusLoggedOut'] 	+= 	'</div>';
+            templates['statusLoggedOut'] 	+= 	'<div class="status"><a href="<?php echo $loginUrl; ?>" class="button fb_button">Facebook Login</a></div>';
             
             // User vars
 			var fbUser;
@@ -315,7 +325,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 						});
 						
 						setLocalStorage('friends', JSON.stringify({time: new Date().getTime(), friends: data}), true);
-						$(document.getElementById('section-title')).html('Find<br/>Friends').addClass('two_lines');
+						changeTitle('findFriends');
 
 					}).fail(function(error) { ajaxFail(error); });
 				} else {
@@ -337,7 +347,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 							});
 						});
 
-						$(document.getElementById('section-title')).html('Find<br/>Friends').addClass('two_lines');
+						changeTitle('findFriends');
 					} else {
 						alert('Sorry, your phone is offline and there is no cached data.');
 						mainMenu();
@@ -366,7 +376,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 						});
 
 						setLocalStorage('locations', JSON.stringify({time: new Date().getTime(), locations: data}), true);
-						$(document.getElementById('section-title')).html('My<br/>Locations').addClass('two_lines');
+						changeTitle('getLocation');
 
 					}).fail(function(error) { ajaxFail(error); });
 				} else {
@@ -389,7 +399,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 							});
 						});
 
-						$(document.getElementById('section-title')).html('My<br/>Locations').addClass('two_lines');
+						changeTitle('getLocation');
 					} else {
 						alert('Sorry, your phone is offline and there is no cached data.');
 						mainMenu();
@@ -432,7 +442,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 						});
 					});
 
-					$(document.getElementById('section-title')).html('Events').removeClass('two_lines');
+					changeTitle('getEvents');
 				}).fail(function(error) { ajaxFail(error); });		
 			}
 
@@ -581,7 +591,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 				});
 
 				$(document.getElementById('content')).html(mustache(templates.listArtists, {artists: a}));
-				$(document.getElementById('section-title')).html('Artists').removeClass('two_lines');
+				changeTitle('getArtists');
 
 				finishLoading();
 			}
@@ -597,7 +607,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 							$(this).attr('target', '_blank');
 						});
 
-						$(document.getElementById('section-title')).html('News').removeClass('two_lines');
+						changeTitle('getNews');
 						finishLoading();
 					});
 				} else {
@@ -613,7 +623,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 						console.log(data);
 						$(document.getElementById('content')).html(mustache(templates.tweets, {tweets: data}));
 
-						$(document.getElementById('section-title')).html('Festival<br/>Tweets').addClass('two_lines');
+						changeTitle('getTweets');
 						finishLoading();
 					});
 				} else {

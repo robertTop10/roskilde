@@ -278,3 +278,46 @@ function appCacheStatus() {
 
 	//setInterval(function(){cache.update()}, 10000);
 }
+
+function changeTitle(location) {
+	var $el = $(document.getElementById('section-title'));
+
+	if (!location) {
+		$el.empty().removeClass('two_lines');
+	} else {
+		var title ={
+			'en': {
+				'getMySchedule' : ['My<br/>Schedule', 1],
+				'schedule'		: ['Festival<br/>Schedule', 1],
+				'findFriends'	: ['Find<br/>Friends', 1],
+				'remLocation'	: ['Remember<br/>location', 1],
+				'getLocation'	: ['My<br/>Locations', 1],
+				'createEvent'	: ['Create<br/>Event', 1],
+				'getEvents'		: ['Events', 0],
+				'map'			: ['Festival<br/>Map', 1],
+				'getArtists'	: ['Artists', 0],
+				'getNews'		: ['News', 0],
+				'getTweets'		: ['Tweets', 0]
+			},
+			'dn': {
+				'getMySchedule' : ['Min<br/>Tidsplan', 1],
+				'schedule'		: ['Festival<br/>Tidsplan', 1],
+				'findFriends'	: ['Find Mine<br/>Venner', 1],
+				'remLocation'	: ['Husk<br/>Sted', 1],
+				'getLocation'	: ['Mine<br/>Steder', 1],
+				'createEvent'	: ['Skab<br/>Begivenhed', 1],
+				'getEvents'		: ['Arrangementer', 0],
+				'map'			: ['Festival<br/>Kort', 1],
+				'getArtists'	: ['Kunstnere', 0],
+				'getNews'		: ['Nyheder', 0],
+				'getTweets'		: ['Tweets', 0]
+			}
+		};
+
+		var lang = (danish) ? 'dn' : 'en';
+		var text = title[lang][location][0];
+		var two  = (title[lang][location][1] === 1) ? 'addClass' : 'removeClass';
+
+		$el.html(text)[two]('two_lines');
+	}
+}

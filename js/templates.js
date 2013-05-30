@@ -281,7 +281,10 @@ var templates = {
 														'{{^image}}<img src="/new-images/schedule-logo.png" height="56" width="56" />{{/image}}' +
 													'</div>' +
 													'<div class="artist_details_small">' +
-														'<h6>{{formattedStart}}{{#formattedEnd}} - {{formattedEnd}}{{/formattedEnd}}</h6>' +
+														'<h6>' +
+															'{{formattedStart}}' +
+															'{{#formattedEnd}}<span class="my_event_end"> / {{formattedEnd}}</span>{{/formattedEnd}}' +
+														'</h6>' +
 														'<h6>{{description}}</h6>' +
 													'</div>' +
 												'</div>' +
@@ -315,7 +318,7 @@ var templates = {
 										'<p>To save battery life, we store your schedule on your phone.</p>' +
 										'<p>You can backup your schedule online, so you can view it on multiple devices or if you need to clear your browser\'s data.</p>' +
 									'</div>' +
-									'{{#length}}<button id="backupSchedule">BACKUP MY SCHEDULE</button>{{/length}}' +
+									'{{#length}}<p><button id="backupSchedule">BACKUP MY SCHEDULE</button></p>{{/length}}' +
 									'{{#restore}}{{> restoreButton}}{{/restore}}' +
 								'</div>',
 

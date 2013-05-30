@@ -33,43 +33,45 @@ function gotLocation(data, fit, cb, coords, error) {
 	console.log('gotLocation', data, coords);
 
 	var iframe	= document.getElementById('map-iframe');
-	iframe		= iframe.contentDocument || iframe.contentWindow.document;
 
-	console.log(iframe);
-
-	var m			= iframe.getElementById("map-canvas");
-	var me			= new google.maps.LatLng(coords.coords.latitude, coords.coords.longitude);
-	var center      = (typeof fit === 'object') ? new google.maps.LatLng(fit.coords.latitude, fit.coords.longitude) : me;
-
-	var mapOptions	= {
-		center: center,
-		zoom: 15,
-		disableDefaultUI: true,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
-
-	map = new google.maps.Map(iframe.getElementById("map-canvas"), mapOptions);
-
-	google.maps.event.addListenerOnce(map, 'idle', function(){
-		finishLoading();
-	});
-
-	setRoskildeMap(map);
-
-	markers = [];
-
-    if (!error) {
-        // Update to new callback func
-        //markers.push(marker(coords.coords.latitude, coords.coords.longitude, map, 'Me', user.fb_id, false, 100));
-        markers.push(iconMe(coords.coords.latitude, coords.coords.longitude, map));
-    }
+	if (iframe) {
+		iframe		= iframe.contentDocument || iframe.contentWindow.document;
 
 
-    if (cb) { cb(data, coords, map, markers); }
+		var m			= iframe.getElementById("map-canvas");
+		var me			= new google.maps.LatLng(coords.coords.latitude, coords.coords.longitude);
+		var center      = (typeof fit === 'object') ? new google.maps.LatLng(fit.coords.latitude, fit.coords.longitude) : me;
 
-    if (fit === true) { fitToMarkers(markers, map); }
+		var mapOptions	= {
+			center: center,
+			zoom: 15,
+			disableDefaultUI: true,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
 
-	showCompass();
+		map = new google.maps.Map(iframe.getElementById("map-canvas"), mapOptions);
+
+		google.maps.event.addListenerOnce(map, 'idle', function(){
+			finishLoading();
+		});
+
+		setRoskildeMap(map);
+
+		markers = [];
+
+	    if (!error) {
+	        // Update to new callback func
+	        //markers.push(marker(coords.coords.latitude, coords.coords.longitude, map, 'Me', user.fb_id, false, 100));
+	        markers.push(iconMe(coords.coords.latitude, coords.coords.longitude, map));
+	    }
+
+
+	    if (cb) { cb(data, coords, map, markers); }
+
+	    if (fit === true) { fitToMarkers(markers, map); }
+
+		showCompass();
+	}
 }
 
 
