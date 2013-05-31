@@ -39,6 +39,7 @@ $(document).ready(function() {
 
 			// Delete stored artists as they're not in the wrong language
 			artists = null;
+			schedule = null;
 
 			pushState(null, document.title, '/', true);
 		}
