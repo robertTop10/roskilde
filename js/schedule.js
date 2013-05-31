@@ -10,15 +10,15 @@ function getSchedule() {
 	});
 
 
-	if (typeof schedule !== 'object') {
+	if (schedule && schedule.stages) {
+		processDates(schedule, dates, stages);
+	} else {
 		var lang = (danish === true) ? '?dn=true' : '';
 
 		$.getJSON('/php/feeds/scheduleJSON.php' + lang, function(data) {
 			schedule = data;
 			processDates(data, dates, stages);
 		});
-	} else {
-		processDates(schedule, dates, stages);
 	}
 }
 

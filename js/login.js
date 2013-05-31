@@ -70,6 +70,8 @@ function loggedOut() {
 
 
 function mainMenu() {
+    changeTitle();
+
     if (user && user.id) {
         $(document.getElementById('content')).html(mustache(templates.statusLoggedIn, user));
         finishLoading();
