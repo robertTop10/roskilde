@@ -599,7 +599,9 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
 			function getNews() {
 				if (navigator.onLine) {
-					xhr = $.getJSON('/php/feeds/newsJSON.php', function(data) {
+					var lang = (danish === true) ? '?dn=true' : '';
+
+					xhr = $.getJSON('/php/feeds/newsJSON.php' + lang, function(data) {
 						console.log(data);
 						$(document.getElementById('content')).html(mustache(templates.news, {news: data}));
 

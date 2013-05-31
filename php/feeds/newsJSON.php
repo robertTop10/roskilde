@@ -82,7 +82,7 @@ function xmlToArray($xml, $options = array()) {
 }
 
 
-$lang = (isset($_COOKIE["roskildedanish"]) && $_COOKIE["roskildedanish"] === 'true') ? 'dk' : 'uk';
+$lang = (isset($_GET["dn"]) && $_GET["dn"] === 'true') ? 'dk' : 'uk';
 
 $xmlNode = simplexml_load_file('http://roskilde-festival.dk/rss.xml?tx_tcnews_pi1[rss]='.$lang.'&tx_tcnews_pi1[rsspid]=318&no_cache=1');
 $arrayData = xmlToArray($xmlNode);

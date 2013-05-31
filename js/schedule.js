@@ -11,7 +11,9 @@ function getSchedule() {
 
 
 	if (typeof schedule !== 'object') {
-		$.getJSON('/php/feeds/scheduleJSON.php', function(data) {
+		var lang = (danish === true) ? '?dn=true' : '';
+
+		$.getJSON('/php/feeds/scheduleJSON.php' + lang, function(data) {
 			schedule = data;
 			processDates(data, dates, stages);
 		});

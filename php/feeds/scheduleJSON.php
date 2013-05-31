@@ -81,7 +81,9 @@ function xmlToArray($xml, $options = array()) {
     );
 }
 
-$xmlNode = simplexml_load_file('lineup2012.xml');
+$lang = (isset($_GET["dn"]) && $_GET["dn"] === 'true') ? 'dk' : 'uk';
+
+$xmlNode = simplexml_load_file('lineup2012-'.$lang.'.xml');
 $arrayData = xmlToArray($xmlNode);
 
 date_default_timezone_set('Europe/Copenhagen');
