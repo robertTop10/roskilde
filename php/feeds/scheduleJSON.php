@@ -81,7 +81,7 @@ function xmlToArray($xml, $options = array()) {
     );
 }
 
-$lang = (isset($_GET["dn"]) && $_GET["dn"] === 'true') ? 'dk' : 'uk';
+$lang = (isset($_GET["dn"]) && $_GET["dn"] === 'true') ? 'dk' : 'en';
 
 $xmlNode = simplexml_load_file('lineup2012-'.$lang.'.xml');
 $arrayData = xmlToArray($xmlNode);
