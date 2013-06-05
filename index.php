@@ -579,18 +579,19 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 			function getArtists() {
 				console.log('getArtists');
 
-				if (typeof artists !== 'object') {
-					xhr = $.getJSON('/php/feeds/artistsJSON.php', function(data) {
-						artists = data;
+				if (schedule && schedule.artists) {
+					processArtists(schedule);
+				} else {
+					xhr = $.getJSON('/php/feeds/allJSON.json', function(data) {
+						schedule = data;
 						processArtists(data);
 					});
-				} else {
-					processArtists(artists);
 				}
 			}
 
 
 			function processArtists(artists) {
+				/*
 				var a = [];
 				$.each(artists.artists, function(i,v) {
 					if (artists.indexes[i]) {
@@ -599,7 +600,18 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
 					a.push(v);
 				});
+				*/
 
+				var a = [];
+
+				$.each(schedule.artists, function(i,v) {
+					console.log(v);
+					var result = schedule.results[v[0]][v[1]][v[2]];
+					result.pageLink = v.join('-');
+
+					a.push(result);
+				});
+				console.log(a);
 				$(document.getElementById('content')).html(mustache(templates.listArtists, {artists: a}));
 				changeTitle('getArtists');
 

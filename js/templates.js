@@ -341,7 +341,7 @@ var templates = {
 														'<div id="artist-letter-{{header}}" class="artist_header">{{header}}</div>' +
 													'{{/header}}' +
 													'{{^header}}' +
-														'<div class="dark_box artist needsclick" data-artist="{{@id}}">' +
+														'<div class="js-artist dark_box needsclick" data-artist="{{pageLink}}">' +
 															'<img src="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" height="56" width="56" />' +
 															'<h4>{{{artistName}}} <small>/{{country}}</small></h4>' +
 															'<h6><small>{{text}}</small></h6>' +

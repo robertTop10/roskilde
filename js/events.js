@@ -116,7 +116,7 @@ $(document).ready(function() {
 	});
 
 
-	$(document).on("click", ".band", function(e){
+	$(document).on("click", ".js-artist", function(e){
 		e.preventDefault();
 
 		var id     = $(this).data('artist').split('-');

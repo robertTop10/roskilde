@@ -137,7 +137,7 @@ function populateStage(name, dates, stage, i) {
 	while (min < max) {
 		if (stage[min]) {
 			var time = new Date(stage[min]['original_timestamp'] * 1000);
-			html += '<div class="band needsclick" style="margin-left: ' + margin + 'px;" data-artist="' + schedule['keys'][i] + '-' + name + '-' + min + '" onclick=""><div>' + stage[min]['artistName'] + '</div><span>' + time.getHours() + ':' + time.getMinutes().pad() + '</span></div>';
+			html += '<div class="js-artist band needsclick" style="margin-left: ' + margin + 'px;" data-artist="' + schedule['keys'][i] + '-' + name + '-' + min + '" onclick=""><div>' + stage[min]['artistName'] + '</div><span>' + time.getHours() + ':' + time.getMinutes().pad() + '</span></div>';
 			margin = -90;
 		} else {
 			margin = margin + 30;

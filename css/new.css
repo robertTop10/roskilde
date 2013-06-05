@@ -578,8 +578,8 @@ button:active,
 	position: absolute;
 	top: 0;
 	-webkit-overflow-scrolling: touch;
-	width: -webkit-calc(100% - 72px);
-	width: calc(100% - 72px);
+	width: -webkit-calc(100% - 69px);
+	width: calc(100% - 69px);
 }
 
 .schedule_container {
