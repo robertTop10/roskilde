@@ -110,7 +110,14 @@ var templates = {
 										'</div>' +
 
 										'<div class="artist_description text_bg">' +
-											'{{{description}}}' +
+											'{{#description}}' +
+												'{{#danish}}{{{dk}}}{{/danish}}' +
+												'{{^danish}}{{{uk}}}{{/danish}}' +
+											'{{/description}}' +
+											'{{#related_count}}<h6>Related Artists</h6>{{/related_count}}' +
+											'{{#related}}' +
+												'{{name}}<br/>' +
+											'{{/related}}' +
 										'</div>' +
 								'</div>',
 

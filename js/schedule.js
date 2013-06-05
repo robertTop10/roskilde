@@ -1,7 +1,8 @@
 function getSchedule() {
 	loading();
 
-	var d = ['Sun, 01 Jul 2012 12:00:00 +0200', 'Mon, 02 Jul 2012 12:00:00 +0200', 'Tue, 03 Jul 2012 12:00:00 +0200', 'Wed, 04 Jul 2012 12:00:00 +0200', 'Thu, 05 Jul 2012 12:00:00 +0200', 'Fri, 06 Jul 2012 12:00:00 +0200', 'Sat, 07 Jul 2012 12:00:00 +0200', 'Sun, 08 Jul 2012 12:00:00 +0200'];
+	//var d = ['Sun, 01 Jul 2012 12:00:00 +0200', 'Mon, 02 Jul 2012 12:00:00 +0200', 'Tue, 03 Jul 2012 12:00:00 +0200', 'Wed, 04 Jul 2012 12:00:00 +0200', 'Thu, 05 Jul 2012 12:00:00 +0200', 'Fri, 06 Jul 2012 12:00:00 +0200', 'Sat, 07 Jul 2012 12:00:00 +0200', 'Sun, 08 Jul 2012 12:00:00 +0200'];
+	var d = ['Sun, 30 Jun 2013 12:00:00 +0200', 'Mon, 01 Jul 2013 12:00:00 +0200', 'Tue, 02 Jul 2013 12:00:00 +0200', 'Wed, 03 Jul 2013 12:00:00 +0200', 'Thu, 04 Jul 2013 12:00:00 +0200', 'Fri, 05 Jul 2013 12:00:00 +0200', 'Sat, 06 Jul 2013 12:00:00 +0200', 'Sun, 07 Jul 2013 12:00:00 +0200'];
 	var dates = [];
 	var stages = [];
 
@@ -13,9 +14,7 @@ function getSchedule() {
 	if (schedule && schedule.stages) {
 		processDates(schedule, dates, stages);
 	} else {
-		var lang = (danish === true) ? '?dn=true' : '';
-
-		$.getJSON('/php/feeds/scheduleJSON.php' + lang, function(data) {
+		$.getJSON('/php/feeds/allJSON.json', function(data) {
 			schedule = data;
 			processDates(data, dates, stages);
 		});
@@ -64,7 +63,7 @@ function processDates(data, dates, stages) {
 		html += '<div class="stage">';
 
 		var min     = dates[i];
-		var max     = min + 72000;
+		var max     = min + 61200;
 		while (min < max) {
 			var time    = new Date(min * 1000);
 			html    += '<div class="time"><div>'
@@ -132,7 +131,7 @@ function processDates(data, dates, stages) {
 function populateStage(name, dates, stage, i) {
 	var html = '<div class="stage">';
 	var min = dates[i];
-	var max = min + 72000;
+	var max = min + 61200;
 	var margin = 0;
 
 	while (min < max) {
