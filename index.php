@@ -44,8 +44,6 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 		<meta property="og:url" content="http://r.oskil.de" />
 		<meta property="og:image" content="http://r.oskil.de/new-images/og-image.png" />
 		<meta property="og:site_name" content="Roskilde 2013" />
-		<meta property="og:fb:admins" content="631521048" />
-		<meta property="og:fb:app_id" content="357860537664045" />
 		<meta property="og:description" content="The app for Roskilde Festival 2013. Find your friends, find the artists." />
 
         <link href="/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
