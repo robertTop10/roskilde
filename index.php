@@ -605,7 +605,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 				var a = [];
 
 				$.each(schedule.artists, function(i,v) {
-					console.log(v);
+					console.log(i, v);
 					var result = schedule.results[v[0]][v[1]][v[2]];
 					result.pageLink = v.join('-');
 

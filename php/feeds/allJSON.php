@@ -152,6 +152,7 @@ foreach ($arrayDataUK['bandPreview']['item'] as $key=>&$value) {
             $value['related'] = $result;
         }
 
+
         unset($value['tab']);
 
 		//echo date('H', $t).' --- '.$value['tidspunkt'].' --- '.(date('H', $t) < 8).' --- '.date('j', $t).' --- '.date('j', strtotime($value['tidspunkt'].' -1 day')).PHP_EOL;
@@ -165,7 +166,7 @@ foreach ($arrayDataUK['bandPreview']['item'] as $key=>&$value) {
 		if (is_string($stage)) {
 			//array_push($days[$key][$stage], $value);
 			$days[$key][$stage][$value['original_timestamp']] = $value;
-            array_push($artistsIDs, array($key, $stage, $value['original_timestamp']));
+            array_push($artistsIDs, array($key, $stage, $value['original_timestamp'], $value['artistName']));
             // schedule['keys'][i] + '-' + name + '-' + min
 		}
 	}
