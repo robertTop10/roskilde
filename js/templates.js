@@ -107,6 +107,14 @@ var templates = {
 													'data-id="{{@id}}" data-image="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
 												'>{{#danish}}Tilføj til mit skema{{/danish}}{{^danish}}Add to My Schedule{{/danish}}</button>' +
 											'{{/subscribed}}' +
+											'{{#external}}' +
+												'{{#spotify}}' +
+													'<a href="spotify:artist:{{spotify}}" class="button spotify_button">Listen in Spotify</a>' +
+												'{{/spotify}}' +
+												'{{#facebook}}' +
+													'<a href="http://facebook.com/{{facebook}}" class="button fb_button" target="_blank">View on Facebook</a>' +
+												'{{/facebook}}' +
+											'{{/external}}' + 
 										'</div>' +
 
 										'<div class="artist_description text_bg">' +
@@ -116,7 +124,7 @@ var templates = {
 											'{{/description}}' +
 											'{{#related_count}}<h6>Related Artists</h6>{{/related_count}}' +
 											'{{#related}}' +
-												'{{name}}<br/>' +
+												'<a href="#" class="js-artist" data-artist="{{rf_id}}"">{{name}}</a><br/>' +
 											'{{/related}}' +
 										'</div>' +
 								'</div>',
@@ -308,7 +316,7 @@ var templates = {
 												'<p>You haven\'t added any events to your schedule</p>' +
 												'<p><strong>Creating your own schedule</strong></p>' +
 												'<p>You can create your own personalised schedule by adding events and artists to it.</p>' +
-												'<p>On the "Events" or an "Artist" page ("Festival Schedule" or "Artists" > Click on a band you\'re interested in) and click "Add to My Schedule"</p>' +
+												'<p>On the "Events" or an "Artist" page ("<a id="schedule" href="#">Festival Schedule</a>" or "<a id="getArtists" href="#">Artists</a>" > Click on a band you\'re interested in) and click "Add to My Schedule"</p>' +
 												'<p>Viola, all the events and artists you\'ve added will appear here, making it easy to keep track of what you want to do at Roskilde.</p>' +
 											'</div>' +
 										'{{/results}}' +
@@ -341,7 +349,7 @@ var templates = {
 														'<div id="artist-letter-{{header}}" class="artist_header">{{header}}</div>' +
 													'{{/header}}' +
 													'{{^header}}' +
-														'<div class="js-artist dark_box needsclick" data-artist="{{pageLink}}">' +
+														'<div class="js-artist dark_box needsclick" data-artist="{{@id}}">' +
 															'<img src="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" height="56" width="56" />' +
 															'<h4>{{{artistName}}} <small>/{{country}}</small></h4>' +
 															'<h6><small>{{text}}</small></h6>' +
@@ -352,33 +360,32 @@ var templates = {
 										'</div>' +
 										'<div class="quickfind">' +
 											'<ol>' +
-												'<li id="link-#">#</li>' +
-												'<li id="link-a">A</li>' +
-												'<li id="link-b">B</li>' +
-												'<li id="link-c">C</li>' +
-												'<li id="link-d">D</li>' +
-												'<li id="link-e">E</li>' +
-												'<li id="link-f">F</li>' +
-												'<li id="link-g">G</li>' +
-												'<li id="link-h">H</li>' +
-												'<li id="link-i">I</li>' +
-												'<li id="link-j">J</li>' +
-												'<li id="link-k">K</li>' +
-												'<li id="link-l">L</li>' +
-												'<li id="link-m">M</li>' +
-												'<li id="link-n">N</li>' +
-												'<li id="link-o">O</li>' +
-												'<li id="link-p">P</li>' +
-												'<li id="link-q">Q</li>' +
-												'<li id="link-r">R</li>' +
-												'<li id="link-s">S</li>' +
-												'<li id="link-t">T</li>' +
-												'<li id="link-u">U</li>' +
-												'<li id="link-v">V</li>' +
-												'<li id="link-w">W</li>' +
-												'<li id="link-x">X</li>' +
-												'<li id="link-y">Y</li>' +
-												'<li id="link-z">Z</li>' +
+												'<li id="link-a" data-letter="a"></li>' +
+												'<li id="link-b" data-letter="b"></li>' +
+												'<li id="link-c" data-letter="c"></li>' +
+												'<li id="link-d" data-letter="d"></li>' +
+												'<li id="link-e" data-letter="e"></li>' +
+												'<li id="link-f" data-letter="f"></li>' +
+												'<li id="link-g" data-letter="g"></li>' +
+												'<li id="link-h" data-letter="h"></li>' +
+												'<li id="link-i" data-letter="i"></li>' +
+												'<li id="link-j" data-letter="j"></li>' +
+												'<li id="link-k" data-letter="k"></li>' +
+												'<li id="link-l" data-letter="l"></li>' +
+												'<li id="link-m" data-letter="m"></li>' +
+												'<li id="link-n" data-letter="n"></li>' +
+												'<li id="link-o" data-letter="o"></li>' +
+												'<li id="link-p" data-letter="p"></li>' +
+												'<li id="link-q" data-letter="q"></li>' +
+												'<li id="link-r" data-letter="r"></li>' +
+												'<li id="link-s" data-letter="s"></li>' +
+												'<li id="link-t" data-letter="t"></li>' +
+												'<li id="link-u" data-letter="u"></li>' +
+												'<li id="link-v" data-letter="v"></li>' +
+												'<li id="link-w" data-letter="w"></li>' +
+												'<li id="link-x" data-letter="x"></li>' +
+												'<li id="link-y" data-letter="y"></li>' +
+												'<li id="link-z" data-letter="z"></li>' +
 											'</ol>' +
 										'</div>' +
 									'</div>' +

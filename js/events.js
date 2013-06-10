@@ -119,8 +119,9 @@ $(document).ready(function() {
 	$(document).on("click", ".js-artist", function(e){
 		e.preventDefault();
 
-		var id     = $(this).data('artist').split('-');
-		var artist = schedule.results[id[0]][id[1]][id[2]];
+		var id     = $(this).data('artist');
+		console.log(id);
+		var artist = schedule.artists[id];
 		console.log(artist);
 		artist.start = artist.original_timestamp * 1000;
 		artist.end   = artist.start + 3600000;
@@ -148,12 +149,13 @@ $(document).ready(function() {
 				}
 			}
 		}
-
+		$(document.getElementById('artist-page')).remove();
 		$(document.getElementById('hide-content')).hide();
 		$(document.getElementById('content')).append(mustache(templates.artist_page, artist));
 	});
 
 
+	/*
 	$(document).on("click", ".artist", function(e){
 		e.preventDefault();
 
@@ -192,6 +194,7 @@ $(document).ready(function() {
 		$(document.getElementById('hide-content')).hide();
 		$(document.getElementById('content')).append(mustache(templates.artist_page, artist));
 	});
+	*/
 
 
 	$(document).on("click", "#artist-close", function(e){
@@ -412,7 +415,7 @@ $(document).ready(function() {
 					var letter	= el.id.substr(el.id.length - 1);
 					var top		= document.getElementById('artist-letter-' + letter);
 					if (top) {
-						$(document.getElementById('artists-scroller')).scrollTop(top.offsetTop);
+						$(document.getElementById('artists-scroller')).scrollTop(top.offsetTop - 10);
 					}
 				}
 			}
@@ -422,7 +425,7 @@ $(document).ready(function() {
 			var letter	= e.currentTarget.id.substr(e.currentTarget.id.length - 1);
 			var top		= document.getElementById('artist-letter-' + letter);
 			if (top) {
-				$(document.getElementById('artists-scroller')).scrollTop(top.offsetTop);
+				$(document.getElementById('artists-scroller')).scrollTop(top.offsetTop - 10);
 			}
 		});
 	}

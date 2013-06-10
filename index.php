@@ -603,13 +603,38 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 				*/
 
 				var a = [];
+				// Hate this, but what can I do?
+				var headers = {
+					0: 'a',
+					8: 'b',
+					26: 'c',
+					38: 'd',
+					52: 'e',
+					59: 'f',
+					64: 'g',
+					71: 'h',
+					77: 'i',
+					81: 'j',
+					83: 'k',
+					99: 'l',
+					105: 'm',
+					115: 'n',
+					121: 'o',
+					126: 'p',
+					131: 'q',
+					133: 'r',
+					138: 's',
+					156: 't',
+					168: 'u',
+					172: 'v',
+					178: 'w'
+				}
 
 				$.each(schedule.artists, function(i,v) {
-					console.log(i, v);
-					var result = schedule.results[v[0]][v[1]][v[2]];
-					result.pageLink = v.join('-');
-
-					a.push(result);
+					if (headers[i]) {
+						a.push({header: headers[i]});
+					}
+					a.push(v);
 				});
 				console.log(a);
 				$(document.getElementById('content')).html(mustache(templates.listArtists, {artists: a}));

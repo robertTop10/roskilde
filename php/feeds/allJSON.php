@@ -1,5 +1,7 @@
 <?php
 
+set_time_limit(180600);
+
 ob_start("ob_gzhandler");
 header('Access-Control-Allow-Origin: *');
 header('Content-type: application/json');
@@ -92,7 +94,8 @@ $arrayDataDK = xmlToArray($xmlNodeDK);
 date_default_timezone_set('Europe/Copenhagen');
 
 $stages = array();
-$artistsIDs = array();
+$artistsIDs = (object) array();
+//$musicbrainz = array();
 
 foreach ($arrayDataUK['bandPreview']['item'] as &$value) {
 	$stage = $value['scene'];
@@ -118,8 +121,8 @@ foreach ($arrayDataUK['bandPreview']['item'] as $key=>&$value) {
 		$t = $value['original_timestamp'];
 
         $value['description'] = (object) array("uk"=>$value['description'], "dk"=>$arrayDataDK['bandPreview']['item'][$key]['description']);
-
-        $url = "http://rf-recommendations.brnbw.com/artists/".$value['@id']."/similar.json";
+        
+        $url = "http://rf-recommendations.brnbw.com/artists/".($value['@id'] + 1)."/similar.json";
 
         $ch = curl_init($url);
 
@@ -141,16 +144,86 @@ foreach ($arrayDataUK['bandPreview']['item'] as $key=>&$value) {
             $result = $result->artists;
 
             foreach($result as &$v) {
+                //if (!in_array($v->musicbrainz_id, $musicbrainz)) {
+                    //$musicbrainz[$v->rf_id] = $v->musicbrainz_id;
+                //}
                 unset($v->description);
                 unset($v->last_fm_images);
                 unset($v->last_fm_name);
+                unset($v->last_fm_tags);
                 unset($v->musicbrainz_id);
                 unset($v->similar_artists_with_scores);
             };
 
-            $value['related_count'] = count($result);
-            $value['related'] = $result;
+            $value['related_artist']    = $value['@id'] + 1;
+            $value['related_count']     = count($result);
+            $value['related']           = $result;
         }
+        
+        
+        $url = "http://rf-recommendations.brnbw.com/artists/".($value['@id'] + 1).".json";
+        
+        $ch = curl_init($url);
+
+        $options = array(
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FORBID_REUSE => false,          // TRUE to force the connection to explicitly close when it has finished processing, and not be pooled for reuse.
+            CURLOPT_FRESH_CONNECT => false,          // TRUE to force the use of a new connection instead of a cached one.
+            CURLOPT_CONNECTTIMEOUT => 5,            // The number of seconds to wait while trying to connect. Use 0 to wait indefinitely.
+            CURLOPT_TIMEOUT => 10                   // The maximum number of seconds to allow cURL functions to execute.
+        );
+
+        curl_setopt_array( $ch, $options );
+
+        $result =  curl_exec($ch);                  // Getting jSON result string
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if ($http_status == 200) {
+            $result = json_decode($result);
+            if ($result->artist->musicbrainz_id) {
+                sleep(3);
+                //$musicbrainz[$result->artist->rf_id] = $result->artist->musicbrainz_id;
+                $musicbrainz = $result->artist->musicbrainz_id;
+
+                $url = "http://developer.echonest.com/api/v4/artist/profile?api_key=8OHO29LRKSEUMEI9X&id=musicbrainz:artist:".$musicbrainz."&bucket=id:spotify-WW&bucket=id:facebook&format=json";
+
+                $ch = curl_init($url);
+
+                $options = array(
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_FORBID_REUSE => false,          // TRUE to force the connection to explicitly close when it has finished processing, and not be pooled for reuse.
+                    CURLOPT_FRESH_CONNECT => false,          // TRUE to force the use of a new connection instead of a cached one.
+                    CURLOPT_CONNECTTIMEOUT => 5,            // The number of seconds to wait while trying to connect. Use 0 to wait indefinitely.
+                    CURLOPT_TIMEOUT => 10                   // The maximum number of seconds to allow cURL functions to execute.
+                );
+
+                curl_setopt_array( $ch, $options );
+
+                $result =  curl_exec($ch);                  // Getting jSON result string
+                $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+                if ($http_status == 200) {
+                    $result = json_decode($result);
+                    if ($result->response->status->code == 0) {
+                        if ($result->response && $result->response->artist && property_exists($result->response->artist, 'foreign_ids')) {
+                            $e = (object) array();
+                            foreach ($result->response->artist->foreign_ids as $m) {
+                                if ($m->catalog === 'spotify-WW') {
+                                    $e->spotify = str_replace('spotify-WW:artist:', '', $m->foreign_id);
+                                } else if ($m->catalog === 'facebook') {
+                                    $e->facebook = str_replace('facebook:artist:', '',$m->foreign_id);
+                                }
+                            }
+                            //$value['external'] = $result->response->artist->foreign_ids;
+
+                            $value['external'] = $e;
+                        }
+                    }
+                }
+                unset($musicbrainz);
+            }
+        }
+        
 
 
         unset($value['tab']);
@@ -163,10 +236,22 @@ foreach ($arrayDataUK['bandPreview']['item'] as $key=>&$value) {
 		$stage  = ($stage === 'Apollo Countdown') ? 'Apollo' : $stage;
 		$stage  = ($stage === 'Pavilion Junior')  ? 'Pavilion' : $stage;
 
+        $shortValue = $value;
+
+        unset($shortValue['text']);
+        unset($shortValue['description']);
+        unset($shortValue['prioritet']);
+        unset($shortValue['imageUrl']);
+        unset($shortValue['mediumimageUrl']);
+        unset($shortValue['link']);
+        unset($shortValue['related_count']);
+        unset($shortValue['related']);
+
+
 		if (is_string($stage)) {
 			//array_push($days[$key][$stage], $value);
-			$days[$key][$stage][$value['original_timestamp']] = $value;
-            array_push($artistsIDs, array($key, $stage, $value['original_timestamp'], $value['artistName']));
+			$days[$key][$stage][$value['original_timestamp']] = $shortValue;
+            $artistsIDs -> $value['@id'] = $value;
             // schedule['keys'][i] + '-' + name + '-' + min
 		}
 	}

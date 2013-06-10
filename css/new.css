@@ -102,7 +102,7 @@ button,
 	color: #fff;
 	cursor: pointer;
 	display: block;
-	font-family: 'Arial Black', Arial, Helvetica, sans-serif;
+	font-weight: bold;
 	font-size: 12px;
 	font-weight: bold;
 	height: 60px;
@@ -137,6 +137,20 @@ button:active,
 	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2a4d93), color-stop(100%,#003091)); /* Chrome,Safari4+ */
 	background: url('../new-images/effect.png'), -webkit-linear-gradient(top,  #2a4d93 0%,#003091 100%); /* Chrome10+,Safari5.1+ */
 	background: url('../new-images/effect.png'), linear-gradient(to bottom,  #2a4d93 0%,#003091 100%); /* W3C */
+}
+
+.spotify_button {
+	background: #7AB800; /* Old browsers */
+	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#78b700), color-stop(100%,#569b00)); /* Chrome,Safari4+ */
+	background: url('../new-images/effect.png'), -webkit-linear-gradient(top,  #78b700 0%,#569b00 100%); /* Chrome10+,Safari5.1+ */
+	background: url('../new-images/effect.png'), linear-gradient(to bottom,  #78b700 0%,#569b00 100%); /* W3C */
+}
+
+.spotify_button:active {
+	background: #457c00; /* Old browsers */
+	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#609200), color-stop(100%,#457c00)); /* Chrome,Safari4+ */
+	background: url('../new-images/effect.png'), -webkit-linear-gradient(top,  #609200 0%,#457c00 100%); /* Chrome10+,Safari5.1+ */
+	background: url('../new-images/effect.png'), linear-gradient(to bottom,  #609200 0%,#457c00 100%); /* W3C */
 }
 
 
@@ -182,7 +196,7 @@ button:active,
 	box-shadow: none;
 	color: #fff;
 	height: auto;
-	font-family: 'Arial Black', Arial, Helvetica, sans-serif;
+	font-weight: bold;
 	font-size: 10px;
 	font-weight: bold;
 	padding: 60px 0 0;
@@ -334,7 +348,7 @@ button:active,
 
 .section_header {
 	color: #fff;
-	font-family: 'Arial Black', Arial, Helvetica, sans-serif;
+	font-weight: bold;
 	font-size: 24px;
 	left: 100px;
 	position: absolute;
@@ -589,13 +603,28 @@ button:active,
 }
 	
 .day {
-	border-right: 40px solid #000;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float: left;
 	height: 100%;
 	overflow: hidden;
+	padding-right: 40px;
+	position: relative;
+}
+
+.day::after {
+	background-image: url('../new-images/night.jpg');
+	background-size: cover;
+	background-position: 0 15px;
+	background-repeat: no-repeat;
+	background-color: #000;
+	content: '';
+	height: 100%;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 40px;
 }
 
 .stage {
@@ -680,7 +709,7 @@ button:active,
 .time,
 .stage_name.stage_header {
 	color: #c9c9bd;
-	font-family: 'Arial Black', Arial, Helvetica, sans-serif;
+	font-weight: bold;
 	font-size: 14px;
 	line-height: 12px;
 }
@@ -849,7 +878,7 @@ button:active,
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	color: #414340;
-	font-family: 'Arial Black', Arial, Helvetica, sans-serif;
+	font-weight: bold;
 	margin-top: 20px;
 	margin-left: 130px;
 	min-height: 110px;
@@ -978,7 +1007,7 @@ button:active,
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	color: #414340;
-	font-family: 'Arial Black', Arial, Helvetica, sans-serif;
+	font-weight: bold;
 	font-size: 14px;
 	margin-top: 5px;
 	margin-left: 70px;
@@ -989,7 +1018,6 @@ button:active,
 
 .my_event_cont .my_event_end {
 	font-size: 10px;
-	font-family: Arial, Helvetica, sans-serif;
 	font-weight: normal;
 }
 
@@ -1053,7 +1081,6 @@ button:active,
 	padding: 20px 0;
 	position: absolute;
 	right: 10px;
-	text-align: center;
 	top: 10px;
 	width: 40px;
 	-moz-user-select: none;
@@ -1073,7 +1100,20 @@ button:active,
 
 .quickfind li {
 	cursor: pointer;
-	height: 3.7%;
+	height: 3.84%;
+	position: relative;
+}
+
+.quickfind li::after {
+	content: attr(data-letter);
+	height: 12px;
+	line-height: 12px;
+	margin-top: -6px;
+	position: absolute;
+	top: 50%;
+	text-align: center;
+	text-transform: uppercase;
+	width: 100%;
 }
 
 #user-avatar {
