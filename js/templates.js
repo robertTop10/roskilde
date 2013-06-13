@@ -416,9 +416,9 @@ var templates = {
 									'<div class="status">' +
 										'{{#tweets}}' +
 											'<div class="dark_box tweet">' +
-												'<a href="http://twitter.com/{{from_user}}/status/{{id_str}}" target="_blank">' +
+												'<a href="http://twitter.com/{{#user}}{{screen_name}}{{/user}}/status/{{id_str}}" target="_blank">' +
 													'{{#img}}<img src="{{img}}" height="36" width="36"/>{{/img}}' +
-													'<h3>{{from_user_name}}</h3>' +
+													'<h3>{{#user}}{{name}} <small>@{{screen_name}}</small>{{/user}}</h3>' +
 													'{{{html}}}' +
 												'</a>' +
 											'</div>' +
