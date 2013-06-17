@@ -50,7 +50,7 @@ function iconPin(lat, lon, map, params) {
 	};
 
 	var marker = new RichMarker(obj);
-	console.log(params);
+
 	// TODO - Do tooltip stuff
 	if (params.tooltip === true) {
 

@@ -477,6 +477,7 @@ $(document).ready(function() {
 
 		clearOverlays();
 		if (openInfoWindow) { openInfoWindow.close(); }
+		if (markerCluster)	{ markerCluster.clearMarkers(); }
 
 		if (active) { return; }
 
@@ -496,6 +497,18 @@ $(document).ready(function() {
 			});
 		});
 
+		if (facilties[id].length > 20) {
+			markerCluster = new MarkerClusterer(map, markers, {
+				maxZoom: 16,
+				styles: [{
+					backgroundSize: '100%',
+					height: 45,
+					textColor: 'white',
+					width: 45,
+					url: '/new-images/cluster.png'
+				}]
+			});
+		}
 
     });
 

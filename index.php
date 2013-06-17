@@ -140,6 +140,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 			// map.js - Keep these global and delete them when on menu to keep memory down
 			var map;
 			var markers;
+			var markerCluster;
 
 			// Keep track of AJAX request and abort them if need be.
 			var xhr;
@@ -733,8 +734,9 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
         </script>
 
         <script type="text/javascript" src="//connect.facebook.net/en_US/all.js"></script>
-        <script type="text/javascript" src="/js/infobox_packed.js"></script>
+        <script type="text/javascript" src="/js/infobox-compiled.js"></script>
         <script type="text/javascript" src="/js/richmarker-compiled.js"></script>
+        <script type="text/javascript" src="/js/markerclusterer-compiled.js"></script>
         
         <div id="loading">
         	<div><span></span></div>
