@@ -469,17 +469,21 @@ $(document).ready(function() {
     });
 
     $(document).on("click", '#facilties > div', function(e) {
-    	e.preventDefault();
+		e.preventDefault();
 
-    	$(document.getElementById('facilties')).find('.active').removeClass('active');
-    	$(e.currentTarget).addClass('active');
+		var active = $(e.currentTarget).hasClass('active');
 
-    	var id = $(e.currentTarget).data('id');
+		$(document.getElementById('facilties')).find('.active').removeClass('active');
 
-    	var data = {result: facilties[id]};
+		clearOverlays();
+		if (openInfoWindow) { openInfoWindow.close(); }
 
-    	clearOverlays();
-    	if (openInfoWindow) { openInfoWindow.close(); }
+		if (active) { return; }
+
+		$(e.currentTarget).addClass('active');
+
+		var id = $(e.currentTarget).data('id');
+		var data = {result: facilties[id]};
 
 		populateMarker(data, festivalCoords, map, markers, function(d, markers, z) {
 			return iconPin(d.latitude, d.longitude, map, {

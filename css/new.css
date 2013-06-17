@@ -422,7 +422,7 @@ button:active,
 	top: 70px;
 }
 
-.festival_map span {
+.festival_map.image {
 	background-image: url('../new-images/map.gif');
 	background-repeat: no-repeat;
 	background-position: 50%;

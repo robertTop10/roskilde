@@ -148,34 +148,37 @@ USGSOverlay.prototype = new google.maps.OverlayView();
 
 USGSOverlay.prototype.onAdd = function() {
 
-  // Note: an overlay's receipt of onAdd() indicates that
-  // the map's panes are now available for attaching
-  // the overlay to the map via the DOM.
+	// Note: an overlay's receipt of onAdd() indicates that
+	// the map's panes are now available for attaching
+	// the overlay to the map via the DOM.
 
-  // Create the DIV and set some basic attributes.
-  var div = document.createElement('div');
-  div.style.border = "none";
-  div.style.borderWidth = "0px";
-  div.style.position = "absolute";
-  div.className = 'festival_map'
+	var addImage = (svg) ? '' : ' image';
 
-  // Create an IMG element and attach it to the DIV. <object type="image/svg+xml"  width="100%" height="100%" data="test.svg"></object>
-  var obj = document.createElement("object");
-  obj.type ="image/svg+xml"
-  obj.data = this.image_;
-  obj.style.width = "100%";
-  obj.style.height = "100%";
-  obj.innerHTML = '<span />';
-  div.appendChild(obj);
+	// Create the DIV and set some basic attributes.
+	var div = document.createElement('div');
+	div.style.border = "none";
+	div.style.borderWidth = "0px";
+	div.style.position = "absolute";
+	div.className = 'festival_map' + addImage;
 
-  // Set the overlay's div_ property to this DIV
-  this.div_ = div;
+	// Create an IMG element and attach it to the DIV. <object type="image/svg+xml"  width="100%" height="100%" data="test.svg"></object>
+	if (svg === true) {
+		var obj = document.createElement("object");
+		obj.type ="image/svg+xml";
+		obj.data = this.image_;
+		obj.style.width = "100%";
+		obj.style.height = "100%";
+		div.appendChild(obj);
+	}
 
-  // We add an overlay to a map via one of the map's panes.
-  // We'll add this overlay to the overlayImage pane.
-  var panes = this.getPanes();
-  panes.overlayLayer.appendChild(div);
-}
+	// Set the overlay's div_ property to this DIV
+	this.div_ = div;
+
+	// We add an overlay to a map via one of the map's panes.
+	// We'll add this overlay to the overlayImage pane.
+	var panes = this.getPanes();
+	panes.overlayLayer.appendChild(div);
+};
 
 USGSOverlay.prototype.draw = function() {
 
