@@ -205,12 +205,12 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 			
 			function initCreateEventsMap(data) {
     			initMap(data, false, function(data, coords, map, markers) {
-					var iframe	= document.getElementById('map-iframe');
+					//var iframe	= document.getElementById('map-iframe');
 					$(iframe).after(templates.createEventOptions);
 
-					iframe		= iframe.contentDocument || iframe.contentWindow.document;
+					//iframe		= iframe.contentDocument || iframe.contentWindow.document;
 
-					var m		= iframe.getElementById("map-canvas");
+					//var m		= iframeDoc.getElementById("map-canvas");
         			var $m   	= $(m);
         			
         			$m.data({
@@ -575,7 +575,8 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
                     pixelOffset: new google.maps.Size(-80, (boxText.offsetHeight + 40) * -1),
                     closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
                     infoBoxClearance: new google.maps.Size(20, 40),
-                    pane: "floatPane"
+                    pane: "floatPane",
+                    enableEventPropagation: false
 				};
 				
 				return new InfoBox(myOptions);	
@@ -600,7 +601,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 					exists = data.length;
 				}
 
-				$(document.getElementById('content')).html(mustache(templates.mySchedule, {results: data, length: exists, restore: (user.backup === '1') }));
+				$content.html(mustache(templates.mySchedule, {results: data, length: exists, restore: (user.backup === '1') }));
 				finishLoading();
 			}
 
@@ -665,8 +666,8 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 					}
 					a.push(v);
 				});
-				console.log(a);
-				$(document.getElementById('content')).html(mustache(templates.listArtists, {artists: a}));
+
+				$content.html(mustache(templates.listArtists, {artists: a}));
 				changeTitle('getArtists');
 
 				finishLoading();
@@ -679,9 +680,9 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
 					xhr = $.getJSON('/php/feeds/newsJSON.php' + lang, function(data) {
 						console.log(data);
-						$(document.getElementById('content')).html(mustache(templates.news, {news: data}));
+						$content.html(mustache(templates.news, {news: data}));
 
-						$(document.getElementById('content')).find('a').each(function(i, v) {
+						$content.find('a').each(function(i, v) {
 							$(this).attr('target', '_blank');
 						});
 
@@ -699,7 +700,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 				if (navigator.onLine) {
 					xhr = $.getJSON('/php/feeds/twitterJSON.php', function(data) {
 						console.log(data);
-						$(document.getElementById('content')).html(mustache(templates.tweets, {tweets: data}));
+						$content.html(mustache(templates.tweets, {tweets: data}));
 
 						changeTitle('getTweets');
 						finishLoading();

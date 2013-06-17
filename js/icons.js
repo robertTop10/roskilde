@@ -94,6 +94,7 @@ function iconPin(lat, lon, map, params) {
 					else if ($(e.target).hasClass('remove-from-schedule')) { loading(); removeFromMySchedule(e); }
 				});
 			}, 50);
+
 		});
 	}
 
