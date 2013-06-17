@@ -17,6 +17,6 @@ Redirect /tweets /
 
 #Gzip
 <ifmodule mod_deflate.c>
-AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/json application/javascript text/javascript
+AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/json application/javascript text/javascript image/svg+xml
 </ifmodule>
 #End Gzip
