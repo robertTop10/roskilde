@@ -82,6 +82,8 @@ function mainMenu() {
         console.log(xhr);
         xhr.abort();
     }
+
+    map = null;
 }
 
 
