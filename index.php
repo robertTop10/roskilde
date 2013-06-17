@@ -441,6 +441,8 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
                     data: {action: 'getEvents'}
 				}).done(function(data) {
 					initMap(data, true, function(data, coords, map, markers) {
+						schedule = JSON.parse(localStorage.getItem('mySchedule'));
+
 						populateMarker(data, coords, map, markers, function(d, markers, z) {
 							return iconPin(d.latitude, d.longitude, map, {
 								icon: 		'/images/logo.png',
