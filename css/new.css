@@ -422,6 +422,10 @@ button:active,
 	top: 70px;
 }
 
+.festival_map {
+	pointer-events: none;
+}
+
 .festival_map.image {
 	background-image: url('../new-images/map.gif');
 	background-repeat: no-repeat;

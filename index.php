@@ -391,6 +391,10 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 									tooltip: 	true						
 								});
 							});
+
+							if (data.result.length > 10) {
+								initCluster();
+							}
 						});
 
 						setLocalStorage('locations', JSON.stringify({time: new Date().getTime(), locations: data}), true);
@@ -415,6 +419,10 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 									tooltip: 	true						
 								});
 							});
+
+							if (data.result.length > 10) {
+								initCluster();
+							}
 						});
 
 						changeTitle('getLocation');
@@ -434,7 +442,6 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 				}).done(function(data) {
 					initMap(data, true, function(data, coords, map, markers) {
 						populateMarker(data, coords, map, markers, function(d, markers, z) {
-							console.log(d.start, d.end, new Date(parseInt(d.start)) + ' - ' + new Date(parseInt(d.end)));
 							return iconPin(d.latitude, d.longitude, map, {
 								icon: 		'/images/logo.png',
 								img: 		'/images/logo.png',
@@ -458,9 +465,13 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 								zIndex: 	z
 							});
 						});
+						if (data.result.length > 20) {
+							initCluster();
+						}
 					});
 
 					changeTitle('getEvents');
+
 				}).fail(function(error) { ajaxFail(error); });		
 			}
 
@@ -720,7 +731,6 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
                     url: "/php/api.php",
                     data: {action: 'restoreSchedule' }
 				}).done(function(data) {
-					console.log('done', data);
 					if (data.result && data.result[0]) {
 						setLocalStorage('mySchedule', data.result[0]);
 						getMySchedule();

@@ -57,6 +57,11 @@ function checkSVG() {
 	return a;
 }
 
+function checkWinMob() {
+	var ua	= navigator.userAgent;
+	return (ua.toLowerCase().indexOf("windows phone") >= 0);
+}
+
 function mustache(template, json) {
     json			= (json) ? json : {};
     json.danish		= danish;

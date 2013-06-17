@@ -144,15 +144,17 @@ function USGSOverlay(bounds, image, map) {
   this.setMap(map);
 }
 
-USGSOverlay.prototype = new google.maps.OverlayView();
+USGSOverlay.prototype = new google.maps.OverlayView({
+	clickable: false
+});
 
 USGSOverlay.prototype.onAdd = function() {
 
 	// Note: an overlay's receipt of onAdd() indicates that
 	// the map's panes are now available for attaching
 	// the overlay to the map via the DOM.
-
-	var addImage = (svg) ? '' : ' image';
+	var iOS			= iOSversion();
+	var addImage	= (svg && iOS) ? '' : ' image';
 
 	// Create the DIV and set some basic attributes.
 	var div = document.createElement('div');
@@ -162,7 +164,7 @@ USGSOverlay.prototype.onAdd = function() {
 	div.className = 'festival_map' + addImage;
 
 	// Create an IMG element and attach it to the DIV. <object type="image/svg+xml"  width="100%" height="100%" data="test.svg"></object>
-	if (svg === true) {
+	if (svg && iOS) {
 		var obj = document.createElement("object");
 		obj.type ="image/svg+xml";
 		obj.data = this.image_;
@@ -210,4 +212,17 @@ function clearOverlays() {
     markers[i].setMap(null);
   }
   markers = [];
+}
+
+function initCluster() {
+	markerCluster = new MarkerClusterer(map, markers, {
+		maxZoom: 16,
+		styles: [{
+			backgroundSize: '100%',
+			height: 45,
+			textColor: 'white',
+			width: 45,
+			url: '/new-images/cluster.png'
+		}]
+	});
 }
