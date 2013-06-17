@@ -150,6 +150,9 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 			// For resetting scroll position
 			var contentScrollTop;
 
+			// SVG support
+			var svg = checkSVG();
+
 
 			var festivalCoords   = {
     			coords: {

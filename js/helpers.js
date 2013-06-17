@@ -43,6 +43,19 @@ function checkDateTime() {
 	return result;
 }
 
+function checkSVG() {
+	var a	= false;
+	var ua	= navigator.userAgent;
+	if( ua.indexOf("Android") >= 0 ) {
+		a = parseInt(ua.slice(ua.indexOf("Android")+8), 10);
+		a = (a >= 4);
+	}
+
+	a = (document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1")) ? a : false;
+
+	return a;
+}
+
 function mustache(template, json) {
     json			= (json) ? json : {};
     json.danish		= danish;
