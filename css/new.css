@@ -45,7 +45,9 @@ p {
 
 .text_bg {
 	background-color: rgba(0,0,0,0.8);
+	clear: both;
 	margin: 10px 0;
+	overflow: hidden;
 	padding: 10px;
 }
 
@@ -125,7 +127,8 @@ button:active,
 	color: #ccc;
 }
 
-.fb_button {
+.fb_button,
+.icon_button.fb_button::before {
 	background: #486296; /* Old browsers */
 	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#486296), color-stop(100%,#244993)); /* Chrome,Safari4+ */
 	background: url('../new-images/effect.png'), -webkit-linear-gradient(top,  #486296 0%,#244993 100%); /* Chrome10+,Safari5.1+ */
@@ -139,19 +142,21 @@ button:active,
 	background: url('../new-images/effect.png'), linear-gradient(to bottom,  #2a4d93 0%,#003091 100%); /* W3C */
 }
 
-.spotify_button {
+.icon_button.spotify_button::before {
 	background: #7AB800; /* Old browsers */
 	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#78b700), color-stop(100%,#569b00)); /* Chrome,Safari4+ */
 	background: url('../new-images/effect.png'), -webkit-linear-gradient(top,  #78b700 0%,#569b00 100%); /* Chrome10+,Safari5.1+ */
 	background: url('../new-images/effect.png'), linear-gradient(to bottom,  #78b700 0%,#569b00 100%); /* W3C */
 }
 
-.spotify_button:active {
-	background: #457c00; /* Old browsers */
-	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#609200), color-stop(100%,#457c00)); /* Chrome,Safari4+ */
-	background: url('../new-images/effect.png'), -webkit-linear-gradient(top,  #609200 0%,#457c00 100%); /* Chrome10+,Safari5.1+ */
-	background: url('../new-images/effect.png'), linear-gradient(to bottom,  #609200 0%,#457c00 100%); /* W3C */
+/*
+.icon_button.spotify_button:active {
+	background: #457c00;
+	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#609200), color-stop(100%,#457c00));
+	background: url('../new-images/effect.png'), -webkit-linear-gradient(top,  #609200 0%,#457c00 100%);
+	background: url('../new-images/effect.png'), linear-gradient(to bottom,  #609200 0%,#457c00 100%);
 }
+*/
 
 
 button:active,
@@ -190,6 +195,7 @@ button:active,
 	width: 25%;
 }
 
+.icon_button,
 .menu_button button {
 	background: transparent;
 	border: 0;
@@ -200,9 +206,19 @@ button:active,
 	font-size: 10px;
 	font-weight: bold;
 	padding: 60px 0 0;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
 	text-shadow: 1px 1px 0 rgba(0,0,0,0.8);
+	text-transform: uppercase;
 }
 
+.icon_button.disabled {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+.icon_button::before,
 .menu_button button::before {
 	background-color: #d2d2c8;
 	background: url('../new-images/effect-dark.png'), -webkit-gradient(linear, left top, left bottom, color-stop(1%,#d2d2c8), color-stop(100%,#bfbfb2)); /* Chrome,Safari4+ */
@@ -223,6 +239,7 @@ button:active,
 	width: 50px;
 }
 
+.icon_button::after,
 .menu_button button::after {
 	background-image: url('../new-images/sprite.png');
 	background-repeat: no-repeat;
@@ -238,6 +255,7 @@ button:active,
 	width: 50px;
 }
 
+.icon_button:active,
 .menu_button button:active {
 	background: none;
 	box-shadow: none;
@@ -245,10 +263,12 @@ button:active,
 	text-shadow: 0 0 2px white;
 }
 
+.icon_button:active::before,
 .menu_button button:active::before {
 	box-shadow: inset 1px 0 0 rgba(255,255,255,0.1), 0 0 6px 2px rgba(255,255,255,0.8);
 }
 
+.icon_button:active::after,
 .menu_button button:active::after {
 	top: 2px;
 }
@@ -263,12 +283,17 @@ button:active,
 #createEvent::after { background-position: -100px -50px; }
 #getEvents::after { background-position: -150px -50px; }
 
-#map::after { background-position: 0 -100px; }
+#map::after { background-position: 0 -98px; }
 #getArtists::after { background-position: -50px -100px; }
 #getNews::after { background-position: -100px -100px; }
-#getTweets::after { background-position: -150px -100px; }
+#getTweets::after { background-position: -150px -98px; }
+
+.icon_button.add_to::after { background-position: -150px -200px; }
+.icon_button.spotify_button::after { background-position: -150px -250px; }
+.icon_button.fb_button::after { background-position: -150px -298px; }
 
 
+.red.icon_button::before,
 .red .menu_button button::before {
 	background-color: #d5774a; /* Old browsers */
 	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d5774a), color-stop(100%,#bf5028)); /* Chrome,Safari4+ */
@@ -312,7 +337,7 @@ button:active,
 
 #section-title.two_lines {
 	line-height: 24px;
-	top: 12px;
+	top: 8px;
 }
 
 .home_button {
@@ -365,6 +390,15 @@ button:active,
 	width: 100%;
 }
 
+/*
+.map_canvas.shift {
+	height: -webkit-calc(100% - 60px);
+	height: calc(100% - 60px);
+	position: relative;
+	top: 60px;
+}
+*/
+
 .compass {
 	background-image: url('../new-images/compass.png');
 	background-repeat: no-repeat;
@@ -382,6 +416,17 @@ button:active,
 
 .ios .compass {
 	display: block;
+}
+
+.compass.shift {
+	top: 70px;
+}
+
+.festival_map span {
+	background-image: url('../new-images/map.gif');
+	background-repeat: no-repeat;
+	background-position: 50%;
+	background-size: contain;
 }
 
 .roskilde_marker {
@@ -859,7 +904,7 @@ button:active,
 	background-size: 200px;
 	height: 112px;
 	left: 0;
-	padding: 18px 45px 65px 15px;
+	padding: 18px 25px 65px 15px;
 	position: absolute;
 	top: 0;
 	width: 112px;
@@ -896,6 +941,51 @@ button:active,
 .artist_page h4 small {
 	font-size: 12px;
 	margin-left: 1em;
+}
+
+.artist_actions {
+	margin-bottom: 20px;
+	padding: 10px 0;
+	overflow: hidden;
+}
+
+.artist_actions a,
+.artist_actions button {
+	float: left;
+	width: -webkit-calc(33.33% - 20px);
+	width: calc(33.33% - 20px);
+}
+
+.artist_actions .spotify_button {
+	margin: 0 30px;
+}
+
+.artist_related_header {
+	font-weight: bold;
+	margin: 40px 0 20px;
+}
+
+.artist_page .artist_related {
+	color: #fff;
+	float: left;
+	font-size: 12px;
+	height: 160px;
+	overflow: hidden;
+	text-align: center;
+	text-decoration: none;
+	width: 33.33%;	
+}
+
+.artist_page .artist_related img {
+	background-image: url('../new-images/sprite.png');
+	background-size: 109px;
+	background-position: 3px -134px;
+	clear: both;
+	display: block;
+	height: 56px;
+	margin: 0 auto;
+	padding: 12px 14px 34px;
+	width: 56px;
 }
 
 /* EVENT PAGE */
@@ -1205,4 +1295,49 @@ button:active,
 	border-radius: 6px;
 	margin-bottom: 20px;
 	padding: 5px;
+}
+
+.facilties_menu {
+	background: #575956; /* Old browsers */
+	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#575956), color-stop(100%,#333532)); /* Chrome,Safari4+ */
+	background: url('../new-images/effect.png'), -webkit-linear-gradient(top,  #575956 0%,#333532 100%); /* Chrome10+,Safari5.1+ */
+	background: url('../new-images/effect.png'), linear-gradient(to bottom,  #575956 0%,#333532 100%); /* W3C */
+	height: 60px;
+	left: 0;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+.facilties_menu::-webkit-scrollbar { display: none; }
+
+.facilties_menu > div {
+	height: 60px;
+	width: 1040px;
+}
+
+.facilties_menu > div > div {
+	color: #fff;
+	cursor: pointer;
+	float: left;
+	font-size: 12px;
+	height: 100%;
+	line-height: 90px;
+	margin: 0 10px;
+	position: relative;
+	text-align: center;
+	width: 60px;
+}
+
+.facilties_menu > div > div.active {
+	background-color: #d47649;
+	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(1%,#d47649), color-stop(100%,#bd4f28));
+	background: url('../new-images/effect.png'), -webkit-linear-gradient(top, #d47649 1%,#bd4f28 100%);
+	background: url('../new-images/effect.png'), linear-gradient(to bottom, #d47649 1%,#bd4f28 100%);
+}
+
+.facilties_menu > div > div::before {
+	content: '';
 }

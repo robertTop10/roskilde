@@ -468,4 +468,35 @@ $(document).ready(function() {
 		}
     });
 
+    $(document).on("click", '#facilties > div', function(e) {
+    	e.preventDefault();
+
+    	$(document.getElementById('facilties')).find('.active').removeClass('active');
+    	$(e.currentTarget).addClass('active');
+
+    	var id = $(e.currentTarget).data('id');
+
+    	var data = {result: facilties[id]};
+
+    	clearOverlays();
+    	if (openInfoWindow) { openInfoWindow.close(); }
+
+		populateMarker(data, festivalCoords, map, markers, function(d, markers, z) {
+			return iconPin(d.latitude, d.longitude, map, {
+				icon: 		'/images/logo.png',
+				img: 		'/images/logo.png',
+				message: 	d.comment,
+				title: 		d.title,
+				tooltip: 	true,
+				zIndex: 	z
+			});
+		});
+
+
+    });
+
+    $(document).on("click", '.preventDefault', function(e) {
+    	e.preventDefault();
+    });
+
 });

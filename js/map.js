@@ -18,11 +18,11 @@ function initMap(data, fit, cb) {
 
 
 function setRoskildeMap(map) {
-	var se	=	new google.maps.LatLng(55.608, 12.0542);
-	var nw	=	new google.maps.LatLng(55.62535, 12.10675);
+	var se	=	new google.maps.LatLng(55.6076, 12.0528);
+	var nw	=	new google.maps.LatLng(55.6309, 12.1097);
 	var imageBounds = new google.maps.LatLngBounds(se, nw);
-	var festival = new google.maps.GroundOverlay("http://r.oskil.de/new-images/map.gif", imageBounds, {clickable: false});
-	festival.setMap(map);
+
+	overlay = new USGSOverlay(imageBounds, '/new-images/map.svg', map);
 }
 
 
@@ -44,6 +44,7 @@ function gotLocation(data, fit, cb, coords, error) {
 
 		var mapOptions	= {
 			center: center,
+			maxZoom: 18,
 			zoom: 15,
 			disableDefaultUI: true,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -56,6 +57,7 @@ function gotLocation(data, fit, cb, coords, error) {
 		});
 
 		setRoskildeMap(map);
+		showCompass();
 
 		markers = [];
 
@@ -69,8 +71,6 @@ function gotLocation(data, fit, cb, coords, error) {
 	    if (cb) { cb(data, coords, map, markers); }
 
 	    if (fit === true) { fitToMarkers(markers, map); }
-
-		showCompass();
 	}
 }
 
@@ -79,9 +79,25 @@ function gotLocation(data, fit, cb, coords, error) {
 // ------------------------------------------------------------
 
 function initRoskildeMap() {
-	initMap(null, festivalCoords, function() {
-		console.log('geoData goes here');
-	});
+	xhr = $.ajax({
+	    type: "POST",
+	    url: "/php/feeds/facilitiesJSON.json"
+	}).done(function(data) {
+		facilties = data;
+		console.log(data);
+
+		initMap(null, festivalCoords, function() {
+			console.log('geoData goes here');
+
+			var $iframe	= $(document.getElementById('map-iframe'));
+
+			if ($iframe) {
+				$iframe.addClass('shift');
+				$(document.getElementById('content')).prepend(templates.facilties);
+				$(document.getElementById('compass')).addClass('shift');
+			}
+		});
+	}).fail(function(error) { ajaxFail(error); });
 }
 
 
@@ -105,4 +121,90 @@ function fitToMarkers(markers, map) {
 		bounds.extend(new google.maps.LatLng(markers[i].getPosition().lat(), markers[i].getPosition().lng()));
 		map.fitBounds(bounds);
 	}
+}
+
+
+// CUSTOM OVERLAYS
+// ------------------------------------------------------------
+
+function USGSOverlay(bounds, image, map) {
+
+  // Now initialize all properties.
+  this.bounds_ = bounds;
+  this.image_ = image;
+  this.map_ = map;
+
+  // We define a property to hold the image's
+  // div. We'll actually create this div
+  // upon receipt of the add() method so we'll
+  // leave it null for now.
+  this.div_ = null;
+
+  // Explicitly call setMap() on this overlay
+  this.setMap(map);
+}
+
+USGSOverlay.prototype = new google.maps.OverlayView();
+
+USGSOverlay.prototype.onAdd = function() {
+
+  // Note: an overlay's receipt of onAdd() indicates that
+  // the map's panes are now available for attaching
+  // the overlay to the map via the DOM.
+
+  // Create the DIV and set some basic attributes.
+  var div = document.createElement('div');
+  div.style.border = "none";
+  div.style.borderWidth = "0px";
+  div.style.position = "absolute";
+  div.className = 'festival_map'
+
+  // Create an IMG element and attach it to the DIV. <object type="image/svg+xml"  width="100%" height="100%" data="test.svg"></object>
+  var obj = document.createElement("object");
+  obj.type ="image/svg+xml"
+  obj.data = this.image_;
+  obj.style.width = "100%";
+  obj.style.height = "100%";
+  obj.innerHTML = '<span />';
+  div.appendChild(obj);
+
+  // Set the overlay's div_ property to this DIV
+  this.div_ = div;
+
+  // We add an overlay to a map via one of the map's panes.
+  // We'll add this overlay to the overlayImage pane.
+  var panes = this.getPanes();
+  panes.overlayLayer.appendChild(div);
+}
+
+USGSOverlay.prototype.draw = function() {
+
+  // Size and position the overlay. We use a southwest and northeast
+  // position of the overlay to peg it to the correct position and size.
+  // We need to retrieve the projection from this overlay to do this.
+  var overlayProjection = this.getProjection();
+
+  // Retrieve the southwest and northeast coordinates of this overlay
+  // in latlngs and convert them to pixels coordinates.
+  // We'll use these coordinates to resize the DIV.
+  var sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
+  var ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
+
+  // Resize the image's DIV to fit the indicated dimensions.
+  var div = this.div_;
+  div.style.left = sw.x + 'px';
+  div.style.top = ne.y + 'px';
+  div.style.width = (ne.x - sw.x) + 'px';
+  div.style.height = (sw.y - ne.y) + 'px';
+}
+
+
+// Clear markers
+// ------------------------------------------------------------
+
+function clearOverlays() {
+  for (var i = 0, l = markers.length; i < l; i++ ) {
+    markers[i].setMap(null);
+  }
+  markers = [];
 }

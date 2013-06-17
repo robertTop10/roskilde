@@ -4,6 +4,12 @@ ob_start("ob_gzhandler");
 header('Access-Control-Allow-Origin: *');
 header('Content-type: application/json');
 
+$seconds_to_cache = 3600;
+$ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . " GMT";
+header("Expires: $ts");
+header("Pragma: cache");
+header("Cache-Control: public,max-age=$seconds_to_cache");
+
 function xmlToArray($xml, $options = array()) {
     $defaults = array(
         'namespaceSeparator' => ':',//you may want this to be something other than a colon

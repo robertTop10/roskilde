@@ -75,6 +75,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
         <div id="fb-root"></div>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
         <script src="/js/mustache.js"></script>
         <script src="/js/fastclick.js"></script>
         <script src="/js/events.js"></script>
@@ -128,6 +129,9 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
             // Cache schedule obj
 			var schedule;
+
+			// Cacge facilties onj
+			var facilties;
 
 			// Map Markers
 			var openInfoWindow;
@@ -726,7 +730,6 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
         </script>
 
         <script type="text/javascript" src="//connect.facebook.net/en_US/all.js"></script>
-		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
         <script type="text/javascript" src="/js/infobox_packed.js"></script>
         <script type="text/javascript" src="/js/richmarker-compiled.js"></script>
         

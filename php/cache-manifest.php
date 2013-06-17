@@ -15,7 +15,7 @@ http://yui.yahooapis.com/3.9.1/build/cssreset/cssreset-min.css
 <?php
 	if ($handle = opendir('../new-images')) {
 	    while (false !== ($entry = readdir($handle))) {
-	    	if (substr($entry, -4) === '.gif' || substr($entry, -4) === '.png' || substr($entry, -4) === '.ico' || substr($entry, -4) === '.jpg') {
+	    	if (substr($entry, -4) === '.gif' || substr($entry, -4) === '.png' || substr($entry, -4) === '.ico' || substr($entry, -4) === '.jpg' || substr($entry, -4) === '.svg') {
 	        	echo "/new-images/$entry\n";
 	    	}
 	    }
@@ -58,4 +58,7 @@ NETWORK:
 *
 
 # index.php <?php  echo date ("F d Y H:i:s", filemtime('../index.php')).PHP_EOL; ?>
+# js <?php  echo date ("F d Y H:i:s", filemtime('../js')).PHP_EOL; ?>
+# css <?php  echo date ("F d Y H:i:s", filemtime('../css')).PHP_EOL; ?>
+# images <?php  echo date ("F d Y H:i:s", filemtime('../new-images')).PHP_EOL; ?>
 # cache-manifest.php <?php  echo date ("F d Y H:i:s", filemtime('cache-manifest.php')); ?>

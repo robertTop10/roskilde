@@ -96,24 +96,34 @@ var templates = {
 												'<h6>{{{scene}}}</h6>' +
 											'</div>' +
 										'</div>' +
-										'<div>' +
+										'<div class="artist_actions">' +
 											'{{#subscribed}}' +
 												'<button class="remove-from-schedule" ' +
 													'data-id="{{@id}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
 												'>{{#danish}}Fjern fra mit skema{{/danish}}{{^danish}}Remove from My Schedule{{/danish}}</button>' +
 											'{{/subscribed}}' +
 											'{{^subscribed}}' +
-												'<button class="add-to-schedule" ' +
+												'<button class="add-to-schedule icon_button add_to red" ' +
 													'data-id="{{@id}}" data-image="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
 												'>{{#danish}}Tilføj til mit skema{{/danish}}{{^danish}}Add to My Schedule{{/danish}}</button>' +
 											'{{/subscribed}}' +
 											'{{#external}}' +
 												'{{#spotify}}' +
-													'<a href="spotify:artist:{{spotify}}" class="button spotify_button">Listen in Spotify</a>' +
+													'<a href="spotify:artist:{{spotify}}" class="spotify_button icon_button">Listen in Spotify</a>' +
+												'{{/spotify}}' +
+												'{{^spotify}}' +
+													'<a href="#" class="spotify_button icon_button disabled preventDefault">Listen in Spotify</a>' +
 												'{{/spotify}}' +
 												'{{#facebook}}' +
-													'<a href="http://facebook.com/{{facebook}}" class="button fb_button" target="_blank">View on Facebook</a>' +
+													'<a href="http://facebook.com/{{facebook}}" class="fb_button icon_button" target="_blank">View on Facebook</a>' +
 												'{{/facebook}}' +
+												'{{^facebook}}' +
+													'<a href="#" class="fb_button icon_button disabled preventDefault">View on Facebook</a>' +
+												'{{/facebook}}' +
+											'{{/external}}' + 
+											'{{^external}}' +
+													'<a href="#" class="spotify_button icon_button disabled preventDefault">Listen in Spotify</a>' +
+													'<a href="#" class="fb_button icon_button disabled preventDefault">View on Facebook</a>' +
 											'{{/external}}' + 
 										'</div>' +
 
@@ -122,9 +132,12 @@ var templates = {
 												'{{#danish}}{{{dk}}}{{/danish}}' +
 												'{{^danish}}{{{uk}}}{{/danish}}' +
 											'{{/description}}' +
-											'{{#related_count}}<h6>Related Artists</h6>{{/related_count}}' +
+											'{{#related_count}}<h6 class="artist_related_header">Related Artists</h6>{{/related_count}}' +
 											'{{#related}}' +
-												'<a href="#" class="js-artist" data-artist="{{rf_id}}"">{{name}}</a><br/>' +
+												'<a href="#" class="js-artist artist_related" data-artist="{{rf_id}}"">' +
+													'<img src="{{medium_image_url}}" />' +
+													'{{name}}' +
+												'</a>' +
 											'{{/related}}' +
 										'</div>' +
 								'</div>',
@@ -423,6 +436,50 @@ var templates = {
 												'</a>' +
 											'</div>' +
 										'{{/tweets}}' +
+									'</div>' +
+								'</div>',
+
+	facilties: 					'<div id="facilties-menu" class="facilties_menu needsclick">' +
+									'<div id="facilties">' +
+										'<div data-id="21">' + 
+											'Bar' +
+										'</div>' +
+										'<div data-id="22">' + 
+											'Food' +
+										'</div>' +
+										'<div data-id="19">' + 
+											'Toilets' +
+										'</div>' +
+										'<div data-id="11">' + 
+											'ATM' +
+										'</div>' +
+										'<div data-id="18">' + 
+											'Wifi' +
+										'</div>' +
+										'<div data-id="8">' + 
+											'Charging' +
+										'</div>' +
+										'<div data-id="14">' + 
+											'Showers' +
+										'</div>' +
+										'<div data-id="23">' + 
+											'Kiosk' +
+										'</div>' +
+										'<div data-id="2">' + 
+											'Medical' +
+										'</div>' +
+										'<div data-id="3">' + 
+											'Landmarks' +
+										'</div>' +
+										'<div data-id="16">' + 
+											'Merch' +
+										'</div>' +
+										'<div data-id="7">' + 
+											'Luggage' +
+										'</div>' +
+										'<div data-id="12">' + 
+											'Handicap' +
+										'</div>' +
 									'</div>' +
 								'</div>'
 

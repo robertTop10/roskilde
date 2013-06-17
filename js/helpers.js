@@ -128,6 +128,7 @@ function timeDifference(previous, compact) {
 
 function showCompass() {
 	var spinner = document.getElementById('compass');
+	spinner.className = 'compass';
 
 	if (window.DeviceOrientationEvent && iOSversion()) {
 		var lastHeading = 0;
