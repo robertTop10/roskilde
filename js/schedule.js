@@ -50,7 +50,7 @@ function processDates(data, dates, stages) {
 
 	var style = '';
 	if (checkCalc() === false) {
-		var width = $(document.getElementById('content')).outerWidth() - 60;
+		var width = $content.outerWidth() - 60;
 		style = ' style="width: ' + width + 'px;"';
 	}
 
@@ -91,7 +91,7 @@ function processDates(data, dates, stages) {
 	html += '</div>';
 	html += '</div>';
 
-	document.getElementById('content').innerHTML = html;
+	content.innerHTML = html;
 
 	changeTitle('schedule');
 

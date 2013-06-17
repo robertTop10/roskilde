@@ -44,7 +44,7 @@ function loggedIn() {
                 danish = (localStorage.getItem('danish') === "true");
             }
 
-            $(document.getElementById('content')).html(mustache(templates.statusLoggedIn, response));
+            $content.html(mustache(templates.statusLoggedIn, response));
 
             checkUser();
             $(document.getElementById('user-avatar')).html(mustache(templates.userAvatarImg, response)).removeClass('none');
@@ -62,7 +62,7 @@ function loggedIn() {
 
 
 function loggedOut() {
-    $(document.getElementById('content')).html(mustache(templates.statusLoggedOut));
+    $content.html(mustache(templates.statusLoggedOut));
     $(document.getElementById('user-avatar')).addClass('none');
     finishLoading();
 }
@@ -73,7 +73,7 @@ function mainMenu() {
     changeTitle();
 
     if (user && user.id) {
-        $(document.getElementById('content')).html(mustache(templates.statusLoggedIn, user));
+        $content.html(mustache(templates.statusLoggedIn, user));
         finishLoading();
     } else {
         loggedIn();
@@ -118,6 +118,6 @@ function offlineAccess() {
         t       = templates.statusLoggedIn;
     }
 
-    $(document.getElementById('content')).html(mustache(t, user));
+    $content.html(mustache(t, user));
     finishLoading();
 }

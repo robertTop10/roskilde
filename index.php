@@ -123,6 +123,9 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
             templates['statusLoggedOut'] 	+= 	'</div>';
             templates['statusLoggedOut'] 	+= 	'<div class="status"><a href="<?php echo $loginUrl; ?>" class="button fb_button">Facebook Login</a></div>';
             
+            var content 	= document.getElementById('content');
+            var $content 	= $(content);
+
             // User vars
 			var fbUser;
             var user;
@@ -141,6 +144,11 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 			var map;
 			var markers;
 			var markerCluster;
+
+			// Map Elements
+			var iframe;
+			var iframeDoc;
+			var m;
 
 			// Keep track of AJAX request and abort them if need be.
 			var xhr;

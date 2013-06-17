@@ -67,7 +67,7 @@ $(document).ready(function() {
 
         changeTitle('remLocation');
 
-        $(document.getElementById('content')).html(mustache(templates.create_location));
+        $content.html(mustache(templates.create_location));
         pushState(null, document.title, '/remember-location');
     });
 
@@ -151,7 +151,7 @@ $(document).ready(function() {
 		}
 		$(document.getElementById('artist-page')).remove();
 		$(document.getElementById('hide-content')).hide();
-		$(document.getElementById('content')).append(mustache(templates.artist_page, artist));
+		$content.append(mustache(templates.artist_page, artist));
 	});
 
 
@@ -203,7 +203,7 @@ $(document).ready(function() {
 		$(document.getElementById('artist-page')).remove();
 
 		if (!isNaN(contentScrollTop)) {
-			var $content = $(document.getElementById('content'));
+			//var $content = $(document.getElementById('content'));
 			$content.find('.status').show();
 			$(document.getElementById('artists-scroller')).scrollTop(contentScrollTop);
 			contentScrollTop = null;
@@ -213,7 +213,7 @@ $(document).ready(function() {
 
 	$(document).on("click", "#createEvent", function(e){
 		e.preventDefault();
-		$(document.getElementById('content')).html(mustache(templates.create_event, {datetime: checkDateTime()}));
+		$content.html(mustache(templates.create_event, {datetime: checkDateTime()}));
 
 		changeTitle('createEvent');
 
@@ -338,22 +338,23 @@ $(document).ready(function() {
 
 		var lat, lon, acc;
 
-		var iframe	= document.getElementById('map-iframe');
-		iframe		= iframe.contentDocument || iframe.contentWindow.document;
+		//var iframe	= document.getElementById('map-iframe');
+		//iframe		= iframe.contentDocument || iframe.contentWindow.document;
 
-		var $map	=	$(iframe.getElementById("map-canvas"));
+		//var $map	=	$(iframe.getElementById("map-canvas"));
+		var $m	= $(m);
 
 		if ($(this).attr('id') === 'createEventMe') {
-			lat = $map.data('my-location-latitude');
-			lon = $map.data('my-location-longitude');
-			acc = $map.data('my-location-accuracy');
+			lat = $m.data('my-location-latitude');
+			lon = $m.data('my-location-longitude');
+			acc = $m.data('my-location-accuracy');
 		} else {
-			lat = $map.data('my-marker-latitude');
-			lon = $map.data('my-marker-longitude');
+			lat = $m.data('my-marker-latitude');
+			lon = $m.data('my-marker-longitude');
 			acc = -1;
 		}
 
-		var data	=	$map.data('form');
+		var data	=	$m.data('form');
 
 		if (data.action === 'createEvent') {
 			createEvent(lat, lon, acc, data);
@@ -433,7 +434,7 @@ $(document).ready(function() {
 
     $(document).on("click", "#moreStuff", function(e) {
         e.preventDefault();
-		$(document.getElementById('content')).html(mustache(templates.moreThings));
+		$content.html(mustache(templates.moreThings));
     });
 
 

@@ -59,7 +59,6 @@ function iconPin(lat, lon, map, params) {
 			var eveId	= parseInt(params.schedule.id, 10);
 			if (data !== null) {
 				for (i = 0, len = data.length; i < len; i++) {
-					console.log(data[i].id, eveId, data[i].type);
 					if (data[i].id === eveId && data[i].type === 'event') {
 						params.schedule.subscribed = true;
 						break;
@@ -85,11 +84,12 @@ function iconPin(lat, lon, map, params) {
 			openInfoWindow = infowindow;
 			infowindow.open(map, marker);
 
+			// Add this to the callback
 			setTimeout(function() {
-				var iframe	= document.getElementById('map-iframe');
-				iframe		= iframe.contentDocument || iframe.contentWindow.document;
+				//var iframe	= document.getElementById('map-iframe');
+				//iframe		= iframe.contentDocument || iframe.contentWindow.document;
 
-				google.maps.event.addDomListener(iframe.getElementsByClassName('ros_tooltip')[0], 'click', function(e) {
+				google.maps.event.addDomListener(iframeDoc.getElementsByClassName('ros_tooltip')[0], 'click', function(e) {
 					if ($(e.target).hasClass('add-to-schedule')) { loading(); addToMySchedule(e); }
 					else if ($(e.target).hasClass('remove-from-schedule')) { loading(); removeFromMySchedule(e); }
 				});

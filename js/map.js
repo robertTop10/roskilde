@@ -3,11 +3,16 @@
 
 function initMap(data, fit, cb) {
 	console.log('initMap', data);
-	$(document.getElementById('content')).html(templates.mapCanvas);
+	$content.html(templates.mapCanvas);
 
 	if (typeof data === 'string') {data = JSON.parse(data); } // FF and jQuery not recognising a JSON response
 
-	$(document.getElementById('map-iframe')).load(function (){
+	iframe = document.getElementById('map-iframe');
+
+	$(iframe).load(function (){
+		iframeDoc		= iframe.contentDocument || iframe.contentWindow.document;
+		m				= iframeDoc.getElementById("map-canvas");
+
 		navigator.geolocation.getCurrentPosition(function(coords) {
 			gotLocation(data, fit, cb, coords);
 		}, function(error) {
@@ -32,13 +37,13 @@ function setRoskildeMap(map) {
 function gotLocation(data, fit, cb, coords, error) {
 	console.log('gotLocation', data, coords);
 
-	var iframe	= document.getElementById('map-iframe');
+	//var iframe	= document.getElementById('map-iframe');
 
 	if (iframe) {
-		iframe		= iframe.contentDocument || iframe.contentWindow.document;
+		//iframe		= iframe.contentDocument || iframe.contentWindow.document;
 
 
-		var m			= iframe.getElementById("map-canvas");
+		//var m			= iframe.getElementById("map-canvas");
 		var me			= new google.maps.LatLng(coords.coords.latitude, coords.coords.longitude);
 		var center      = (typeof fit === 'object') ? new google.maps.LatLng(fit.coords.latitude, fit.coords.longitude) : me;
 
@@ -50,7 +55,7 @@ function gotLocation(data, fit, cb, coords, error) {
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
 
-		map = new google.maps.Map(iframe.getElementById("map-canvas"), mapOptions);
+		map = new google.maps.Map(m, mapOptions);
 
 		google.maps.event.addListenerOnce(map, 'idle', function(){
 			finishLoading();
@@ -84,16 +89,15 @@ function initRoskildeMap() {
 	    url: "/php/feeds/facilitiesJSON.json"
 	}).done(function(data) {
 		facilties = data;
-		console.log(data);
 
 		initMap(null, festivalCoords, function() {
 			console.log('geoData goes here');
 
-			var $iframe	= $(document.getElementById('map-iframe'));
+			//var $iframe	= $(document.getElementById('map-iframe'));
 
-			if ($iframe) {
-				$iframe.addClass('shift');
-				$(document.getElementById('content')).prepend(templates.facilties);
+			if (iframe) {
+				$(iframe).addClass('shift');
+				$(iframe).before(templates.facilties);
 				$(document.getElementById('compass')).addClass('shift');
 			}
 		});

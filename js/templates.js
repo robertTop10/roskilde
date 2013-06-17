@@ -38,10 +38,10 @@ var templates = {
 
 	userAvatarImg: 				'<img src="https://graph.facebook.com/{{id}}/picture?width=80&height=80" height="40" width="40" />',
 
-	mapCanvas:					'<div id="map-canvas" class="map_canvas" height="100%" width="100%"></div>' +
+	//mapCanvas:					'<div id="map-canvas" class="map_canvas" height="100%" width="100%"></div>' +
+	//							'<div id="compass" class="compass"></div>',
+	mapCanvas:					'<iframe id="map-iframe" src="/html/frame.html" class="map_canvas" height="100%" width="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>' +
 								'<div id="compass" class="compass"></div>',
-	/*mapCanvas:					'<iframe id="map-iframe" src="/html/frame.html" class="map_canvas" height="100%" width="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>' +
-								'<div id="compass" class="compass"></div>',*/
 
 	createEventOptions:			'<div id="createEventOptions" class="create_event_options">' +
 									'<div><button id="createEventMe" class="create-event">USE MY LOCATION</button></div>' +
