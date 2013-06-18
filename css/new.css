@@ -1319,7 +1319,16 @@ button:active,
 
 .facilties_menu > div {
 	height: 60px;
-	width: 1040px;
+	width: 990px;
+	-webkit-transform: translateX(100%);
+	transform: translateX(100%);
+	-webkit-transition: -webkit-transform 1s linear 1s;
+	transition: transform 1s linear 1s;
+}
+
+.facilties_menu > div.animate {
+	-webkit-transform: translateX(0);
+	transform: translateX(0);	
 }
 
 .facilties_menu > div > div {
@@ -1329,7 +1338,7 @@ button:active,
 	font-size: 12px;
 	height: 100%;
 	line-height: 90px;
-	margin: 0 10px;
+	margin: 0 8px;
 	position: relative;
 	text-align: center;
 	width: 60px;

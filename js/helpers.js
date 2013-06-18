@@ -144,19 +144,21 @@ function timeDifference(previous, compact) {
 
 function showCompass() {
 	var spinner = document.getElementById('compass');
-	spinner.className = 'compass';
+	if (spinner) {
+		spinner.className = 'compass';
 
-	if (window.DeviceOrientationEvent && iOSversion()) {
-		var lastHeading = 0;
-		window.addEventListener('deviceorientation', function(e) {
-			if (e.webkitCompassHeading) {
-				var heading = (e.webkitCompassHeading + window.orientation).toFixed(2);
-				spinner.style.webkitTransform = 'rotateZ(-' + heading + 'deg)';
-				lastHeading = heading;
-			}
-		});
-	} else {
-		$(spinner).remove();	
+		if (window.DeviceOrientationEvent && iOSversion()) {
+			var lastHeading = 0;
+			window.addEventListener('deviceorientation', function(e) {
+				if (e.webkitCompassHeading) {
+					var heading = (e.webkitCompassHeading + window.orientation).toFixed(2);
+					spinner.style.webkitTransform = 'rotateZ(-' + heading + 'deg)';
+					lastHeading = heading;
+				}
+			});
+		} else {
+			$(spinner).remove();	
+		}
 	}
 }
 

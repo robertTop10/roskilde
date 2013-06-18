@@ -14,6 +14,7 @@ function initMap(data, fit, cb) {
 		m				= iframeDoc.getElementById("map-canvas");
 
 		navigator.geolocation.getCurrentPosition(function(coords) {
+			console.log(999999, coords);
 			gotLocation(data, fit, cb, coords);
 		}, function(error) {
 			gotLocation(data, fit, cb, festivalCoords, true);
@@ -37,13 +38,7 @@ function setRoskildeMap(map) {
 function gotLocation(data, fit, cb, coords, error) {
 	console.log('gotLocation', data, coords);
 
-	//var iframe	= document.getElementById('map-iframe');
-
 	if (iframe) {
-		//iframe		= iframe.contentDocument || iframe.contentWindow.document;
-
-
-		//var m			= iframe.getElementById("map-canvas");
 		var me			= new google.maps.LatLng(coords.coords.latitude, coords.coords.longitude);
 		var center      = (typeof fit === 'object') ? new google.maps.LatLng(fit.coords.latitude, fit.coords.longitude) : me;
 
@@ -66,16 +61,14 @@ function gotLocation(data, fit, cb, coords, error) {
 
 		markers = [];
 
-	    if (!error) {
-	        // Update to new callback func
-	        //markers.push(marker(coords.coords.latitude, coords.coords.longitude, map, 'Me', user.fb_id, false, 100));
-	        markers.push(iconMe(coords.coords.latitude, coords.coords.longitude, map));
-	    }
+		if (!error) {
+			markers.push(iconMe(coords.coords.latitude, coords.coords.longitude, map));
+		}
 
 
-	    if (cb) { cb(data, coords, map, markers); }
+		if (cb) { cb(data, coords, map, markers); }
 
-	    if (fit === true) { fitToMarkers(markers, map); }
+		if (fit === true) { fitToMarkers(markers, map); }
 	}
 }
 
@@ -85,20 +78,24 @@ function gotLocation(data, fit, cb, coords, error) {
 
 function initRoskildeMap() {
 	xhr = $.ajax({
-	    type: "POST",
-	    url: "/php/feeds/facilitiesJSON.json"
+		type: "POST",
+		url: "/php/feeds/facilitiesJSON.json"
 	}).done(function(data) {
 		facilties = data;
 
 		initMap(null, festivalCoords, function() {
-			console.log('geoData goes here');
-
-			//var $iframe	= $(document.getElementById('map-iframe'));
-
 			if (iframe) {
+				google.maps.event.addListenerOnce(map, 'idle', function(){
+					$(document.getElementById('facilties')).addClass('animate');
+				});
+
 				$(iframe).addClass('shift');
 				$(iframe).before(templates.facilties);
 				$(document.getElementById('compass')).addClass('shift');
+
+				if (markers[0] && markers[0]['title'] === 'Me') {
+					markers[0].setMap(map);
+				}
 			}
 		});
 	}).fail(function(error) { ajaxFail(error); });
@@ -109,10 +106,10 @@ function initRoskildeMap() {
 // ------------------------------------------------------------
 
 function populateMarker(data, coords, map, markers, cb) {
-    var length 	= data.result.length;
+    var length	= data.result.length;
     var z		= length + 1;
     for (var i = 0; i < length; i++) {
-        var d 	= data.result[i];
+        var d	= data.result[i];
         markers.push(cb(d, markers, z--));
     }
 }
@@ -204,7 +201,7 @@ USGSOverlay.prototype.draw = function() {
   div.style.top = ne.y + 'px';
   div.style.width = (ne.x - sw.x) + 'px';
   div.style.height = (sw.y - ne.y) + 'px';
-}
+};
 
 
 // Clear markers
@@ -239,11 +236,17 @@ function assignTooltips() {
 			v.infowindow.open(map, v);
 
 			google.maps.event.addListener(v.infowindow, 'domready', function(e) {
-				google.maps.event.addDomListener(iframeDoc.getElementsByClassName('ros_tooltip')[0], 'click', function(e) {
+				var $el = $(iframeDoc).find('button');
+
+				$el.off('click');
+				$el.on('click', function(e) {
+					e.preventDefault();
+					loading();
 					if ($(e.target).hasClass('add-to-schedule')) { loading(); addToMySchedule(e); }
 					else if ($(e.target).hasClass('remove-from-schedule')) { loading(); removeFromMySchedule(e); }
 				});
 			});
+
 		});
 	});
 }
