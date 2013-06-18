@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
-	<!ENTITY st0 "fill:#76734A;stroke:#FFFFFF;stroke-width:2.8347;">
+	<!ENTITY st0 "fill:#76734A;stroke:#FFFFFF;stroke-width:2;">
 	<!ENTITY st1 "fill:#ABC397;">
 	<!ENTITY st2 "fill:#E0861A;">
-	<!ENTITY st3 "fill:none;stroke:#FFFFFF;stroke-width:14.1185;">
+	<!ENTITY st3 "fill:none;stroke:#FFFFFF;stroke-width:14;">
 	<!ENTITY st4 "fill:#E31B42;">
 	<!ENTITY st5 "fill:#E3E4E5;">
 	<!ENTITY st6 "clip-path:url(#SVGID_30_);fill:#8DC63F;">
@@ -13,7 +13,7 @@
 	<!ENTITY st9 "opacity:0.75;">
 	<!ENTITY st10 "clip-path:url(#SVGID_20_);fill:#8DC63F;">
 	<!ENTITY st11 "fill:#EAD604;">
-	<!ENTITY st12 "fill:#00652E;stroke:#FFFFFF;stroke-width:2.8347;">
+	<!ENTITY st12 "fill:#00652E;stroke:#FFFFFF;stroke-width:2;">
 	<!ENTITY st13 "fill:#EC008C;">
 	<!ENTITY st14 "fill:#89BABF;">
 	<!ENTITY st15 "fill:#ED1D2F;">
@@ -21,7 +21,7 @@
 	<!ENTITY st17 "fill:#EF3F2F;">
 	<!ENTITY st18 "fill:none;stroke:#04090B;stroke-width:8.640900e-002;">
 	<!ENTITY st19 "clip-path:url(#SVGID_32_);fill:#8DC63F;">
-	<!ENTITY st20 "fill:#000007;stroke:#FFFFFF;stroke-width:1.3192;">
+	<!ENTITY st20 "fill:#000007;stroke:#FFFFFF;stroke-width:1;">
 	<!ENTITY st21 "fill:none;stroke:#00652E;">
 	<!ENTITY st22 "opacity:0.8;fill:#FFFFFF;">
 	<!ENTITY st23 "clip-path:url(#SVGID_22_);fill:#8DC63F;">
@@ -29,19 +29,19 @@
 	<!ENTITY st25 "fill:#8DC63F;">
 	<!ENTITY st26 "fill:#8F6D2A;">
 	<!ENTITY st27 "fill:#F173AC;">
-	<!ENTITY st28 "fill:none;stroke:#FFFFFF;stroke-width:22.6772;">
+	<!ENTITY st28 "fill:none;stroke:#FFFFFF;stroke-width:22;">
 	<!ENTITY st29 "clip-path:url(#SVGID_12_);fill:#8DC63F;">
 	<!ENTITY st30 "clip-path:url(#SVGID_34_);fill:#8DC63F;">
 	<!ENTITY st31 "fill:#F7941E;">
-	<!ENTITY st32 "fill:none;stroke:#000000;stroke-width:1.649;">
+	<!ENTITY st32 "fill:none;stroke:#000000;stroke-width:1;">
 	<!ENTITY st33 "fill:#F89F1E;">
 	<!ENTITY st34 "clip-path:url(#SVGID_2_);">
 	<!ENTITY st35 "fill:#C0C2C4;">
-	<!ENTITY st36 "fill:#00AEEF;stroke:#000000;stroke-width:1.649;">
+	<!ENTITY st36 "fill:#00AEEF;stroke:#000000;stroke-width:1;">
 	<!ENTITY st37 "clip-path:url(#SVGID_24_);fill:#8DC63F;">
 	<!ENTITY st38 "fill:#C2E6EA;">
 	<!ENTITY st39 "fill:#C7C8CA;">
-	<!ENTITY st40 "fill:none;stroke:#D71D24;stroke-width:2.8347;">
+	<!ENTITY st40 "fill:none;stroke:#D71D24;stroke-width:2;">
 	<!ENTITY st41 "fill:#2E3192;">
 	<!ENTITY st42 "clip-path:url(#SVGID_14_);fill:#8DC63F;">
 	<!ENTITY st43 "opacity:0.7;">
@@ -49,19 +49,19 @@
 	<!ENTITY st45 "clip-path:url(#SVGID_36_);fill:#8DC63F;">
 	<!ENTITY st46 "fill:#FFC50B;">
 	<!ENTITY st47 "fill:#FFFFFF;">
-	<!ENTITY st48 "fill:#000007;stroke:#FFFFFF;stroke-width:14.1732;">
-	<!ENTITY st49 "fill:#76734A;stroke:#D71D24;stroke-width:5.6693;">
-	<!ENTITY st50 "fill:none;stroke:#FFFFFF;stroke-width:19.8425;">
-	<!ENTITY st51 "fill:#727576;stroke:#FFFFFF;stroke-width:2.8347;">
+	<!ENTITY st48 "fill:#000007;stroke:#FFFFFF;stroke-width:14;">
+	<!ENTITY st49 "fill:#76734A;stroke:#D71D24;stroke-width:5;">
+	<!ENTITY st50 "fill:none;stroke:#FFFFFF;stroke-width:19;">
+	<!ENTITY st51 "fill:#727576;stroke:#FFFFFF;stroke-width:2;">
 	<!ENTITY st52 "fill:none;">
 	<!ENTITY st53 "clip-path:url(#SVGID_26_);fill:#8DC63F;">
-	<!ENTITY st54 "fill:#CCC27E;stroke:#FFFFFF;stroke-width:2.8347;">
+	<!ENTITY st54 "fill:#CCC27E;stroke:#FFFFFF;stroke-width:2;">
 	<!ENTITY st55 "fill:#CCC27E;">
 	<!ENTITY st56 "clip-path:url(#SVGID_4_);fill:#8DC63F;">
 	<!ENTITY st57 "fill:#FFFFFF;stroke:#018CAA;stroke-width:3;">
 	<!ENTITY st58 "clip-path:url(#SVGID_2_);fill:#2B1E1E;">
-	<!ENTITY st59 "fill:#76734A;stroke:#D71D24;stroke-width:2.8347;">
-	<!ENTITY st60 "fill:none;stroke:#FFFFFF;stroke-width:8.5039;">
+	<!ENTITY st59 "fill:#76734A;stroke:#D71D24;stroke-width:2;">
+	<!ENTITY st60 "fill:none;stroke:#FFFFFF;stroke-width:8;">
 	<!ENTITY st61 "clip-path:url(#SVGID_16_);fill:#8DC63F;">
 	<!ENTITY st62 "clip-path:url(#SVGID_38_);fill:#8DC63F;">
 	<!ENTITY st63 "clip-path:url(#SVGID_2_);fill:#FFFFFF;">
@@ -77,12 +77,12 @@
 	<!ENTITY st73 "fill:#039E49;">
 	<!ENTITY st74 "fill:#04090B;">
 	<!ENTITY st75 "clip-path:url(#SVGID_6_);fill:#8DC63F;">
-	<!ENTITY st76 "fill:none;stroke:#FFFFFF;stroke-width:5.6693;">
+	<!ENTITY st76 "fill:none;stroke:#FFFFFF;stroke-width:5;">
 	<!ENTITY st77 "clip-path:url(#SVGID_58_);fill:#FFFFFF;">
 	<!ENTITY st78 "fill:#D71D24;">
 	<!ENTITY st79 "clip-path:url(#SVGID_18_);fill:#8DC63F;">
 	<!ENTITY st80 "fill:#A09659;">
-	<!ENTITY st81 "fill:none;stroke:#FFFFFF;stroke-width:10.8738;">
+	<!ENTITY st81 "fill:none;stroke:#FFFFFF;stroke-width:10;">
 	<!ENTITY st82 "fill:#727272;">
 	<!ENTITY st83 "fill:#727576;">
 	<!ENTITY st84 "clip-path:url(#SVGID_40_);">
@@ -101,13 +101,13 @@
 	<!ENTITY st97 "fill:#DA1F2C;">
 	<!ENTITY st98 "clip-path:url(#SVGID_8_);fill:#8DC63F;">
 	<!ENTITY st99 "fill:#A8D59D;">
-	<!ENTITY st100 "fill:#E31B42;stroke:#000000;stroke-width:1.649;">
+	<!ENTITY st100 "fill:#E31B42;stroke:#000000;stroke-width:1;">
 ]>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="5852.9px" height="4353.8px" viewBox="0 0 5852.9 4353.8" style="enable-background:new 0 0 5852.9 4353.8;"
+	 width="5852px" height="4353px" viewBox="0 0 5852 4353" style="enable-background:new 0 0 5852 4353;"
 	 xml:space="preserve">
 <g id="Layer_26">
-	<rect y="4.4" style="&st99;" width="5852.9" height="4349.4"/>
+	<rect y="4.4" style="&st99;" width="5852" height="4349"/>
 </g>
 <g id="Layer_26_copy">
 </g>
