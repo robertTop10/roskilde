@@ -157,8 +157,10 @@ USGSOverlay.prototype.onAdd = function() {
 	// Note: an overlay's receipt of onAdd() indicates that
 	// the map's panes are now available for attaching
 	// the overlay to the map via the DOM.
-	var iOS			= iOSversion();
-	var addImage	= (svg && iOS) ? '' : ' image';
+	//var iOS			= iOSversion();
+	//var addImage	= (svg && iOS) ? '' : ' image';
+	var iOS			= true;
+	var addImage	= '';
 
 	// Create the DIV and set some basic attributes.
 	var div = document.createElement('div');

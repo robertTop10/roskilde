@@ -484,26 +484,28 @@ $(document).ready(function() {
 
 		$(e.currentTarget).addClass('active');
 
-		var id = $(e.currentTarget).data('id');
-		var data = {result: facilties[id]};
+		var id		= $(e.currentTarget).data('id');
+		var data	= {result: facilties[id]};
+		var cluster = (facilties[id].length > 20);
+		var newMap	= (cluster === true) ? null : map;
 
 		var html =  mustache(templates.marker, {src: '/images/logo.png'});
 
-		populateMarker(data, festivalCoords, map, markers, function(d, markers, z) {
-			return iconPin(d.latitude, d.longitude, map, {
-				html: 		html,
-				icon: 		'/images/logo.png',
-				img: 		'/images/logo.png',
-				message: 	d.comment,
-				title: 		d.title,
-				tooltip: 	true,
-				zIndex: 	z
+		populateMarker(data, festivalCoords, newMap, markers, function(d, markers, z) {
+			return iconPin(d.latitude, d.longitude, newMap, {
+				html:		html,
+				icon:		'/images/logo.png',
+				img:		'/images/logo.png',
+				message:	d.comment,
+				title:		d.title,
+				tooltip:	true,
+				zIndex:		z
 			});
 		});
 
 		assignTooltips();
 
-		if (facilties[id].length > 20) {
+		if (cluster === true) {
 			initCluster();
 		}
 

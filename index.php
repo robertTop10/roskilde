@@ -224,7 +224,6 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
         			
 					google.maps.event.addListener(map, 'click', function(e) {
 						if (createEventMarker) { createEventMarker.setMap(null); }
-						//createEventMarker = marker(e.latLng.jb, e.latLng.kb, map, 'Event', "http://r.oskil.de/images/logo.png", null, null, 'createEvent');
 						createEventMarker = iconPin(e.latLng.lat(), e.latLng.lng(), map, {
 							html: 		html,
 							icon: 		'/images/logo.png',
@@ -394,10 +393,12 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 					}).done(function(data) {
 						initMap(data, true, function(data, coords, map, markers) {
 
-							var html =  mustache(templates.marker, {src: '/images/logo.png'});
+							var html 	=  mustache(templates.marker, {src: '/images/logo.png'});
+							var cluster = (data.result.length > 20);
+							var newMap 	= (cluster === true) ? null : map; 
 
-							populateMarker(data, coords, map, markers, function(d, markers, z) {
-								return iconPin(d.latitude, d.longitude, map, {
+							populateMarker(data, coords, newMap, markers, function(d, markers, z) {
+								return iconPin(d.latitude, d.longitude, newMap, {
 									html: 		html,
 									icon: 		'/images/logo.png',
 									img: 		'/images/logo.png',
@@ -409,7 +410,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
 							assignTooltips();
 
-							if (data.result.length > 10) {
+							if (cluster === true) {
 								initCluster();
 							}
 						});
@@ -429,9 +430,11 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 						initMap(data, true, function(data, coords, map, markers) {
 
 							var html =  mustache(templates.marker, {src: '/images/logo.png'});
+							var cluster = (data.result.length > 20);
+							var newMap 	= (cluster === true) ? null : map; 
 
-							populateMarker(data, coords, map, markers, function(d, markers, z) {
-								return iconPin(d.latitude, d.longitude, map, {
+							populateMarker(data, coords, newMap, markers, function(d, markers, z) {
+								return iconPin(d.latitude, d.longitude, newMap, {
 									html: 		html,
 									icon: 		'/images/logo.png',
 									img: 		'/images/logo.png',
@@ -443,7 +446,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
 							assignTooltips();
 
-							if (data.result.length > 10) {
+							if (cluster === true) {
 								initCluster();
 							}
 						});
@@ -467,9 +470,11 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 						schedule = JSON.parse(localStorage.getItem('mySchedule'));
 
 						var html =  mustache(templates.marker, {src: '/images/logo.png'});
+						var cluster = (data.result.length > 20);
+						var newMap 	= (cluster === true) ? null : map; 
 
-						populateMarker(data, coords, map, markers, function(d, markers, z) {
-							return iconPin(d.latitude, d.longitude, map, {
+						populateMarker(data, coords, newMap, markers, function(d, markers, z) {
+							return iconPin(d.latitude, d.longitude, newMap, {
 								html: 		html,
 								icon: 		'/images/logo.png',
 								img: 		'/images/logo.png',
@@ -496,7 +501,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
 						assignTooltips();
 
-						if (data.result.length > 20) {
+						if (cluster === true) {
 							initCluster();
 						}
 					});
