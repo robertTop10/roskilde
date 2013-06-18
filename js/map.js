@@ -157,10 +157,7 @@ USGSOverlay.prototype.onAdd = function() {
 	// Note: an overlay's receipt of onAdd() indicates that
 	// the map's panes are now available for attaching
 	// the overlay to the map via the DOM.
-	//var iOS			= iOSversion();
-	//var addImage	= (svg && iOS) ? '' : ' image';
-	var iOS			= true;
-	var addImage	= '';
+	var addImage	= (svg) ? '' : ' image';
 
 	// Create the DIV and set some basic attributes.
 	var div = document.createElement('div');
@@ -170,7 +167,7 @@ USGSOverlay.prototype.onAdd = function() {
 	div.className = 'festival_map' + addImage;
 
 	// Create an IMG element and attach it to the DIV. <object type="image/svg+xml"  width="100%" height="100%" data="test.svg"></object>
-	if (svg && iOS) {
+	if (svg) {
 		var obj = document.createElement("object");
 		obj.type ="image/svg+xml";
 		obj.data = this.image_;

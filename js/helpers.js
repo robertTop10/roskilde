@@ -49,10 +49,7 @@ function checkSVG() {
 
 	a = (document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"));
 
-	if( ua.indexOf("Android") >= 0 ) {
-		a = parseInt(ua.slice(ua.indexOf("Android")+8), 10);
-		a = (a >= 4);
-	}
+	a = (ua.toLowerCase().indexOf("android") >= 0 || ua.toLowerCase().indexOf("windows phone") >= 0 || ua.toLowerCase().indexOf("blackberry") >= 0) ? false : a;
 
 	return a;
 }
