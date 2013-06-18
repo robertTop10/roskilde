@@ -46,9 +46,6 @@ http://maps.gstatic.com/intl/en_us/mapfiles/api-3/13/2/main.js
 /php/feeds/scheduleJSON.php
 /php/feeds/artistsJSON.php
 
-# CHANGE ---------------------------------------------------------------------------------
-http://www.google.com/intl/en_us/mapfiles/close.gif
-
 # Facebook
 /php/channel.php
 http://connect.facebook.net/en_US/all.js

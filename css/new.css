@@ -474,8 +474,11 @@ button:active,
 }
 
 .infoBox > img {
+	height: 20px;
+	background-size: contain;
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-	z-index: 10;	
+	z-index: 10;
+	width: 20px;	
 }
 
 .ros_tooltip {
@@ -525,6 +528,7 @@ button:active,
 }
 
 .ros_tooltip button {
+	margin-top: 10px;
 	position: relative;
 	z-index: 1;
 }

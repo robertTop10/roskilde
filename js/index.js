@@ -420,12 +420,12 @@
                 var html = mustache(templates.tooltip, obj);
                 var boxText = document.getElementById("dynamic");
                 boxText.style.width = '160px';
-                boxText.innerHTML   = '<span style="width: 18px; height: 17px; display: block; float: right; vertical-align: top;"></span>' + html; // span is to compensate for the close button
+                boxText.innerHTML   = '<span style="width: 20px; height: 20px; display: block; float: right; vertical-align: top; margin: 2px;"></span>' + html; // span is to compensate for the close button
 
                 var myOptions = {
                     content: html,
                     pixelOffset: new google.maps.Size(-80, (boxText.offsetHeight + 40) * -1),
-                    closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
+                    closeBoxURL: "/new-images/close.gif",
                     infoBoxClearance: new google.maps.Size(20, 40),
                     pane: "floatPane",
                     enableEventPropagation: false
