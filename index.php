@@ -219,11 +219,14 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
         				'my-location-accuracy': coords.coords.accuracy,
         				'form': data
         			});
+
+        			var html =  mustache(templates.marker, {src: '/images/logo.png'});
         			
 					google.maps.event.addListener(map, 'click', function(e) {
 						if (createEventMarker) { createEventMarker.setMap(null); }
 						//createEventMarker = marker(e.latLng.jb, e.latLng.kb, map, 'Event', "http://r.oskil.de/images/logo.png", null, null, 'createEvent');
 						createEventMarker = iconPin(e.latLng.lat(), e.latLng.lng(), map, {
+							html: 		html,
 							icon: 		'/images/logo.png',
 							timestamp: 	new Date().getTime(),
 							title: 		'Now',
@@ -390,8 +393,12 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 						data: {action: 'getLocations', user_id: user.id, fb_id: user.fb_id, name: user.name}
 					}).done(function(data) {
 						initMap(data, true, function(data, coords, map, markers) {
+
+							var html =  mustache(templates.marker, {src: '/images/logo.png'});
+
 							populateMarker(data, coords, map, markers, function(d, markers, z) {
 								return iconPin(d.latitude, d.longitude, map, {
+									html: 		html,
 									icon: 		'/images/logo.png',
 									img: 		'/images/logo.png',
 									message: 	d.message,
@@ -399,6 +406,8 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 									tooltip: 	true						
 								});
 							});
+
+							assignTooltips();
 
 							if (data.result.length > 10) {
 								initCluster();
@@ -418,8 +427,12 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 						data = data.locations;
 
 						initMap(data, true, function(data, coords, map, markers) {
+
+							var html =  mustache(templates.marker, {src: '/images/logo.png'});
+
 							populateMarker(data, coords, map, markers, function(d, markers, z) {
 								return iconPin(d.latitude, d.longitude, map, {
+									html: 		html,
 									icon: 		'/images/logo.png',
 									img: 		'/images/logo.png',
 									message: 	d.message,
@@ -427,6 +440,8 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 									tooltip: 	true						
 								});
 							});
+
+							assignTooltips();
 
 							if (data.result.length > 10) {
 								initCluster();
@@ -451,8 +466,11 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 					initMap(data, true, function(data, coords, map, markers) {
 						schedule = JSON.parse(localStorage.getItem('mySchedule'));
 
+						var html =  mustache(templates.marker, {src: '/images/logo.png'});
+
 						populateMarker(data, coords, map, markers, function(d, markers, z) {
 							return iconPin(d.latitude, d.longitude, map, {
+								html: 		html,
 								icon: 		'/images/logo.png',
 								img: 		'/images/logo.png',
 								message: 	d.description,
@@ -475,6 +493,9 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 								zIndex: 	z
 							});
 						});
+
+						assignTooltips();
+
 						if (data.result.length > 20) {
 							initCluster();
 						}

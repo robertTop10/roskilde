@@ -487,8 +487,11 @@ $(document).ready(function() {
 		var id = $(e.currentTarget).data('id');
 		var data = {result: facilties[id]};
 
+		var html =  mustache(templates.marker, {src: '/images/logo.png'});
+
 		populateMarker(data, festivalCoords, map, markers, function(d, markers, z) {
 			return iconPin(d.latitude, d.longitude, map, {
+				html: 		html,
 				icon: 		'/images/logo.png',
 				img: 		'/images/logo.png',
 				message: 	d.comment,
@@ -497,6 +500,8 @@ $(document).ready(function() {
 				zIndex: 	z
 			});
 		});
+
+		assignTooltips();
 
 		if (facilties[id].length > 20) {
 			initCluster();

@@ -230,3 +230,21 @@ function initCluster() {
 		}]
 	});
 }
+
+
+function assignTooltips() {
+	$.each(markers, function(i, v) {
+		google.maps.event.addListener(v, 'click', function() {
+			if (openInfoWindow) { openInfoWindow.close(); }
+			openInfoWindow = v.infowindow;
+			v.infowindow.open(map, v);
+
+			google.maps.event.addListener(v.infowindow, 'domready', function(e) {
+				google.maps.event.addDomListener(iframeDoc.getElementsByClassName('ros_tooltip')[0], 'click', function(e) {
+					if ($(e.target).hasClass('add-to-schedule')) { loading(); addToMySchedule(e); }
+					else if ($(e.target).hasClass('remove-from-schedule')) { loading(); removeFromMySchedule(e); }
+				});
+			});
+		});
+	});
+}

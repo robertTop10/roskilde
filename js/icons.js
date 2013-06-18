@@ -45,7 +45,7 @@ function iconPin(lat, lon, map, params) {
 		position:	new google.maps.LatLng(lat, lon),
 		map:		map,
 		zIndex:		params.zIndex,
-		content:	mustache(templates.marker, {src: params.icon}),
+		content:	(params.html) ? params.html : mustache(templates.marker, {src: params.icon}),
 		flat:		true
 	};
 
@@ -67,7 +67,7 @@ function iconPin(lat, lon, map, params) {
 			}
 		}
 
-		var infowindow	= createTooltip({
+		marker.infowindow	= createTooltip({
 			src:		params.img,
 			name:		params.title,
 			details:	params.diff,
@@ -79,6 +79,7 @@ function iconPin(lat, lon, map, params) {
 			schedule:	params.schedule
 		});
 
+		/*
 		google.maps.event.addListener(marker, 'click', function() {
 			if (openInfoWindow) { openInfoWindow.close(); }
 			openInfoWindow = infowindow;
@@ -96,6 +97,7 @@ function iconPin(lat, lon, map, params) {
 			}, 50);
 
 		});
+		*/
 	}
 
 	return marker;
