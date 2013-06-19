@@ -116,42 +116,18 @@ $(document).ready(function() {
 	});
 
 
-	$(document).on("click", ".js-artist", function(e){
-		e.preventDefault();
+	$(document).on("click", ".js-artist", function(e) {
+		if (schedule) {
+			displayArtist(e);
+		} else {
+			loading();
 
-		var id     = $(this).data('artist');
-		console.log(id);
-		var artist = schedule.artists[id];
-		console.log(artist);
-		artist.start = artist.original_timestamp * 1000;
-		artist.end   = artist.start + 3600000;
-
-		var daysShort	= ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-		var monthNames 	= [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-		var nth 		= ['st', 'nd', 'rd', 'th'];
-
-		var d 			= new Date(artist.start);
-
-		var digit		= 	d.getDate().toString().slice(-1);
-		var day 		= 	(digit > 0 && digit <= 3) ? nth[digit - 1] : nth[3];
-
-		artist.formattedStartTime 	= d.getHours().pad() + ':' + d.getMinutes().pad();
-		artist.formattedStartDate 	= daysShort[d.getDay()] + ', ' + d.getDate() + day + ' ' + monthNames[d.getMonth()];
-
-		var data	= JSON.parse(localStorage.getItem('mySchedule'));
-		var artId	= parseInt(artist['@id'], 10);
-
-		if (data !== null) {
-			for (i = 0, len = data.length; i < len; i++) {
-				if (data[i].id === artId && data[i].type === 'artist') {
-					artist.subscribed = true;
-					break;
-				}
-			}
+			getAllJSON(function(data) {
+				schedule = data;
+				displayArtist(e);
+				finishLoading();
+			});
 		}
-		$(document.getElementById('artist-page')).remove();
-		$(document.getElementById('hide-content')).hide();
-		$content.append(mustache(templates.artist_page, artist));
 	});
 
 

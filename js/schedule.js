@@ -14,7 +14,12 @@ function getSchedule() {
 	if (schedule && schedule.stages) {
 		processDates(schedule, dates, stages);
 	} else {
-		$.getJSON('/php/feeds/allJSON.json', function(data) {
+		//xhr = $.getJSON('/php/feeds/allJSON.json', function(data) {
+			//schedule = data;
+			//processDates(data, dates, stages);
+		//});
+
+		getAllJSON(function(data) {
 			schedule = data;
 			processDates(data, dates, stages);
 		});

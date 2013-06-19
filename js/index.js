@@ -430,8 +430,8 @@
                     pane: "floatPane",
                     enableEventPropagation: false
                 };
-                
-                return new InfoBox(myOptions);  
+
+                return new InfoBox(myOptions);
             }
 
 
@@ -453,7 +453,23 @@
                     exists = data.length;
                 }
 
-                $content.html(mustache(templates.mySchedule, {results: data, length: exists, restore: (user.backup === '1') }));
+                var now     = new Date().getTime();
+                var past    = [];
+
+                data = $.grep(data, function(v,i) {
+                    var p = (v.end > now);
+                    if (!p) { past.push(v); }
+                    return p;
+                });
+                console.log(data);
+
+                $content.html(mustache(templates.mySchedule, {
+                    results:    data,
+                    length:     exists,
+                    past:       past,
+                    pastLength: past.length,
+                    restore:    (user.backup === '1')
+                }));
                 finishLoading();
             }
 
@@ -464,7 +480,7 @@
                 if (schedule && schedule.artists) {
                     processArtists(schedule);
                 } else {
-                    xhr = $.getJSON('/php/feeds/allJSON.json', function(data) {
+                    getAllJSON(function(data) {
                         schedule = data;
                         processArtists(data);
                     });
@@ -602,4 +618,48 @@
                         finishLoading();
                     }
                 });
+            }
+
+
+            function displayArtist(e) {
+                e.preventDefault();
+
+                var id     = $(e.currentTarget).data('artist');
+
+                var artist = schedule.artists[id];
+
+                if (artist) {
+                    artist.start = artist.original_timestamp * 1000;
+                    artist.end   = artist.start + 3600000;
+
+                    var daysShort   = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                    var monthNames  = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+                    var nth         = ['st', 'nd', 'rd', 'th'];
+
+                    var d           = new Date(artist.start);
+
+                    var digit       =   d.getDate().toString().slice(-1);
+                    var day         =   (digit > 0 && digit <= 3) ? nth[digit - 1] : nth[3];
+
+                    artist.formattedStartTime   = d.getHours().pad() + ':' + d.getMinutes().pad();
+                    artist.formattedStartDate   = daysShort[d.getDay()] + ', ' + d.getDate() + day + ' ' + monthNames[d.getMonth()];
+
+                    var data    = JSON.parse(localStorage.getItem('mySchedule'));
+                    var artId   = parseInt(artist['@id'], 10);
+
+                    if (data !== null) {
+                        for (i = 0, len = data.length; i < len; i++) {
+                            if (data[i].id === artId && data[i].type === 'artist') {
+                                artist.subscribed = true;
+                                break;
+                            }
+                        }
+                    }
+                    $(document.getElementById('artist-page')).remove();
+                    $(document.getElementById('hide-content')).hide();
+                    $content.append(mustache(templates.artist_page, artist));
+                } else {
+                    alert('Sorry, artist not found.')
+                    finishLoading();
+                }
             }

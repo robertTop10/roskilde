@@ -43,6 +43,10 @@ p {
 	margin-bottom: 1rem;
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 .text_bg {
 	background-color: rgba(0,0,0,0.8);
 	clear: both;
@@ -891,7 +895,7 @@ button:active,
     margin-top: -25px;
     position: absolute;
     right: 10px;
-    top: 80px;
+    top: 59px;
     width: 50px;
     background: black;
     color: #fff;
@@ -1064,6 +1068,12 @@ button:active,
 
 /* MY SCHELUDE
 ============================================================= */
+
+.my_event_past {
+	font-size: 24px;
+	font-weight: bold;
+	margin: 30px 0 10px;
+}
 
 .my_event_cont {
 	margin: 30px 0 10px;

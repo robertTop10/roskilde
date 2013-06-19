@@ -100,7 +100,7 @@ var templates = {
 										'</div>' +
 										'<div class="artist_actions">' +
 											'{{#subscribed}}' +
-												'<button class="remove-from-schedule" ' +
+												'<button class="remove-from-schedule icon_button add_to red" ' +
 													'data-id="{{@id}}" data-name="{{{artistName}}}" data-location="{{{scene}}}" data-description="{{{scene}}}" data-start="{{start}}" data-end="{{end}}" data-type="artist"' +
 												'>{{#danish}}Fjern fra mit skema{{/danish}}{{^danish}}Remove from My Schedule{{/danish}}</button>' +
 											'{{/subscribed}}' +
@@ -300,12 +300,12 @@ var templates = {
 									'<option value="23:30">23:30</option>' +
 								'</optgroup>',
 
-	mySchedule:					'<div class="scroller">' +
+	mySchedule:					'<div id="hide-content" class="scroller">' +
 									'<div class="status">' +
 										'{{#results}}' +
 											'<div class="my_event_cont">' +
 												'<h2>{{name}}</h2>' +
-												'<div class="artist_overview">' +
+												'<div class="artist_overview{{#image}} js-artist pointer{{/image}}" data-artist="{{id}}">' +
 													'<div class="artist_frame_small">' +
 														'{{#image}}<img src="{{{image}}}" height="56" width="56" />{{/image}}' +
 														'{{^image}}<img src="/new-images/schedule-logo.png" height="56" width="56" />{{/image}}' +
@@ -323,6 +323,28 @@ var templates = {
 												'</div>' +
 											'</div>' +
 										'{{/results}}' +
+										'{{#pastLength}}' +
+											'<h6 class="my_event_past">Past Events</h6>' +
+											'<hr/>' +
+										'{{/pastLength}}' +
+										'{{#past}}' +
+											'<div class="my_event_cont">' +
+												'<h2>{{name}}</h2>' +
+												'<div class="artist_overview{{#image}} js-artist pointer{{/image}}" data-artist="{{id}}"">' +
+													'<div class="artist_frame_small">' +
+														'{{#image}}<img src="{{{image}}}" height="56" width="56" />{{/image}}' +
+														'{{^image}}<img src="/new-images/schedule-logo.png" height="56" width="56" />{{/image}}' +
+													'</div>' +
+													'<div class="artist_details_small">' +
+														'<h6>' +
+															'{{formattedStart}}' +
+															'{{#formattedEnd}}<span class="my_event_end"> / {{formattedEnd}}</span>{{/formattedEnd}}' +
+														'</h6>' +
+														'<h6>{{description}}</h6>' +
+													'</div>' +
+												'</div>' +
+											'</div>' +
+										'{{/past}}' +
 										'{{#length}}' +
 											'{{> backupPartial}}' +
 										'{{/length}}' +
@@ -358,13 +380,13 @@ var templates = {
 	listArtists:				'<div id="hide-content">' +
 									'<div class="rel">' +
 										'<div id="artists-scroller" class="scroller needsclick">' +
-											'<div class="status needsclick">' +
+											'<div class="status">' +
 												'{{#artists}}' +
 													'{{#header}}' +
 														'<div id="artist-letter-{{header}}" class="artist_header">{{header}}</div>' +
 													'{{/header}}' +
 													'{{^header}}' +
-														'<div class="js-artist dark_box needsclick" data-artist="{{@id}}">' +
+														'<div class="js-artist dark_box" data-artist="{{@id}}">' +
 															'<img src="http://roskilde-festival.co.uk/{{{mediumimageUrl}}}" height="56" width="56" />' +
 															'<h4>{{{artistName}}} <small>/{{country}}</small></h4>' +
 															'<h6><small>{{text}}</small></h6>' +

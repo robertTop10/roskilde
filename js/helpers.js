@@ -340,3 +340,10 @@ function changeTitle(location) {
 		$el.html(text)[two]('two_lines');
 	}
 }
+
+
+function getAllJSON(cb) {
+	xhr = $.getJSON('/php/feeds/allJSON.json', function(data) {
+		if (cb) { cb(data); }
+	});
+}
