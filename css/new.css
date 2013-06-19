@@ -492,6 +492,7 @@ button:active,
 	min-height: 37px;
 	padding: 5px;
 	width: 160px;
+	word-wrap: break-word;
 }
 
 .ros_marker::after,
@@ -1356,5 +1357,56 @@ button:active,
 }
 
 .facilties_menu > div > div::before {
+	background-image: url('../new-images/sprite.png');
+	background-repeat: no-repeat;
+	background-size: 200px auto;
 	content: '';
+	display: block;
+	height: 30px;
+	left: 15px;
+	position: absolute;
+	top: 4px;
+	width: 30px;
 }
+
+.facilties_menu > div > div[data-id="16"]::before {
+	background-position: 0 -450px;
+}
+
+.facilties_menu > div > div[data-id="19"]::before {
+	background-position: -30px -480px;
+}
+
+.facilties_menu > div > div[data-id="11"]::before {
+	background-position: 0 -480px;
+}
+
+.facilties_menu > div > div[data-id="18"]::before {
+	background-position: -60px -450px;
+}
+
+.facilties_menu > div > div[data-id="14"]::before {
+	background-position: -60px -480px;
+}
+
+.facilties_menu > div > div[data-id="23"]::before {
+	background-position: -30px -450px;
+}
+
+.facilties_menu > div > div[data-id="2"]::before {
+	background-position: -90px -450px;
+}
+
+.facilties_menu > div > div[data-id="7"]::before {
+	background-position: -120px -450px;
+}
+
+.facilties_menu > div > div[data-id="12"]::before {
+	background-position: -150px -450px;
+}
+
+.facilties_menu > div > div[data-id="3"]::before {
+	background-position: -1px -126px;
+	background-size: 126px auto;
+}
+
