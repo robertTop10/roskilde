@@ -302,6 +302,8 @@ $(document).ready(function() {
 
 			if (startTime >= endTime) {
 				alert('An event start time can\'t be before the end time.');
+			} else if (startTime < new Date().getTime()) {
+				alert('An event can\'t be in the past.');
 			} else {
 				initCreateEventsMap(data);
 			}
@@ -448,7 +450,8 @@ $(document).ready(function() {
     $(document).on("click", '#facilties > div', function(e) {
 		e.preventDefault();
 
-		var active = $(e.currentTarget).hasClass('active');
+		var active	= $(e.currentTarget).hasClass('active');
+		var text	= $(e.currentTarget).text().toLowerCase().replace(' ', '');
 
 		$(document.getElementById('facilties')).find('.active').removeClass('active');
 
@@ -465,10 +468,13 @@ $(document).ready(function() {
 		var cluster = (facilties[id].length > 20);
 		var newMap	= (cluster === true) ? null : map;
 
-		var html =  mustache(templates.marker, {src: '/images/logo.png'});
+		//var html =  mustache(templates.marker, {src: '/images/logo.png'});
+		console.log(text);
+		var html =  mustache(templates.marker, {background: text});
 
 		populateMarker(data, festivalCoords, newMap, markers, function(d, markers, z) {
 			return iconPin(d.latitude, d.longitude, newMap, {
+				background: text,
 				html:		html,
 				icon:		'/images/logo.png',
 				img:		'/images/logo.png',

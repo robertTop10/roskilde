@@ -46,7 +46,9 @@ function loggedIn() {
 
             $content.html(mustache(templates.statusLoggedIn, response));
 
+            changeTitle();
             checkUser();
+
             $(document.getElementById('user-avatar')).html(mustache(templates.userAvatarImg, response)).removeClass('none');
 
             var lng = (danish) ? 'dk' : 'en';

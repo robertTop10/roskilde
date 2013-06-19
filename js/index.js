@@ -80,8 +80,8 @@
                     latitude:       latitude,
                     longitude:      longitude,
                     accuracy:       accuracy
-                }
-                
+                };
+
                 xhr = $.ajax({
                     type: "POST",
                     url: "/php/api.php",
@@ -97,7 +97,7 @@
             function createEvent(latitude, longitude, accuracy, data) {
                 console.log('createEvent');
                 loading();
-                
+
                 var obj = {
                     user_id:        user.id,
                     fb_id:          user.fb_id,
@@ -111,8 +111,8 @@
                     description:    data.description,
                     start:          data.start,
                     end:            data.end
-                }
-                
+                };
+
                 xhr = $.ajax({
                     type: "POST",
                     url: "/php/api.php",
@@ -120,7 +120,7 @@
                 }).done(function(data) {
                     console.log('createEvent Done', data);
                     finishLoading(true);
-                    loggedIn();
+                    mainMenu();
                 }).fail(function(error) { ajaxFail(error); });
 
             }
@@ -642,8 +642,8 @@
                     var digit       =   d.getDate().toString().slice(-1);
                     var day         =   (digit > 0 && digit <= 3) ? nth[digit - 1] : nth[3];
 
-                    artist.formattedStartTime   = d.getHours().pad() + ':' + d.getMinutes().pad();
-                    artist.formattedStartDate   = daysShort[d.getDay()] + ', ' + d.getDate() + day + ' ' + monthNames[d.getMonth()];
+                    artist.formattedStartTime   = d.getHours().pad() + ':' + d.getMinutes().pad() + ' - ' + daysShort[d.getDay()];
+                    artist.formattedStartDate   = d.getDate() + day + ' ' + monthNames[d.getMonth()];
 
                     var data    = JSON.parse(localStorage.getItem('mySchedule'));
                     var artId   = parseInt(artist['@id'], 10);

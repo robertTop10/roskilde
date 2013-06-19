@@ -514,7 +514,8 @@ button:active,
 	transform: rotate(45deg);
 }
 
-.ros_tooltip .tt_img {
+.ros_tooltip .tt_img,
+.ros_tooltip .marker_bg {
 	float: left;
 	height: 25px;
 	width: 25px;
@@ -536,6 +537,46 @@ button:active,
 	margin-top: 10px;
 	position: relative;
 	z-index: 1;
+}
+
+.marker_bg {
+	background-image: url('../new-images/sprite.png');
+	background-size: 160px auto;
+	background-position: -9999px -9999px;
+	background-repeat: no-repeat;
+	height: 25px;
+	width: 25px;
+	position: relative;
+	z-index: 1;
+}
+
+.marker_bg.toilets { background-position: -23px -384px; }
+.marker_bg.atm { background-position: 0 -384px; }
+.marker_bg.wifi { background-position: -47px -360px; }
+.marker_bg.showers { background-position: -48px -384px; }
+.marker_bg.kiosk { background-position: -23px -360px; }
+.marker_bg.medical {
+	background-position: -74px -371px;
+	background-size: 165px auto;
+}
+.marker_bg.landmarks { 
+	background-position: 1px -100px;
+	background-size: 100px auto;
+}
+.marker_bg.merch { 
+	background-position: 0 -75px;
+	background-size: 100px auto;
+}
+.marker_bg.luggage {
+	background-position: -95px -360px;
+}
+.marker_bg.handicap {
+	background-position: -120px -360px;
+}
+
+.ros_tooltip .marker_bg.showers,
+.ros_tooltip .marker_bg.toilets {
+	background-position-y: -388px;
 }
 
 #dynamic {
@@ -904,6 +945,10 @@ button:active,
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);	
 }
 
+.artist_page .artist_close:active {
+	padding-top: 4px;
+}
+
 .artist_overview {
 	position: relative;
 	min-height: 196px;
@@ -1063,6 +1108,10 @@ button:active,
 	top: 0;
 	width: auto;
 	display: none;
+}
+
+#createEventPage button {
+	margin-top: 10px;
 }
 
 
@@ -1379,43 +1428,43 @@ button:active,
 	width: 30px;
 }
 
-.facilties_menu > div > div[data-id="16"]::before {
+.facilties_menu .place-16::before {
 	background-position: 0 -450px;
 }
 
-.facilties_menu > div > div[data-id="19"]::before {
+.facilties_menu .place-19::before {
 	background-position: -30px -480px;
 }
 
-.facilties_menu > div > div[data-id="11"]::before {
+.facilties_menu .place-11::before {
 	background-position: 0 -480px;
 }
 
-.facilties_menu > div > div[data-id="18"]::before {
+.facilties_menu .place-18::before {
 	background-position: -60px -450px;
 }
 
-.facilties_menu > div > div[data-id="14"]::before {
+.facilties_menu .place-14::before {
 	background-position: -60px -480px;
 }
 
-.facilties_menu > div > div[data-id="23"]::before {
+.facilties_menu .place-23::before {
 	background-position: -30px -450px;
 }
 
-.facilties_menu > div > div[data-id="2"]::before {
+.facilties_menu .place-2::before {
 	background-position: -90px -450px;
 }
 
-.facilties_menu > div > div[data-id="7"]::before {
+.facilties_menu .place-7::before {
 	background-position: -120px -450px;
 }
 
-.facilties_menu > div > div[data-id="12"]::before {
+.facilties_menu .place-12::before {
 	background-position: -150px -450px;
 }
 
-.facilties_menu > div > div[data-id="3"]::before {
+.facilties_menu .place-3::before {
 	background-position: -1px -126px;
 	background-size: 126px auto;
 }

@@ -50,13 +50,21 @@ var templates = {
 
 	marker:                     '<div class="roskilde_marker">' +
 									'<div class="ros_marker">' +
-										'<img src="{{{src}}}" height="25" width="25"/>' +
+										'{{#src}}<img src="{{{src}}}" height="25" width="25"/>{{/src}}' +
+										'{{^src}}' +
+											'{{#background}}<div class="marker_bg {{background}}"></div>{{/background}}' +
+										'{{/src}}' +
 										'{{#details}}<span>{{details}}</span>{{/details}}' +
 									'</div>' +
 								'</div>',
 
 	tooltip:					'<div class="ros_tooltip">' +
-									'<img src="{{{src}}}" class="tt_img" height="25" width="25"/>' +
+									'{{#background}}' +
+										'<div class="marker_bg {{background}}"></div>' +
+									'{{/background}}' +
+									'{{^background}}' +
+										'<img src="{{{src}}}" class="tt_img" height="25" width="25"/>' +
+									'{{/background}}' +
 									'<div class="tt_cont">' +
 										'<div class="tt_name">{{name}}</div>' +
 										'<div class="tt_details">' +
@@ -94,7 +102,8 @@ var templates = {
 												'<img src="http://roskilde-festival.co.uk/{{{imageUrl}}}" height="112" width="112" />' +
 											'</div>' +
 											'<div class="artist_details">' +
-												'<h6>{{formattedStartTime}} - {{formattedStartDate}}</h6>' +
+												'<h6>{{formattedStartTime}}</h6>' +
+												'<h6>{{formattedStartDate}}</h6>' +
 												'<h6>{{{scene}}}</h6>' +
 											'</div>' +
 										'</div>' +
@@ -463,45 +472,45 @@ var templates = {
 									'</div>' +
 								'</div>',
 
-	facilties: 					'<div id="facilties-menu" class="facilties_menu needsclick">' +
+	facilties:					'<div id="facilties-menu" class="facilties_menu needsclick">' +
 									'<div id="facilties">' +
-										'<div data-id="21">' + 
+										'<div class="place-21" data-id="21">' +
 											'Bar' +
 										'</div>' +
-										'<div data-id="22">' + 
+										'<div class="place-22" data-id="22">' +
 											'Food' +
 										'</div>' +
-										'<div data-id="19">' + 
+										'<div class="place-19" data-id="19">' +
 											'Toilets' +
 										'</div>' +
-										'<div data-id="11">' + 
+										'<div class="place-11" data-id="11">' +
 											'ATM' +
 										'</div>' +
-										'<div data-id="18">' + 
+										'<div class="place-18" data-id="18">' +
 											'Wifi' +
 										'</div>' +
-										'<div data-id="8">' + 
+										'<div class="place-8" data-id="8">' +
 											'Charging' +
 										'</div>' +
-										'<div data-id="14">' + 
+										'<div class="place-14" data-id="14">' +
 											'Showers' +
 										'</div>' +
-										'<div data-id="23">' + 
+										'<div class="place-23" data-id="23">' +
 											'Kiosk' +
 										'</div>' +
-										'<div data-id="2">' + 
+										'<div class="place-2" data-id="2">' +
 											'Medical' +
 										'</div>' +
-										'<div data-id="3">' + 
+										'<div class="place-3" data-id="3">' +
 											'Landmarks' +
 										'</div>' +
-										'<div data-id="16">' + 
+										'<div class="place-16" data-id="16">' +
 											'Merch' +
 										'</div>' +
-										'<div data-id="7">' + 
+										'<div class="place-7" data-id="7">' +
 											'Luggage' +
 										'</div>' +
-										'<div data-id="12">' + 
+										'<div class="place-12" data-id="12">' +
 											'Handicap' +
 										'</div>' +
 									'</div>' +

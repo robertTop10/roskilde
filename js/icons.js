@@ -68,6 +68,7 @@ function iconPin(lat, lon, map, params) {
 		}
 
 		marker.infowindow	= createTooltip({
+			background: (params.background) ? params.background : null,
 			src:		params.img,
 			name:		params.title,
 			details:	params.diff,
