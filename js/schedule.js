@@ -158,7 +158,11 @@ function resizeStages() {
 	var $schedule	= $(document.getElementById('schedule-container'));
 	var $stages		= $(document.getElementById('stages'));
 
-	if ($schedule.outerHeight() !== $stages.outerHeight()) {
+	var sh = $schedule.outerHeight();
+	var st = $stages.outerHeight(true);
+
+	if (sh < (st - 5) || sh > (st + 5)) {
+	//if ($schedule.outerHeight() !== $stages.outerHeight(true)) {
 		$stages.css('height', $schedule.outerHeight());
 	}
 }

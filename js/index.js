@@ -438,6 +438,8 @@
             function getMySchedule() {
                 console.log('getMySchedule');
                 var data    = JSON.parse(localStorage.getItem('mySchedule'));
+
+                var past    = [];
                 var exists  = 0;
 
                 if (data !== null && data.length) {
@@ -451,17 +453,16 @@
                     });
 
                     exists = data.length;
+
+                    var now     = new Date().getTime();
+
+                    data = $.grep(data, function(v,i) {
+                        var p = (v.end > now);
+                        if (!p) { past.push(v); }
+                        return p;
+                    });
+
                 }
-
-                var now     = new Date().getTime();
-                var past    = [];
-
-                data = $.grep(data, function(v,i) {
-                    var p = (v.end > now);
-                    if (!p) { past.push(v); }
-                    return p;
-                });
-                console.log(data);
 
                 $content.html(mustache(templates.mySchedule, {
                     results:    data,
