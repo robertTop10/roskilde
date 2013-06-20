@@ -376,11 +376,13 @@ var templates = {
 	backupPartial:				'<div id="cloud-schedule">' +
 									'<hr/>' +
 									'<div class="text_bg">' +
-										'<p>To save battery life, we store your schedule on your phone.</p>' +
-										'<p>You can backup your schedule online, so you can view it on multiple devices or if you need to clear your browser\'s data.</p>' +
+										'<p>To save battery life, we store your schedule on your device.</p>' +
+										'<p>{{^user}}If you log in via Facebook, you{{/user}}{{#user}}You{{/user}} can backup your schedule online, so you can view it on multiple devices or if you need to clear your browser\'s data.</p>' +
 									'</div>' +
-									'{{#length}}<p><button id="backupSchedule">BACKUP MY SCHEDULE</button></p>{{/length}}' +
-									'{{#restore}}{{> restoreButton}}{{/restore}}' +
+									'{{#user}}' +
+										'{{#length}}<p><button id="backupSchedule">BACKUP MY SCHEDULE</button></p>{{/length}}' +
+										'{{#restore}}{{> restoreButton}}{{/restore}}' +
+									'{{/user}}' +
 								'</div>',
 
 	restoreButton:				'<button id="restoreSchedule">RESTORE MY SCHEDULE</button>',

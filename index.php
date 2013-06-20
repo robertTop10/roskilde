@@ -111,16 +111,18 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 				});
            	}
 
-            templates['statusLoggedOut'] 	= 	'<div class="status">';
+            templates['statusLoggedOut']    =   '<div class="scroller">';
+            templates['statusLoggedOut'] 	+= 	'<div class="status">';
             templates['statusLoggedOut'] 	+= 	'<div class="main_menu_logo"></div>';
             templates['statusLoggedOut'] 	+= 	'<ul class="logged_out_page">';
             templates['statusLoggedOut'] 	+= 	'<li><h6>Personalise.</h6>Create <strong>Schedules</strong> and <strong>Events</strong></li>';
             templates['statusLoggedOut']    +=  '<li><h6>Socialise.</h6><strong>Check in</strong> and <strong>Find your friends</strong></li>';
             templates['statusLoggedOut'] 	+= 	'<li><h6>Familiarise.</h6><strong>View Maps</strong> and <strong>Camp facilities</strong></li>';
             templates['statusLoggedOut']    +=  '<li><a href="<?php echo $loginUrl; ?>" class="button fb_button">Facebook Login</a></li>';
-            templates['statusLoggedOut']    +=  '<li class="offline_terms">Not on Facebook? You can still view the <a id="schedule" href="#">Schedule</a> and <a id="getArtists" href="#">Artists</a></li>'
+            templates['statusLoggedOut']    +=  '<li class="offline_terms">Not on Facebook?<br/>You can still view the <a id="schedule" href="#">Schedule</a>, <a id="map" href="#">Map</a>, <a id="getArtists" href="#">Artists</a> and <a id="getMySchedule" href="#">My Schedule</a></li>'
             templates['statusLoggedOut'] 	+= 	'</ul>';
             templates['statusLoggedOut'] 	+= 	'</div>';
+            templates['statusLoggedOut']    +=  '</div>';
             
             var content 	= document.getElementById('content');
             var $content 	= $(content);

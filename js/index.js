@@ -469,7 +469,8 @@
                     length:     exists,
                     past:       past,
                     pastLength: past.length,
-                    restore:    (user.backup === '1')
+                    restore:    (user && user.backup === '1'),
+                    user:       (user) ? user : false
                 }));
                 finishLoading();
             }
