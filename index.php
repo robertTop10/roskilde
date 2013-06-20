@@ -113,15 +113,14 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
             templates['statusLoggedOut'] 	= 	'<div class="status">';
             templates['statusLoggedOut'] 	+= 	'<div class="main_menu_logo"></div>';
-            templates['statusLoggedOut'] 	+= 	'<ul>';
-            templates['statusLoggedOut'] 	+= 	'<li>Check in and find your friends</li>';
-            templates['statusLoggedOut'] 	+= 	'<li>Festival <a id="schedule" href="#">Schedule</a> and <a id="getArtists" href="#">Artists</a></li>';
-            templates['statusLoggedOut'] 	+= 	'<li>Create your own schedule</li>';
-            templates['statusLoggedOut'] 	+= 	'<li>Create events for the whole festival to see</li>';
-            templates['statusLoggedOut'] 	+= 	'<li>Available offline</li>';
+            templates['statusLoggedOut'] 	+= 	'<ul class="logged_out_page">';
+            templates['statusLoggedOut'] 	+= 	'<li><h6>Personalise.</h6>Create <strong>Schedules</strong> and <strong>Events</strong></li>';
+            templates['statusLoggedOut']    +=  '<li><h6>Socialise.</h6><strong>Check in</strong> and <strong>Find your friends</strong></li>';
+            templates['statusLoggedOut'] 	+= 	'<li><h6>Familiarise.</h6><strong>View Maps</strong> and <strong>Camp facilities</strong></li>';
+            templates['statusLoggedOut']    +=  '<li><a href="<?php echo $loginUrl; ?>" class="button fb_button">Facebook Login</a></li>';
+            templates['statusLoggedOut']    +=  '<li class="offline_terms">Not on Facebook? You can still view the <a id="schedule" href="#">Schedule</a> and <a id="getArtists" href="#">Artists</a></li>'
             templates['statusLoggedOut'] 	+= 	'</ul>';
             templates['statusLoggedOut'] 	+= 	'</div>';
-            templates['statusLoggedOut'] 	+= 	'<div class="status"><a href="<?php echo $loginUrl; ?>" class="button fb_button">Facebook Login</a></div>';
             
             var content 	= document.getElementById('content');
             var $content 	= $(content);

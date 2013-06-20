@@ -1504,3 +1504,27 @@ button:active,
 	background-size: 126px auto;
 }
 
+.logged_out_page {
+	font-size: 20px;
+	max-width: 300px;
+	margin: 0 auto;
+}
+
+.logged_out_page li {
+	margin-bottom: 20px;
+}
+
+.logged_out_page h6 {
+	color: #cb6032;
+	font-size: 32px;
+}
+
+.logged_out_page a {
+	margin: 40px 0;
+}
+
+.logged_out_page .offline_terms {
+	font-size: 16px;
+	text-align: center;
+}
+
