@@ -254,6 +254,7 @@ function pushState(obj, title, path, replaceState) {
 
 
 function appCacheStatus() {
+	console.log(3221);
 	var cacheStatusValues = [];
 	cacheStatusValues[0] = 'uncached';
 	cacheStatusValues[1] = 'idle';
@@ -273,36 +274,43 @@ function appCacheStatus() {
 	cache.addEventListener('updateready', logEvent, false);
 
 	function logEvent(e) {
-	    var online, status, type, message;
-	    online = (navigator.onLine) ? 'yes' : 'no';
-	    status = cacheStatusValues[cache.status];
-	    type = e.type;
-	    message = 'online: ' + online;
-	    message+= ', event: ' + type;
-	    message+= ', status: ' + status;
-	    if (type == 'error' && navigator.onLine) {
-	        message+= ' (prolly a syntax error in manifest)';
-	    }
-	    console.log(message);
+		var online, status, type, message;
+		online = (navigator.onLine) ? 'yes' : 'no';
+		status = cacheStatusValues[cache.status];
+		type = e.type;
+		message = 'online: ' + online;
+		message+= ', event: ' + type;
+		message+= ', status: ' + status;
+		if (type == 'error' && navigator.onLine) {
+			message+= ' (prolly a syntax error in manifest)';
+		}
+		console.log(message, type);
+
+		if (type === 'progress') {
+			changeTitle('offline', true);
+		} else {
+			changeTitle(title);
+		}
 	}
 
 	window.applicationCache.addEventListener(
-	    'updateready',
-	    function(){
-	        window.applicationCache.swapCache();
-	        console.log('swap cache has been called');
-	    },
-	    false
+		'updateready',
+		function(){
+		    window.applicationCache.swapCache();
+		    console.log('swap cache has been called');
+		},
+		false
 	);
 
 	//setInterval(function(){cache.update()}, 10000);
 }
 
-function changeTitle(location) {
+function changeTitle(location, loading) {
 	var $el = $(document.getElementById('section-title'));
 
 	if (!location) {
-		$el.empty().removeClass('two_lines');
+		$el.empty().removeClass('two_lines').removeClass('menu_loading');
+		title = null;
 	} else {
 		var title ={
 			'en': {
@@ -316,7 +324,8 @@ function changeTitle(location) {
 				'map'			: ['Festival<br/>Map', 1],
 				'getArtists'	: ['Artists', 0],
 				'getNews'		: ['News', 0],
-				'getTweets'		: ['Tweets', 0]
+				'getTweets'		: ['Tweets', 0],
+				'offline'		: ['Downloading<br/>for offline use', 1]
 			},
 			'dn': {
 				'getMySchedule' : ['Min<br/>Tidsplan', 1],
@@ -329,15 +338,19 @@ function changeTitle(location) {
 				'map'			: ['Festival<br/>Kort', 1],
 				'getArtists'	: ['Kunstnere', 0],
 				'getNews'		: ['Nyheder', 0],
-				'getTweets'		: ['Tweets', 0]
+				'getTweets'		: ['Tweets', 0],
+				'offline'		: ['Downloading<br/>for offline use', 1]
 			}
 		};
 
-		var lang = (danish) ? 'dn' : 'en';
-		var text = title[lang][location][0];
-		var two  = (title[lang][location][1] === 1) ? 'addClass' : 'removeClass';
+		var lang 	= (danish) ? 'dn' : 'en';
+		var text 	= title[lang][location][0];
+		var two  	= (title[lang][location][1] === 1) ? 'addClass' : 'removeClass';
+		var loading = (loading === true) ? 'addClass' : 'removeClass';
 
-		$el.html(text)[two]('two_lines');
+		title = location;
+
+		$el.html(text)[two]('two_lines')[loading]('menu_loading');
 	}
 }
 

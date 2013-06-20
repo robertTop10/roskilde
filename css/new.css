@@ -344,6 +344,25 @@ button:active,
 	top: 8px;
 }
 
+#section-title.menu_loading {
+	font-size: 12px;
+	line-height: normal;
+	padding-left: 40px;
+	padding-top: 10px;
+}
+
+#section-title.menu_loading::before {
+	background-image: url('../new-images/loader.gif');
+	background-size: contain;
+	content: '';
+	display: block;
+	height: 30px;
+	left: 0;
+	position: absolute;
+	width: 30px;
+
+}
+
 .home_button {
 	background-color: #d47649; /* Old browsers */
 	background:  url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(1%,#d47649), color-stop(100%,#bd4f28)); /* Chrome,Safari4+ */
