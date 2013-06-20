@@ -476,8 +476,8 @@ $(document).ready(function() {
 			return iconPin(d.latitude, d.longitude, newMap, {
 				background: text,
 				html:		html,
-				icon:		'/images/logo.png',
-				img:		'/images/logo.png',
+				icon:		'/new-images/logo.png',
+				img:		'/new-images/logo.png',
 				message:	d.comment,
 				title:		d.title,
 				tooltip:	true,

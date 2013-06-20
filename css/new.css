@@ -1383,7 +1383,7 @@ button:active,
 
 .facilties_menu > div {
 	height: 60px;
-	width: 990px;
+	width: 1070px;
 	-webkit-transform: translateX(100%);
 	transform: translateX(100%);
 	-webkit-transition: -webkit-transform 1s linear 1s;
@@ -1415,7 +1415,7 @@ button:active,
 	background: url('../new-images/effect.png'), linear-gradient(to bottom, #d47649 1%,#bd4f28 100%);
 }
 
-.facilties_menu > div > div::before {
+.facilties_menu > div > div:not(.blurb)::before {
 	background-image: url('../new-images/sprite.png');
 	background-repeat: no-repeat;
 	background-size: 200px auto;
@@ -1426,6 +1426,14 @@ button:active,
 	position: absolute;
 	top: 4px;
 	width: 30px;
+}
+
+.facilties_menu > div > div.blurb {
+	line-height: normal;
+	padding-top: 20px;
+	width: 50px;
+	margin-left: 20px;
+	background: black;
 }
 
 .facilties_menu .place-16::before {
@@ -1464,7 +1472,7 @@ button:active,
 	background-position: -150px -450px;
 }
 
-.facilties_menu .place-3::before {
+.facilties_menu .place-3:not(.blurb)::before {
 	background-position: -1px -126px;
 	background-size: 126px auto;
 }

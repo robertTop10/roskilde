@@ -46,13 +46,13 @@
                         'form': data
                     });
 
-                    var html =  mustache(templates.marker, {src: '/images/logo.png'});
+                    var html =  mustache(templates.marker, {src: '/new-images/logo.png'});
                     
                     google.maps.event.addListener(map, 'click', function(e) {
                         if (createEventMarker) { createEventMarker.setMap(null); }
                         createEventMarker = iconPin(e.latLng.lat(), e.latLng.lng(), map, {
                             html:       html,
-                            icon:       '/images/logo.png',
+                            icon:       '/new-images/logo.png',
                             timestamp:  new Date().getTime(),
                             title:      'Now',
                             zIndex:     null
@@ -219,15 +219,15 @@
                     }).done(function(data) {
                         initMap(data, true, function(data, coords, map, markers) {
 
-                            var html    =  mustache(templates.marker, {src: '/images/logo.png'});
+                            var html    =  mustache(templates.marker, {src: '/new-images/logo.png'});
                             var cluster = (data.result.length > 20);
                             var newMap  = (cluster === true) ? null : map; 
 
                             populateMarker(data, coords, newMap, markers, function(d, markers, z) {
                                 return iconPin(d.latitude, d.longitude, newMap, {
                                     html:       html,
-                                    icon:       '/images/logo.png',
-                                    img:        '/images/logo.png',
+                                    icon:       '/new-images/logo.png',
+                                    img:        '/new-images/logo.png',
                                     message:    d.message,
                                     title:      d.title,
                                     tooltip:    true                        
@@ -255,15 +255,15 @@
 
                         initMap(data, true, function(data, coords, map, markers) {
 
-                            var html =  mustache(templates.marker, {src: '/images/logo.png'});
+                            var html =  mustache(templates.marker, {src: '/new-images/logo.png'});
                             var cluster = (data.result.length > 20);
                             var newMap  = (cluster === true) ? null : map; 
 
                             populateMarker(data, coords, newMap, markers, function(d, markers, z) {
                                 return iconPin(d.latitude, d.longitude, newMap, {
                                     html:       html,
-                                    icon:       '/images/logo.png',
-                                    img:        '/images/logo.png',
+                                    icon:       '/new-images/logo.png',
+                                    img:        '/new-images/logo.png',
                                     message:    d.message,
                                     title:      d.title,
                                     tooltip:    true                        
@@ -295,15 +295,15 @@
                     initMap(data, true, function(data, coords, map, markers) {
                         schedule = JSON.parse(localStorage.getItem('mySchedule'));
 
-                        var html =  mustache(templates.marker, {src: '/images/logo.png'});
+                        var html =  mustache(templates.marker, {src: '/new-images/logo.png'});
                         var cluster = (data.result.length > 20);
                         var newMap  = (cluster === true) ? null : map; 
 
                         populateMarker(data, coords, newMap, markers, function(d, markers, z) {
                             return iconPin(d.latitude, d.longitude, newMap, {
                                 html:       html,
-                                icon:       '/images/logo.png',
-                                img:        '/images/logo.png',
+                                icon:       '/new-images/logo.png',
+                                img:        '/new-images/logo.png',
                                 message:    d.description,
                                 sTime:      formatTime(d.start),
                                 eTime:      formatTime(d.end),

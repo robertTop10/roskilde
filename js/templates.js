@@ -474,6 +474,9 @@ var templates = {
 
 	facilties:					'<div id="facilties-menu" class="facilties_menu needsclick">' +
 									'<div id="facilties">' +
+										'<div class="blurb">' +
+											'Swipe for more' +
+										'</div>' +
 										'<div class="place-21" data-id="21">' +
 											'Bar' +
 										'</div>' +
