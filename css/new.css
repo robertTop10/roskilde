@@ -1433,7 +1433,7 @@ button:active,
 	padding-top: 20px;
 	width: 50px;
 	margin-left: 20px;
-	background: black;
+	background: black url('../new-images/effect.png');
 }
 
 .facilties_menu .place-16::before {
