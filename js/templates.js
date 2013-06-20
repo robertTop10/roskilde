@@ -473,7 +473,8 @@ var templates = {
 								'</div>',
 
 	facilties:					'<div id="facilties-menu" class="facilties_menu needsclick">' +
-									'<div id="facilties">' +
+									'<div id="test-height"></div>' +
+									'<div id="facilties" class="facilties">' +
 										'<div class="blurb">' +
 											'Swipe for more' +
 										'</div>' +

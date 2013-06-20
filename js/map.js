@@ -96,6 +96,12 @@ function initRoskildeMap() {
 				if (markers[0] && markers[0]['title'] === 'Me') {
 					markers[0].setMap(map);
 				}
+
+				var h = $(document.getElementById('test-height')).outerHeight();
+				console.log(h);
+				if (h !== 60) {
+					$(document.getElementById('facilties-menu')).css('height', 60 + (60 - h));
+				}
 			}
 		});
 	}).fail(function(error) { ajaxFail(error); });

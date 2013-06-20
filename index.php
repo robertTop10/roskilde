@@ -28,10 +28,9 @@ $FBuser = $facebook->getUser();
 $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="https://graph.facebook.com/'.$FBuser.'/picture?width=80&height=80" /></div>' : '<div id="user-avatar" class="none"></div>';
 ?>
 <!DOCTYPE HTML>
-<html lang="en" manifest="/php/cache-manifest.appcache">
-<!-- html lang="en" -->
+<!-- html lang="en" manifest="/php/cache-manifest.appcache" -->
+<html lang="en">
     <head>
-    	<!-- Amazon -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1" />
         

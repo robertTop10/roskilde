@@ -334,7 +334,7 @@
 
                     changeTitle('getEvents');
 
-                }).fail(function(error) { ajaxFail(error); });      
+                }).fail(function(error) { ajaxFail(error); });
             }
 
 

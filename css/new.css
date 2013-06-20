@@ -1392,6 +1392,8 @@ button:active,
 	height: 60px;
 	left: 0;
 	overflow: auto;
+	overflow-x: auto;
+    overflow-y: hidden;
 	-webkit-overflow-scrolling: touch;
 	position: absolute;
 	top: 0;
@@ -1400,7 +1402,7 @@ button:active,
 
 .facilties_menu::-webkit-scrollbar { display: none; }
 
-.facilties_menu > div {
+.facilties_menu .facilties {
 	height: 60px;
 	width: 1070px;
 	-webkit-transform: translateX(100%);
@@ -1409,12 +1411,12 @@ button:active,
 	transition: transform 1s linear 1s;
 }
 
-.facilties_menu > div.animate {
+.facilties_menu > .facilties.animate {
 	-webkit-transform: translateX(0);
 	transform: translateX(0);	
 }
 
-.facilties_menu > div > div {
+.facilties_menu .facilties > div {
 	color: #fff;
 	cursor: pointer;
 	float: left;
@@ -1427,14 +1429,20 @@ button:active,
 	width: 60px;
 }
 
-.facilties_menu > div > div.active {
+.facilties_menu #test-height {
+	float: left;
+	height: 100%;
+	width: 0;
+}
+
+.facilties_menu .facilties > div.active {
 	background-color: #d47649;
 	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(1%,#d47649), color-stop(100%,#bd4f28));
 	background: url('../new-images/effect.png'), -webkit-linear-gradient(top, #d47649 1%,#bd4f28 100%);
 	background: url('../new-images/effect.png'), linear-gradient(to bottom, #d47649 1%,#bd4f28 100%);
 }
 
-.facilties_menu > div > div:not(.blurb)::before {
+.facilties_menu .facilties > div:not(.blurb)::before {
 	background-image: url('../new-images/sprite.png');
 	background-repeat: no-repeat;
 	background-size: 200px auto;
@@ -1447,7 +1455,7 @@ button:active,
 	width: 30px;
 }
 
-.facilties_menu > div > div.blurb {
+.facilties_menu .facilties > div.blurb {
 	line-height: normal;
 	padding-top: 20px;
 	width: 50px;
@@ -1491,7 +1499,7 @@ button:active,
 	background-position: -150px -450px;
 }
 
-.facilties_menu .place-3:not(.blurb)::before {
+.facilties_menu .facilties .place-3:not(.blurb)::before {
 	background-position: -1px -126px;
 	background-size: 126px auto;
 }
