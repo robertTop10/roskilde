@@ -1456,6 +1456,8 @@ button:active,
 }
 
 .facilties_menu .facilties > div.blurb {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 	line-height: normal;
 	padding-top: 20px;
 	width: 50px;
@@ -1508,6 +1510,10 @@ button:active,
 	font-size: 20px;
 	max-width: 300px;
 	margin: 0 auto;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .logged_out_page li {
