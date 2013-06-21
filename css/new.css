@@ -1397,6 +1397,7 @@ button:active,
 	position: absolute;
 	top: 0;
 	width: 100%;
+	-ms-overflow-style: none;
 }
 
 .facilties_menu::-webkit-scrollbar { display: none; }
