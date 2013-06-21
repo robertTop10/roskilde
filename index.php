@@ -46,18 +46,18 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 		<meta property="og:site_name" content="Roskilde 2013" />
 		<meta property="og:description" content="The app for Roskilde Festival 2013. Find your friends, find the artists." />
 
-        <link href="/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <link href="/new-images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="format-detection" content="telephone=no" />
 
-        <link rel="apple-touch-icon-precomposed" href="/images/icons/icon.png" />
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/icons/icon-ipad.png" />
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/icons/icon-iphone-retina.png" />
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/icons/icon-ipad-retina.png" />
-        <link rel="apple-touch-startup-image" sizes="320x460" href="/images/icons/apple-touch-startup-image-320x460.png" />
-        <link rel="apple-touch-startup-image" sizes="640x920" href="/images/icons/apple-touch-startup-image-640x920.png" />
-        <link rel="apple-touch-startup-image" sizes="640x1096" href="/images/icons/apple-touch-startup-image-640x1096.png" />
+        <link rel="apple-touch-icon-precomposed" href="/new-images/icons/icon.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/new-images/icons/icon-ipad.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/new-images/icons/icon-iphone-retina.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/new-images/icons/icon-ipad-retina.png" />
+        <link rel="apple-touch-startup-image" sizes="320x460" href="/new-images/icons/apple-touch-startup-image-320x460.jpg" />
+        <link rel="apple-touch-startup-image" sizes="640x920" href="/new-images/icons/apple-touch-startup-image-640x920.jpg" />
+        <link rel="apple-touch-startup-image" sizes="640x1096" href="/new-images/icons/apple-touch-startup-image-640x1096.jpg" />
 
 		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.9.1/build/cssreset/cssreset-min.css" />
 		<link rel="stylesheet" href="css/new.css" type="text/css" />
@@ -74,7 +74,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
         
 
         <div id="fb-root"></div>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
         <script src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
         <script src="/js/mustache.js"></script>
         <script src="/js/fastclick.js"></script>
