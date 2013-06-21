@@ -85,6 +85,7 @@ iframe,
 }
 
 #content .scroller::-webkit-scrollbar { display: none; }
+#content .scroller { -ms-overflow-style: none; }
 
 .status {
 	color: #fff;
@@ -209,7 +210,7 @@ button:active,
 	font-weight: bold;
 	font-size: 10px;
 	font-weight: bold;
-	padding: 60px 0 0;
+	padding: 66px 0 0;
 	position: relative;
 	text-align: center;
 	text-decoration: none;
@@ -239,7 +240,7 @@ button:active,
 	margin-left: -26px;
 	pointer-events: none;
 	position: absolute;
-	top: 0;
+	top: 6px;
 	width: 50px;
 }
 
@@ -255,7 +256,7 @@ button:active,
 	margin-left: -25px;
 	pointer-events: none;
 	position: absolute;
-	top: 0;
+	top: 6px;
 	width: 50px;
 }
 
@@ -263,7 +264,6 @@ button:active,
 .menu_button button:active {
 	background: none;
 	box-shadow: none;
-	padding-top: 62px;
 	text-shadow: 0 0 2px white;
 }
 
@@ -274,7 +274,7 @@ button:active,
 
 .icon_button:active::after,
 .menu_button button:active::after {
-	top: 2px;
+	top: 8px;
 }
 
 
@@ -413,14 +413,13 @@ button:active,
 	width: 100%;
 }
 
-/*
+
 .map_canvas.shift {
 	height: -webkit-calc(100% - 60px);
 	height: calc(100% - 60px);
 	position: relative;
 	top: 60px;
 }
-*/
 
 .compass {
 	background-image: url('../new-images/compass.png');

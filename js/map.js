@@ -28,7 +28,12 @@ function setRoskildeMap(map) {
 	var nw	=	new google.maps.LatLng(55.6309, 12.1097);
 	var imageBounds = new google.maps.LatLngBounds(se, nw);
 
-	overlay = new USGSOverlay(imageBounds, '/new-images/map.svg', map);
+	if (pointerEvents) {
+		overlay = new USGSOverlay(imageBounds, '/new-images/map.svg', map);
+	} else {
+		var festival = new google.maps.GroundOverlay("/new-images/map.gif", imageBounds, {clickable: false});
+		festival.setMap(map);
+	}
 }
 
 
@@ -89,7 +94,7 @@ function initRoskildeMap() {
 					$(document.getElementById('facilties')).addClass('animate');
 				});
 
-				$(iframe).addClass('shift');
+				if (checkCalc) { $(iframe).addClass('shift'); }
 				$(iframe).before(templates.facilties);
 				$(document.getElementById('compass')).addClass('shift');
 

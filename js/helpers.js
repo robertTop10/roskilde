@@ -54,6 +54,12 @@ function checkSVG() {
 	return a;
 }
 
+function checkPointEvents() {
+	var element = document.createElement('x');
+	element.style.cssText = 'pointer-events: auto';
+	return (element.style.pointerEvents === 'auto');
+}
+
 function checkWinMob() {
 	var ua	= navigator.userAgent;
 	return (ua.toLowerCase().indexOf("windows phone") >= 0);
@@ -254,7 +260,6 @@ function pushState(obj, title, path, replaceState) {
 
 
 function appCacheStatus() {
-	console.log(3221);
 	var cacheStatusValues = [];
 	cacheStatusValues[0] = 'uncached';
 	cacheStatusValues[1] = 'idle';
@@ -264,44 +269,45 @@ function appCacheStatus() {
 	cacheStatusValues[5] = 'obsolete';
 
 	var cache = window.applicationCache;
-	cache.addEventListener('cached', logEvent, false);
-	cache.addEventListener('checking', logEvent, false);
-	cache.addEventListener('downloading', logEvent, false);
-	cache.addEventListener('error', logEvent, false);
-	cache.addEventListener('noupdate', logEvent, false);
-	cache.addEventListener('obsolete', logEvent, false);
-	cache.addEventListener('progress', logEvent, false);
-	cache.addEventListener('updateready', logEvent, false);
+	if (cache) {
+		cache.addEventListener('cached', logEvent, false);
+		cache.addEventListener('checking', logEvent, false);
+		cache.addEventListener('downloading', logEvent, false);
+		cache.addEventListener('error', logEvent, false);
+		cache.addEventListener('noupdate', logEvent, false);
+		cache.addEventListener('obsolete', logEvent, false);
+		cache.addEventListener('progress', logEvent, false);
+		cache.addEventListener('updateready', logEvent, false);
 
-	function logEvent(e) {
-		var online, status, type, message;
-		online = (navigator.onLine) ? 'yes' : 'no';
-		status = cacheStatusValues[cache.status];
-		type = e.type;
-		message = 'online: ' + online;
-		message+= ', event: ' + type;
-		message+= ', status: ' + status;
-		if (type == 'error' && navigator.onLine) {
-			message+= ' (prolly a syntax error in manifest)';
-		}
-		console.log(message, type);
+		function logEvent(e) {
+			var online, status, type, message;
+			online = (navigator.onLine) ? 'yes' : 'no';
+			status = cacheStatusValues[cache.status];
+			type = e.type;
+			message = 'online: ' + online;
+			message+= ', event: ' + type;
+			message+= ', status: ' + status;
+			if (type == 'error' && navigator.onLine) {
+				message+= ' (prolly a syntax error in manifest)';
+			}
+			console.log(message, type);
 
-		if (type === 'progress') {
-			changeTitle('offline', true);
-		} else {
-			changeTitle(title);
+			if (type === 'progress') {
+				changeTitle('offline', true);
+			} else {
+				changeTitle(title);
+			}
 		}
+
+		window.applicationCache.addEventListener(
+			'updateready',
+			function(){
+			    window.applicationCache.swapCache();
+			    console.log('swap cache has been called');
+			},
+			false
+		);
 	}
-
-	window.applicationCache.addEventListener(
-		'updateready',
-		function(){
-		    window.applicationCache.swapCache();
-		    console.log('swap cache has been called');
-		},
-		false
-	);
-
 	//setInterval(function(){cache.update()}, 10000);
 }
 

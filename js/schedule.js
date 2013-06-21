@@ -38,12 +38,12 @@ function processDates(data, dates, stages) {
 	var i = 0;
 
 	var date = new Date(dates[i] * 1000).getDate();
-	var html = 	'<div id="hide-content">' +
+	var html =	'<div id="hide-content">' +
 				'<div id="stages" class="stages">' +
 				'<div class="stage_name stage_header">' +
 				'<div id="date">' +
-					date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + 
-					'<span class="block">' + daysShort[new Date(dates[i] * 1000).getDay()] + '</span>' + 
+					date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) +
+					'<span class="block">' + daysShort[new Date(dates[i] * 1000).getDay()] + '</span>' +
 				'</div></div>';
 
 	$.each(data.stages, function(i,v) {
@@ -55,7 +55,7 @@ function processDates(data, dates, stages) {
 
 	var style = '';
 	if (checkCalc() === false) {
-		var width = $content.outerWidth() - 60;
+		var width = $content.outerWidth() - 69;
 		style = ' style="width: ' + width + 'px;"';
 	}
 
@@ -71,13 +71,13 @@ function processDates(data, dates, stages) {
 		var max     = min + 61200;
 		while (min < max) {
 			var time    = new Date(min * 1000);
-			html    += '<div class="time"><div>'
+			html    += '<div class="time"><div>';
 			if (time.getMinutes() === 0) {
 				var hours = (time.getHours() < 12) ? time.getHours() : time.getHours() - 12;
 				html += (hours === 0) ? 12 : hours;
-				html += (time.getHours() < 12) ? '<span class="block">AM</span>' : '<span class="block">PM</span>'; 
+				html += (time.getHours() < 12) ? '<span class="block">AM</span>' : '<span class="block">PM</span>';
 			}
-			html 	+= '</div></div>';
+			html	+= '</div></div>';
 			min = min + 900;
 		}
 

@@ -32,6 +32,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1" />
         
         <title>Roskilde 2013</title>
@@ -64,8 +65,8 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
     
     <body<?php if(iOSDetect() == 'iPhone') { echo ' class="ios"';} ?>>
         <div id="menu" class="menu">
-        	<div id="home-button" class="home_button"><span /></div>
-        	<h2 id="section-title"></div>
+        	<div id="home-button" class="home_button"><span></span></div>
+        	<h2 id="section-title"></h2>
         	Roskilde 2013
         	<?php echo $avatar; ?>
        	</div>
@@ -162,6 +163,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
 			// SVG support
 			var svg = checkSVG();
+            var pointerEvents = checkPointEvents();
 
             // Remember title after downloading
             var title = null;
