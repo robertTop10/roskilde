@@ -33,7 +33,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
-        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1" />
         
         <title>Roskilde 2013</title>
 		<meta name="description" content="The app for Roskilde Festival 2013. Find your friends, find the artists." />
@@ -55,9 +55,9 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/new-images/icons/icon-ipad.png" />
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/new-images/icons/icon-iphone-retina.png" />
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/new-images/icons/icon-ipad-retina.png" />
-        <link rel="apple-touch-startup-image" sizes="320x460" href="/new-images/icons/apple-touch-startup-image-320x460.jpg" />
-        <link rel="apple-touch-startup-image" sizes="640x920" href="/new-images/icons/apple-touch-startup-image-640x920.jpg" />
-        <link rel="apple-touch-startup-image" sizes="640x1096" href="/new-images/icons/apple-touch-startup-image-640x1096.jpg" />
+        <link rel="apple-touch-startup-image" href="/new-images/icons/apple-touch-startup-image-320x460.jpg" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)" />
+        <link rel="apple-touch-startup-image" href="/new-images/icons/apple-touch-startup-image-640x920.jpg" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)" />
+        <link rel="apple-touch-startup-image" href="/new-images/icons/apple-touch-startup-image-640x1096.png"  media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" />
 
 		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.9.1/build/cssreset/cssreset-min.css" />
 		<link rel="stylesheet" href="css/new.css" type="text/css" />

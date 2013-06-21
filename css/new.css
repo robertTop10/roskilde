@@ -1030,12 +1030,9 @@ button:active,
 .artist_actions a,
 .artist_actions button {
 	float: left;
+	width: 33%;
 	width: -webkit-calc(33.33% - 20px);
 	width: calc(33.33% - 20px);
-}
-
-.artist_actions .spotify_button {
-	margin: 0 30px;
 }
 
 .artist_related_header {
