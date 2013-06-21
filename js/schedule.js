@@ -107,7 +107,7 @@ function processDates(data, dates, stages) {
 	});
 
 	var $schedule	= $(document.getElementById('schedule-container'));
-	$schedule.css('width', width + 'px');
+	$schedule.css('width', (width + 5) + 'px');
 
 	resizeStages();
 

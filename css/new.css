@@ -714,12 +714,13 @@ button:active,
 }
 
 .schedule_container {
-	background-color: #c9c9bd;
+	background-color: #000;
     height: 100%;
 	width: 14000px;
 }
 	
 .day {
+	background-color: #c9c9bd;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -1400,6 +1401,10 @@ button:active,
 	top: 0;
 	width: 100%;
 	-ms-overflow-style: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .facilties_menu::-webkit-scrollbar { display: none; }
