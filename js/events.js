@@ -475,7 +475,7 @@ $(document).ready(function() {
 		}
     });
 
-    $(document).on("click", '#facilties > div', function(e) {
+    $(document).on("click", '#facilties > div:not(.blurb)', function(e) {
 		e.preventDefault();
 
 		var active	= $(e.currentTarget).hasClass('active');
