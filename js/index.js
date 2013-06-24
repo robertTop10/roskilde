@@ -401,11 +401,17 @@
 
                     var set = setLocalStorage('mySchedule', JSON.stringify(schedule));
 
+                    var onMySchedule = $(e.target).hasClass('remove_my_schedule');
+
                     if (set === true) {
-                        $(e.target).removeClass('remove-from-schedule');
-                        $(e.target).addClass('add-to-schedule');
-                        var str = (danish) ? 'Tilføj til mit skema' : 'Add to My Schedule';
-                        $(e.target).text(str);
+                        if (onMySchedule === true) {
+                            getMySchedule();
+                        } else {
+                            $(e.target).removeClass('remove-from-schedule');
+                            $(e.target).addClass('add-to-schedule');
+                            var str = (danish) ? 'Tilføj til mit skema' : 'Add to My Schedule';
+                            $(e.target).text(str);
+                        }
 
                         finishLoading(true);
                     } else {

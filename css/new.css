@@ -1186,6 +1186,7 @@ button:active,
 
 .my_event_cont {
 	margin: 30px 0 10px;
+	position: relative;
 }
 
 .my_event_cont h2 {
@@ -1194,6 +1195,16 @@ button:active,
 	font-size: 18px;
 	margin-bottom: 10px;
 	margin-right: 30px;
+}
+
+.my_event_cont .remove_my_schedule {
+	cursor: pointer;
+	font-size: 28px;
+	height: 21px;
+	line-height: 26px;
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 
 .my_event_cont .artist_overview {
