@@ -56,6 +56,25 @@ http://connect.facebook.net/en_US/all.js
 NETWORK:
 *
 
+#http://facebook.com
+#https://facebook.com
+#http://graph.facebook.com
+#https://graph.facebook.com
+#http://akamaihd.net
+#https://akamaihd.net
+#http://maps.gstatic.com
+#https://maps.gstatic.com
+#http://maps.googleapis.com
+#https://maps.googleapis.com
+
+#/php/api.php
+#/php/feeds/newsJSON.php
+#/feeds/twitterJSON.php
+
+#http://roskilde-festival.co.uk
+#http://roskilde-festival.dk
+
+
 # index.php <?php  echo date ("F d Y H:i:s", filemtime('../index.php')).PHP_EOL; ?>
 # js <?php  echo date ("F d Y H:i:s", filemtime('../js')).PHP_EOL; ?>
 # css <?php  echo date ("F d Y H:i:s", filemtime('../css')).PHP_EOL; ?>

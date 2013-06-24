@@ -21,6 +21,15 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
 </ifmodule>
 #End Gzip
 
-<FilesMatch ".(ico|svg|jpg|jpeg|png|gif|js|css|swf)$">
-Header set Cache-Control "max-age=7200, must-revalidate"
+<FilesMatch ".(ico|jpg|jpeg|png|gif)$">
+Header set Cache-Control "max-age=1209600, public"
+</FilesMatch>
+
+<FilesMatch ".(svg)$">
+Header set Cache-Control "max-age=1209600, public"
+Header unset Last-Modified
+</FilesMatch>
+
+<FilesMatch ".(js|css)$">
+Header set Cache-Control "max-age=1209600, must-revalidate"
 </FilesMatch>
