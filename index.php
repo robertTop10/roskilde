@@ -166,7 +166,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
             var pointerEvents = checkPointEvents();
 
             // Remember title after downloading
-            var title = null;
+            var titleHeader = null;
 
 
 			var festivalCoords   = {

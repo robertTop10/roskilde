@@ -316,7 +316,7 @@ function changeTitle(location, loading) {
 
 	if (!location) {
 		$el.empty().removeClass('two_lines').removeClass('menu_loading');
-		title = null;
+		titleHeader = null;
 	} else {
 		var title ={
 			'en': {
@@ -349,12 +349,12 @@ function changeTitle(location, loading) {
 			}
 		};
 
-		var lang 	= (danish) ? 'dn' : 'en';
-		var text 	= title[lang][location][0];
-		var two  	= (title[lang][location][1] === 1) ? 'addClass' : 'removeClass';
+		var lang	= (danish) ? 'dn' : 'en';
+		var text	= title[lang][location][0];
+		var two		= (title[lang][location][1] === 1) ? 'addClass' : 'removeClass';
 		var loading = (loading === true) ? 'addClass' : 'removeClass';
 
-		title = location;
+		titleHeader = location;
 
 		$el.html(text)[two]('two_lines')[loading]('menu_loading');
 	}
