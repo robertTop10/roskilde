@@ -295,15 +295,15 @@
                     initMap(data, true, function(data, coords, map, markers) {
                         schedule = JSON.parse(localStorage.getItem('mySchedule'));
 
-                        var html =  mustache(templates.marker, {src: '/new-images/logo.png'});
+                        //var html =  mustache(templates.marker, {src: '/new-images/logo.png'});
                         var cluster = (data.result.length > 20);
                         var newMap  = (cluster === true) ? null : map;
 
                         populateMarker(data, coords, newMap, markers, function(d, markers, z) {
                             return iconPin(d.latitude, d.longitude, newMap, {
-                                html:       html,
-                                icon:       '/new-images/logo.png',
-                                img:        '/new-images/logo.png',
+                                html:       mustache(templates.marker, {src: (d.fb_id) ? 'http://graph.facebook.com/' + d.fb_id + '/picture?width=50&height=50' : '/new-images/logo.png'}),
+                                icon:       (d.fb_id) ? 'http://graph.facebook.com/' + d.fb_id + '/picture' : '/new-images/logo.png?width=50&height=50',
+                                img:        (d.fb_id) ? 'http://graph.facebook.com/' + d.fb_id + '/picture' : '/new-images/logo.png?width=50&height=50',
                                 message:    d.description,
                                 sTime:      formatTime(d.start),
                                 eTime:      formatTime(d.end),
