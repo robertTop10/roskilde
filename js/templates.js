@@ -69,7 +69,7 @@ var templates = {
 										'<div class="tt_name">{{name}}</div>' +
 										'<div class="tt_details">' +
 											'{{#sTime}}<div class="tt_time">{{sTime}}</div>{{/sTime}}' +
-											'{{#eTime}}<div class="tt_time">{{eTime}}</div>{{/eTime}}' +
+											'{{#eTime}}<div class="tt_time end_time">{{eTime}}</div>{{/eTime}}' +
 											'{{#time}}<div class="tt_time">{{time}}</div>{{/time}}' +
 											'{{#message}}<div class="tt_msg">{{message}}</div>{{/message}}' +
 										'</div>' +

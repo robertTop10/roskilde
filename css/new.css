@@ -551,14 +551,14 @@ button:active,
 	font-size: 10px;	
 }
 
+.ros_tooltip .tt_time.end_time {
+	margin-bottom: 8px;
+}
+
 .ros_tooltip button {
 	margin-top: 10px;
 	position: relative;
 	z-index: 1;
-}
-
-.ros_tooltip .tt_msg {
-	margin-top: 8px;
 }
 
 .marker_bg {
