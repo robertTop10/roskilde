@@ -256,8 +256,10 @@ if ($_POST) {
 
         array_push($field, "`fstart`");
         array_push($field, "`fend`");
+        array_push($field, "`fb_id`");
         array_push($value, mysqli_real_escape_string($db, roundTime($_POST['event']['start'])));
         array_push($value, mysqli_real_escape_string($db, roundTime($_POST['event']['end'])));
+        array_push($value, mysqli_real_escape_string($db, $FBuser));
 
 		$field = implode(",", $field);
 		$value = implode(",", $value);
