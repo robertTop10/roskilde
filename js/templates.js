@@ -86,11 +86,11 @@ var templates = {
 
 
 	tooltipAddScheduleBtn:		'<button class="add-to-schedule" ' +
-									'data-id="{{id}}" data-name="{{name}}" data-location="Roskilde" data-latitude="{{latitude}}" data-longitude="{{longitude}}" {{#message}}data-description="{{message}}"{{/message}} data-start="{{start}}" data-end="{{end}}" data-fstart="{{fstart}}" data-fend="{{fend}}" data-type="event"' +
+									'data-id="{{id}}" data-name="{{name}}" data-location="Roskilde" data-latitude="{{latitude}}" data-longitude="{{longitude}}" {{#message}}data-description="{{message}}"{{/message}} data-start="{{start}}" data-end="{{end}}" data-fstart="{{fstart}}" data-fend="{{fend}}"{{#fb_id}} data-fbid="{{fb_id}}" {{/fb_id}}data-type="event"' +
 								'>{{#danish}}Tilføj til mit skema{{/danish}}{{^danish}}Add to My Schedule{{/danish}}</button>',
 
 	tooltipRemoveScheduleBtn:	'<button class="remove-from-schedule" ' +
-									'data-id="{{id}}" data-name="{{name}}" data-location="Roskilde" data-latitude="{{latitude}}" data-longitude="{{longitude}}" {{#message}}data-description="{{message}}"{{/message}} data-start="{{start}}" data-end="{{end}}" data-fstart="{{fstart}}" data-fend="{{fend}}" data-type="event"' +
+									'data-id="{{id}}" data-name="{{name}}" data-location="Roskilde" data-latitude="{{latitude}}" data-longitude="{{longitude}}" {{#message}}data-description="{{message}}"{{/message}} data-start="{{start}}" data-end="{{end}}" data-fstart="{{fstart}}" data-fend="{{fend}}"{{#fb_id}} data-fbid="{{fb_id}}" {{/fb_id}} data-type="event"' +
 								'>{{#danish}}Fjern fra mit skema{{/danish}}{{^danish}}Remove from My Schedule{{/danish}}</button>',
 
 

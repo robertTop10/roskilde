@@ -557,6 +557,10 @@ button:active,
 	z-index: 1;
 }
 
+.ros_tooltip .tt_msg {
+	margin-top: 8px;
+}
+
 .marker_bg {
 	background-image: url('../new-images/sprite.png');
 	background-size: 160px auto;
