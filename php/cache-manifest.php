@@ -41,12 +41,12 @@ http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 ?>
 
 # Google Maps
-http://maps.googleapis.com/maps/api/js?sensor=true
-http://maps.gstatic.com/intl/en_us/mapfiles/api-3/13/2/main.js
+http://maps.googleapis.com/maps/api/js?sensor=true&v=3.12
+http://maps.gstatic.com/intl/en_us/mapfiles/api-3/12/15/main.js
 
 # Schelude
-/php/feeds/scheduleJSON.php
-/php/feeds/artistsJSON.php
+/php/feeds/allJSON.json
+/php/feeds/facilitiesJSON.json
 
 # Facebook
 /php/channel.php

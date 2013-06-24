@@ -28,8 +28,8 @@ $FBuser = $facebook->getUser();
 $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="https://graph.facebook.com/'.$FBuser.'/picture?width=80&height=80" /></div>' : '<div id="user-avatar" class="none"></div>';
 ?>
 <!DOCTYPE HTML>
-<!-- html lang="en" manifest="/php/cache-manifest.appcache" -->
-<html lang="en">
+<html lang="en" manifest="/php/cache-manifest.appcache">
+<!-- html lang="en" -->
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
