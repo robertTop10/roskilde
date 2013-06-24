@@ -321,6 +321,9 @@ var templates = {
 										'{{#results}}' +
 											'<div class="my_event_cont">' +
 												'<h2>{{name}}</h2>' +
+												'<div class="remove-from-schedule" ' +
+													'data-id="{{id}}" data-name="{{name}}" data-location="Roskilde" data-latitude="{{latitude}}" data-longitude="{{longitude}}" {{#message}}data-description="{{message}}"{{/message}} data-start="{{start}}" data-end="{{end}}" data-fstart="{{fstart}}" data-fend="{{fend}}"{{#fb_id}} data-fbid="{{fb_id}}" {{/fb_id}}{{#user_id}} data-user="{{user_id}}" {{/user_id}} data-type="event"' +
+												'>&times;</div>' +
 												'<div class="artist_overview{{#image}} js-artist pointer{{/image}}" data-artist="{{id}}">' +
 													'<div class="artist_frame_small">' +
 														'{{#image}}<img src="{{{image}}}" height="56" width="56" />{{/image}}' +
