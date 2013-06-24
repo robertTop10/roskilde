@@ -452,8 +452,6 @@
 
                 sort        = (sort) ? sort.replace('sort-', '') : null;
 
-                console.log(sort, data);
-
                 if (data !== null && data.length) {
                     var a = 0;
                     var e = 0;
@@ -462,7 +460,7 @@
                         v.formattedStart    = formatTime(v.start);
                         v.formattedEnd      = formatTime(v.end);
 
-                        if (v.type === 'artist') { 
+                        if (v.type === 'artist') {
                             a++;
                             if (sort === 'artist') { sorted.push(v); }
                         }
