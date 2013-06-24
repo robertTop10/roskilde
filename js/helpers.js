@@ -295,7 +295,7 @@ function appCacheStatus() {
 			if (type === 'progress') {
 				changeTitle('offline', true);
 			} else {
-				changeTitle(title);
+				changeTitle(titleHeader);
 			}
 		}
 
