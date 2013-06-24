@@ -74,7 +74,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
         <div id="fb-root"></div>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-        <script src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+        <script src="http://maps.googleapis.com/maps/api/js?sensor=true&v=3.12"></script>
         <script src="/js/mustache.js"></script>
         <script src="/js/fastclick.js"></script>
         <script src="/js/events.js"></script>
@@ -178,10 +178,10 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 			}            
         </script>
 
-        <script type="text/javascript" src="//connect.facebook.net/en_US/all.js"></script>
-        <script type="text/javascript" src="/js/infobox-compiled.js"></script>
-        <script type="text/javascript" src="/js/richmarker-compiled.js"></script>
-        <script type="text/javascript" src="/js/markerclusterer-compiled.js"></script>
+        <script src="//connect.facebook.net/en_US/all.js"></script>
+        <script src="/js/infobox-compiled.js"></script>
+        <script src="/js/richmarker-compiled.js"></script>
+        <script src="/js/markerclusterer-compiled.js"></script>
         
         <div id="loading">
         	<div><span></span></div>
