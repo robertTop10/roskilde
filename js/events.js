@@ -117,8 +117,8 @@ $(document).ready(function() {
 	$(document).on("click", "#schedule-skip", function(e){
 		e.preventDefault();
 
-		var $el 	= $(document.getElementById('schedule-scroller'));
-		var scroll 	= $el.scrollLeft();
+		var $el		= $(document.getElementById('schedule-scroller'));
+		var scroll	= $el.scrollLeft();
 
 		var newScroll = -1;
 		$.each(scheduleOffsets, function(i,v) {
@@ -132,7 +132,9 @@ $(document).ready(function() {
 			$el.trigger('resetMaxMin');
 		}
 
-		$el.scrollLeft(newScroll + 1);
+		setTimeout(function() {
+			$el.scrollLeft(newScroll + 1);
+		}, 0);
 
 	});
 
