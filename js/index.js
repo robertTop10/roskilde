@@ -286,7 +286,7 @@
             }
 
 
-            function getEvents() {              
+            function getEvents() {
                 xhr = $.ajax({
                     type: "POST",
                     url: "/php/api.php",
@@ -297,7 +297,7 @@
 
                         var html =  mustache(templates.marker, {src: '/new-images/logo.png'});
                         var cluster = (data.result.length > 20);
-                        var newMap  = (cluster === true) ? null : map; 
+                        var newMap  = (cluster === true) ? null : map;
 
                         populateMarker(data, coords, newMap, markers, function(d, markers, z) {
                             return iconPin(d.latitude, d.longitude, newMap, {
@@ -319,7 +319,8 @@
                                     fend:       d.fend,
                                     id:         d.id,
                                     latitude:   d.latitude,
-                                    longitude:  d.longitude
+                                    longitude:  d.longitude,
+                                    fb_id:      d.fb_id
                                 },
                                 zIndex:     z
                             });
