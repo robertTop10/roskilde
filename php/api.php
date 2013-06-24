@@ -220,7 +220,7 @@ if ($_POST) {
     	if ($_POST['action'] === 'getLocations') {
         	$query  = "SELECT * FROM `roskilde`.`locations` WHERE `fb_id`=".mysqli_real_escape_string($db, $_POST['fb_id']);
 		} else {
-    		$query  = "SELECT * FROM `roskilde`.`events` WHERE `end` > ".(strtotime("now") * 1000);
+    		$query  = "SELECT * FROM `roskilde`.`events` WHERE `end` > ".(strtotime("now") * 1000)." AND `disabled` = 0";
 		}
 		
 		$result = mysqli_query($db, $query);
