@@ -9,7 +9,6 @@ $(document).ready(function() {
 
 
 	$(document).on("click", "#home-button", function(e){
-		console.log('fastClick');
         e.preventDefault();
 
         changeTitle();
@@ -384,7 +383,6 @@ $(document).ready(function() {
 
 	$(document).on("click", ".sort-schedule", function(e){
 		e.preventDefault();
-		console.log(1, $(e.currentTarget).attr('id'));
 
 		getMySchedule($(e.currentTarget).attr('id'));
 	});
@@ -461,7 +459,6 @@ $(document).ready(function() {
     });
 
     $(document).on("click", "#backupSchedule", function(e) {
-    	console.log('backup');
         e.preventDefault();
         loading();
         backupSchedule();

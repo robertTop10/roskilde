@@ -10,7 +10,7 @@
                     url: "/php/api.php",
                     data: data
                 }).done(function(data) {
-                    console.log('Friends', data);
+                    console.log('Friends Posted');
                 }).fail(function(error) { ajaxFail(error); });
 
             }
@@ -21,14 +21,14 @@
                     var data        = {};
                     var headings    = ['accuracy', 'latitude','longitude'];
                     $.each(headings, function(i,v) {
-                        if (!isNaN(position.coords[v])) { data[v] = position.coords[v]; }   
+                        if (!isNaN(position.coords[v])) { data[v] = position.coords[v]; }
                     });
 
                     createCheckIn(data.latitude, data.longitude, data.accuracy);
                 }
             }
-            
-            
+
+
             function initCreateEventsMap(data) {
                 initMap(data, false, function(data, coords, map, markers) {
                     //var iframe    = document.getElementById('map-iframe');
@@ -38,7 +38,7 @@
 
                     //var m     = iframeDoc.getElementById("map-canvas");
                     var $m      = $(m);
-                    
+
                     $m.data({
                         'my-location-latitude': coords.coords.latitude,
                         'my-location-longitude': coords.coords.longitude,
@@ -47,7 +47,7 @@
                     });
 
                     var html =  mustache(templates.marker, {src: '/new-images/logo.png'});
-                    
+
                     google.maps.event.addListener(map, 'click', function(e) {
                         if (createEventMarker) { createEventMarker.setMap(null); }
                         createEventMarker = iconPin(e.latLng.lat(), e.latLng.lng(), map, {
@@ -70,8 +70,6 @@
 
 
             function createCheckIn(latitude, longitude, accuracy, data) {
-                console.log('createCheckIn');
-
                 var obj = {
                     user_id:        user.id,
                     fb_id:          user.fb_id,
@@ -87,7 +85,6 @@
                     url: "/php/api.php",
                     data: {action: 'createCheckIn', event: obj}
                 }).done(function(data) {
-                    console.log('createCheckIn Done', data);
                     finishLoading(true);
                     loggedIn();
                 }).fail(function(error) { ajaxFail(error); });
@@ -95,7 +92,6 @@
 
 
             function createEvent(latitude, longitude, accuracy, data) {
-                console.log('createEvent');
                 loading();
 
                 var obj = {
@@ -118,7 +114,6 @@
                     url: "/php/api.php",
                     data: {action: 'createEvent', event: obj}
                 }).done(function(data) {
-                    console.log('createEvent Done', data);
                     finishLoading(true);
                     mainMenu();
                 }).fail(function(error) { ajaxFail(error); });
@@ -127,7 +122,6 @@
 
 
             function createLocation(latitude, longitude, accuracy, data) {
-                console.log('createLocation');
                 loading();
 
                 var obj = {
@@ -141,14 +135,13 @@
 
                     title:          data.title,
                     message:        data.msg
-                }
-                    
+                };
+
                 xhr = $.ajax({
                     type: "POST",
                     url: "/php/api.php",
                     data: {action: 'createLocation', event: obj}
                 }).done(function(data) {
-                    console.log('createLocation Done', data);
                     finishLoading(true);
                     loggedIn();
                 }).fail(function(error) { ajaxFail(error); });
@@ -156,8 +149,6 @@
 
 
             function findFriends() {
-                console.log('Find Friends');
-                
                 if (navigator.onLine === true) {
                     xhr = $.ajax({
                         type: "POST",
@@ -341,11 +332,10 @@
 
             function addToMySchedule(e) {
                 e.preventDefault();
-                console.log(e, $(e.target).data());
+
                 var text = (danish) ? "Vil du tilføje dette til dit skema?" : "Do you want to add to your schedule?";
                 var r = confirm(text);
                 if (r === true) {
-                    console.log('Adding event');
                     var schedule    = JSON.parse(localStorage.getItem('mySchedule'));
                     var data        = $(e.target).data();
                     var result;
@@ -377,11 +367,10 @@
 
             function removeFromMySchedule(e) {
                 e.preventDefault();
-                console.log(e, $(e.target).data());
+
                 var text = (danish) ? "Vil du fjerne dette fra dit skema?" : "Do you want to remove this from your schedule?";
                 var r = confirm(text);
                 if (r === true) {
-                    console.log('Removing event');
                     var schedule    = JSON.parse(localStorage.getItem('mySchedule'));
                     var data        = $(e.target).data();
                     var result;
@@ -391,7 +380,6 @@
 
                     if (data !== null && schedule !== null && schedule.length) {
                         for (i = 0, len = schedule.length; i < len; i++) {
-                            console.log(schedule[i].id, id, schedule[i].type);
                             if (schedule[i].id === id && schedule[i].type === type) {
                                 schedule.splice(i, 1);
                                 break;
@@ -443,7 +431,6 @@
 
 
             function getMySchedule(sort) {
-                console.log('getMySchedule');
                 var data    = JSON.parse(localStorage.getItem('mySchedule'));
 
                 var past    = [];
@@ -505,8 +492,6 @@
 
 
             function getArtists() {
-                console.log('getArtists');
-
                 if (schedule && schedule.artists) {
                     processArtists(schedule);
                 } else {
@@ -577,7 +562,6 @@
                     var lang = (danish === true) ? '?dn=true' : '';
 
                     xhr = $.getJSON('/php/feeds/newsJSON.php' + lang, function(data) {
-                        console.log(data);
                         $content.html(mustache(templates.news, {news: data}));
 
                         $content.find('a').each(function(i, v) {
@@ -597,7 +581,6 @@
             function getTweets() {
                 if (navigator.onLine) {
                     xhr = $.getJSON('/php/feeds/twitterJSON.php', function(data) {
-                        console.log(data);
                         $content.html(mustache(templates.tweets, {tweets: data}));
 
                         changeTitle('getTweets');

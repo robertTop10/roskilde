@@ -290,7 +290,7 @@ function appCacheStatus() {
 			if (type == 'error' && navigator.onLine) {
 				message+= ' (prolly a syntax error in manifest)';
 			}
-			console.log(message, type);
+			//console.log(message, type);
 
 			if (type === 'progress') {
 				changeTitle('offline', true);
@@ -302,8 +302,8 @@ function appCacheStatus() {
 		window.applicationCache.addEventListener(
 			'updateready',
 			function(){
-			    window.applicationCache.swapCache();
-			    console.log('swap cache has been called');
+				window.applicationCache.swapCache();
+				//console.log('swap cache has been called');
 			},
 			false
 		);
