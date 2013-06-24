@@ -2,7 +2,6 @@
 // ------------------------------------------------------------
 
 function initMap(data, fit, cb) {
-	console.log('initMap', data);
 	$content.html(templates.mapCanvas);
 
 	if (typeof data === 'string') {data = JSON.parse(data); } // FF and jQuery not recognising a JSON response
@@ -14,7 +13,6 @@ function initMap(data, fit, cb) {
 		m				= iframeDoc.getElementById("map-canvas");
 
 		navigator.geolocation.getCurrentPosition(function(coords) {
-			console.log(999999, coords);
 			gotLocation(data, fit, cb, coords);
 		}, function(error) {
 			gotLocation(data, fit, cb, festivalCoords, true);
@@ -41,8 +39,6 @@ function setRoskildeMap(map) {
 // ------------------------------------------------------------
 
 function gotLocation(data, fit, cb, coords, error) {
-	console.log('gotLocation', data, coords);
-
 	if (iframe) {
 		var me			= new google.maps.LatLng(coords.coords.latitude, coords.coords.longitude);
 		var center      = (typeof fit === 'object') ? new google.maps.LatLng(fit.coords.latitude, fit.coords.longitude) : me;
@@ -103,7 +99,7 @@ function initRoskildeMap() {
 				}
 
 				var h = $(document.getElementById('test-height')).outerHeight();
-				console.log(h);
+
 				if (h !== 60) {
 					$(document.getElementById('facilties-menu')).css('height', 60 + (60 - h));
 				}

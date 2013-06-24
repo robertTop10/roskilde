@@ -20,9 +20,7 @@ window.fbAsyncInit = function() {
         }
     });
 
-    console.log('onLine', navigator.onLine);
     if (navigator.onLine === false) {
-        console.log('offline');
         offlineAccess();
     }
 
@@ -36,11 +34,9 @@ function loggedIn() {
 
             if (localStorage.getItem('danish') === null) {
                 if (response.locale === 'da_DK') {
-                    console.log('Seeing Danish from FB!');
                     danish = true;
                 }
             } else {
-                console.log('User toggled Danish');
                 danish = (localStorage.getItem('danish') === "true");
             }
 
@@ -81,7 +77,6 @@ function mainMenu() {
         loggedIn();
     }
     if (xhr && xhr.abort) {
-        console.log(xhr);
         xhr.abort();
     }
 
@@ -111,8 +106,6 @@ function checkUser() {
 
 
 function offlineAccess() {
-    console.log('offlineAccess');
-
     var u = localStorage.getItem('user');
     var t = templates.statusLoggedOut;
     if (u) {

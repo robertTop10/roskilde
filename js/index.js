@@ -62,7 +62,7 @@
                             'my-marker-latitude': e.latLng.lat(),
                             'my-marker-longitude': e.latLng.lng()
                         });
-                        
+
                         $(document.getElementById('createEventMarker')).show();
                     });
                 });
