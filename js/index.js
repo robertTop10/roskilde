@@ -266,7 +266,7 @@
                                     img:        '/new-images/logo.png',
                                     message:    d.message,
                                     title:      d.title,
-                                    tooltip:    true                        
+                                    tooltip:    true
                                 });
                             });
 
