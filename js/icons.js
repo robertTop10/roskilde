@@ -13,20 +13,20 @@ function iconMe(lat, lon, map) {
 
 
 function iconFriend(lat, lon, map, params) {
-	var img 		= "http://graph.facebook.com/" + params.icon + "/picture";
-	var diff 		= timeDifference(params.timestamp);
+	var img			= "http://graph.facebook.com/" + params.icon + "/picture";
+	var diff		= timeDifference(params.timestamp);
 
-	var infowindow 	= createTooltip({src: img, name: params.title, time: diff});
+	var infowindow	= createTooltip({src: img, name: params.title, time: diff});
 
-	diff 			= timeDifference(params.timestamp, true);
+	diff			= timeDifference(params.timestamp, true);
 
 	var obj = {
-		position: 	new google.maps.LatLng(lat, lon),
-		map: 		map,
-		zIndex: 	params.zIndex,
-		content: 	mustache(templates.marker, {src: img, details: diff}),
-		flat: 		true
-	}
+		position:	new google.maps.LatLng(lat, lon),
+		map:		map,
+		zIndex:		params.zIndex,
+		content:	mustache(templates.marker, {src: img, details: diff}),
+		flat:		true
+	};
 
 	var marker = new RichMarker(obj);
 
@@ -77,7 +77,8 @@ function iconPin(lat, lon, map, params) {
 			sTime:		params.sTime,
 			eTime:		params.eTime,
 			ftime:		params.ftime,
-			schedule:	params.schedule
+			schedule:	params.schedule,
+			fb_id:		(params.fb_id) ? params.fb_id : null
 		});
 
 		/*

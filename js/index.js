@@ -415,7 +415,7 @@
                 }
             }
 
-            
+
             function createTooltip(obj) {
                 var html = mustache(templates.tooltip, obj);
                 var boxText = document.getElementById("dynamic");
