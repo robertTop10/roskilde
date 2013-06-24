@@ -15,7 +15,8 @@ http://yui.yahooapis.com/3.9.1/build/cssreset/cssreset-min.css
 <?php
 	if ($handle = opendir('../new-images')) {
 	    while (false !== ($entry = readdir($handle))) {
-	    	if (substr($entry, -4) === '.gif' || substr($entry, -4) === '.png' || substr($entry, -4) === '.ico' || substr($entry, -4) === '.jpg' || substr($entry, -4) === '.svg') {
+	    	//if (substr($entry, -4) === '.gif' || substr($entry, -4) === '.png' || substr($entry, -4) === '.ico' || substr($entry, -4) === '.jpg' || substr($entry, -4) === '.svg') {
+	    	if (substr($entry, -4) === '.gif' || substr($entry, -4) === '.png' || substr($entry, -4) === '.ico' || substr($entry, -4) === '.jpg') {
 	    		if ($entry !== 'og-image.png') {
 		        	echo "/new-images/$entry\n";
 		        }

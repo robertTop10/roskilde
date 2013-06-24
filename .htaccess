@@ -20,3 +20,7 @@ Redirect /tweets /
 AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/json application/javascript text/javascript image/svg+xml
 </ifmodule>
 #End Gzip
+
+<FilesMatch ".(ico|svg|jpg|jpeg|png|gif|js|css|swf)$">
+Header set Cache-Control "max-age=7200, must-revalidate"
+</FilesMatch>
