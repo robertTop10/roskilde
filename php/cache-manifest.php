@@ -27,7 +27,7 @@ http://yui.yahooapis.com/3.9.1/build/cssreset/cssreset-min.css
 ?>
 
 # JS
-http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
+http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js
 <?php
 	if ($handle = opendir('../js')) {
 	    while (false !== ($entry = readdir($handle))) {
@@ -43,6 +43,7 @@ http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 # Google Maps
 http://maps.googleapis.com/maps/api/js?sensor=true&v=3.12
 http://maps.gstatic.com/intl/en_us/mapfiles/api-3/12/15/main.js
+http://maps.gstatic.com/cat_js/intl/en_us/mapfiles/api-3/12/15/%7Bcommon,util,stats%7D.js
 
 # Schelude
 /php/feeds/allJSON.json
