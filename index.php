@@ -67,7 +67,6 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
         <div id="menu" class="menu">
         	<div id="home-button" class="home_button"><span></span></div>
         	<h2 id="section-title"></h2>
-        	Roskilde 2013
         	<?php echo $avatar; ?>
        	</div>
         <div id="content"></div>
@@ -134,8 +133,9 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
 
             // Cache schedule obj
 			var schedule;
+            var scheduleOffsets;
 
-			// Cacge facilties onj
+			// Cache facilties obj
 			var facilties;
 
 			// Map Markers

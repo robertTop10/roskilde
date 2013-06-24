@@ -311,6 +311,13 @@ var templates = {
 
 	mySchedule:					'<div id="hide-content" class="scroller">' +
 									'<div class="status">' +
+										'{{#sort}}' +
+											'<div class="sort_schedule">' +
+												'<a href="#" class="sort-schedule{{#sortAll}} active{{/sortAll}}">All</a>' +
+												'<a href="#" id="sort-artist" class="sort-schedule{{#sortArtist}} active{{/sortArtist}}">Artists</a>' +
+												'<a href="#" id="sort-event" class="sort-schedule{{#sortEvent}} active{{/sortEvent}}">Events</a>' +
+											'</div>' +
+										'{{/sort}}' +
 										'{{#results}}' +
 											'<div class="my_event_cont">' +
 												'<h2>{{name}}</h2>' +

@@ -59,7 +59,8 @@ function processDates(data, dates, stages) {
 		style = ' style="width: ' + width + 'px;"';
 	}
 
-	html    += '<div class="schedule_scroller needsclick"' + style + '>';
+	html    += '<div id="schedule-skip" class="schedule_skip button"></div>';
+	html    += '<div id="schedule-scroller" class="schedule_scroller needsclick"' + style + '>';
 	html    += '<div id ="schedule-container" class="schedule_container">';
 
 
@@ -106,6 +107,9 @@ function processDates(data, dates, stages) {
 		widths.push(width);
 	});
 
+	scheduleOffsets = widths;
+	scheduleOffsets.pop();
+
 	var $schedule	= $(document.getElementById('schedule-container'));
 	$schedule.css('width', (width + 5) + 'px');
 
@@ -115,17 +119,24 @@ function processDates(data, dates, stages) {
 	var max = 0;
 	var el  = document.getElementById('date');
 
-	$('.schedule_scroller').on('scroll gesturechange', function(e) {
-		if ($(e.currentTarget)[0].scrollLeft > widths[max] && (max + 1) <= widths.length) {
-			min++;
-			max++;
-			var date = new Date(dates[max] * 1000).getDate();
-			el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + '<span class="block">' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + '</span>';
-		} else if ($(e.currentTarget)[0].scrollLeft < widths[min] && min >= 0) {
-			min--;
-			max--;
-			var date = new Date(dates[max] * 1000).getDate();
-			el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + '<span class="block">' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + '</span>';
+	$('.schedule_scroller').on('scroll gesturechange resetMaxMin', function(e) {
+		if (e.type === 'resetMaxMin') {
+			setTimeout(function() {
+				min = 0;
+				max = 1;
+			}, 0);
+		} else {
+			if ($(e.currentTarget)[0].scrollLeft > widths[max] && (max + 1) <= widths.length) {
+				min++;
+				max++;
+				var date = new Date(dates[max] * 1000).getDate();
+				el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + '<span class="block">' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + '</span>';
+			} else if ($(e.currentTarget)[0].scrollLeft < widths[min] && min >= 0) {
+				min--;
+				max--;
+				var date = new Date(dates[max] * 1000).getDate();
+				el.innerHTML = daysShort[new Date(dates[max] * 1000).getDay()] + '<span class="block">' + date + ((date - 1 > 3) ? nth[3] : nth[date - 1]) + '</span>';
+			}
 		}
 	});
 

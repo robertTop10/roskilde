@@ -573,6 +573,18 @@ button:active,
 .marker_bg.wifi { background-position: -47px -360px; }
 .marker_bg.showers { background-position: -48px -384px; }
 .marker_bg.kiosk { background-position: -23px -360px; }
+.marker_bg.bar {
+	background-position: -152px -482px;
+	background-size: 200px auto;
+}
+.marker_bg.food {
+	background-position: -122px -482px;
+	background-size: 200px auto;
+}
+.marker_bg.charging {
+	background-position: -102px -532px;
+	background-size: 220px auto;
+}
 .marker_bg.medical {
 	background-position: -74px -371px;
 	background-size: 165px auto;
@@ -711,6 +723,35 @@ button:active,
 	-webkit-overflow-scrolling: touch;
 	width: -webkit-calc(100% - 69px);
 	width: calc(100% - 69px);
+}
+
+.schedule_skip {
+	border: 0;
+	border-radius: 0;
+	border-top: 15px solid black;
+	cursor: pointer;
+	height: 12.5%;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 40px;
+	z-index: 1;
+}
+
+.schedule_skip::after {
+	background-image: url('../new-images/sprite.png');
+	background-repeat: no-repeat;
+	background-size: 200px auto;
+	background-position: -150px -420px;
+	content: '';
+	display: block;
+	height: 30px;
+	margin-top: -15px;
+	position: absolute;
+	top: 50%;
+	width: 30px;
+	left: 50%;
+	margin-left: -15px;
 }
 
 .schedule_container {
@@ -1030,9 +1071,7 @@ button:active,
 .artist_actions a,
 .artist_actions button {
 	float: left;
-	width: 33%;
-	width: -webkit-calc(33.33% - 20px);
-	width: calc(33.33% - 20px);
+	width: 33.33%;
 }
 
 .artist_related_header {
@@ -1202,6 +1241,49 @@ button:active,
 .my_event_cont .my_event_cal a {
 	background: rgba(0,0,0,0.5);
 	padding: 2px 4px;
+}
+
+.sort_schedule {
+	color: #fff;
+	height: 40px;
+	line-height: 40px;
+	margin-top: 40px;
+	overflow: hidden;
+	text-decoration: none;
+}
+
+.sort_schedule > a {
+	background: #575956;
+	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#575956), color-stop(100%,#333532));
+	background: url('../new-images/effect.png'), -webkit-linear-gradient(top, #575956 0%,#333532 100%);
+	background: url('../new-images/effect.png'), linear-gradient(to bottom, #575956 0%,#333532 100%);
+	border-left: 1px solid rgba(0,0,0,0.5);
+	border-right: 1px solid rgba(0,0,0,0.5);
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	color: #fff;
+	display: block;
+	width: 33.33%;
+	float: left;
+	text-align: center;
+	text-decoration: none;
+}
+
+.sort_schedule > a:first-child {
+	border: 0;
+	border-radius: 2px 0 0 2px;
+}
+
+.sort_schedule > a:last-child {
+	border: 0;
+	border-radius: 0 2px 2px 0;
+}
+
+.sort_schedule > a.active {
+	background: #313331; /* Old browsers */
+	background: url('../new-images/effect.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#313331), color-stop(100%,#111110)); /* Chrome,Safari4+ */
+	background: url('../new-images/effect.png'), -webkit-linear-gradient(top,  #313331 0%,#111110 100%); /* Chrome10+,Safari5.1+ */
+	background: url('../new-images/effect.png'), linear-gradient(to bottom,  #313331 0%,#111110 100%); /* W3C */
 }
 
 
@@ -1503,6 +1585,19 @@ button:active,
 
 .facilties_menu .place-12::before {
 	background-position: -150px -450px;
+}
+
+.facilties_menu .place-21::before {
+	background-position: -148px -480px;
+}
+
+.facilties_menu .place-22::before {
+	background-position: -120px -480px;
+}
+
+.facilties_menu .facilties .place-8:not(.blurb)::before {
+	background-position: -137px -702px;
+	background-size: 290px auto;
 }
 
 .facilties_menu .facilties .place-3:not(.blurb)::before {

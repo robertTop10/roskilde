@@ -115,6 +115,28 @@ $(document).ready(function() {
 		pushState(null, document.title, '/festival-schedule');
 	});
 
+	$(document).on("click", "#schedule-skip", function(e){
+		e.preventDefault();
+
+		var $el 	= $(document.getElementById('schedule-scroller'));
+		var scroll 	= $el.scrollLeft();
+
+		var newScroll = -1;
+		$.each(scheduleOffsets, function(i,v) {
+			if (v > scroll) {
+				newScroll = v;
+				return false;
+			}
+		});
+
+		if (newScroll === -1) {
+			$el.trigger('resetMaxMin');
+		}
+
+		$el.scrollLeft(newScroll + 1);
+
+	});
+
 
 	$(document).on("click", ".js-artist", function(e) {
 		if (schedule) {
@@ -360,6 +382,13 @@ $(document).ready(function() {
 		changeTitle('getMySchedule');
 	});
 
+	$(document).on("click", ".sort-schedule", function(e){
+		e.preventDefault();
+		console.log(1, $(e.currentTarget).attr('id'));
+
+		getMySchedule($(e.currentTarget).attr('id'));
+	});
+
 
 	$(document).on("click", '.add-to-schedule', function(e) {
 		e.preventDefault();
@@ -469,7 +498,7 @@ $(document).ready(function() {
 		var newMap	= (cluster === true) ? null : map;
 
 		//var html =  mustache(templates.marker, {src: '/images/logo.png'});
-		console.log(text);
+
 		var html =  mustache(templates.marker, {background: text});
 
 		populateMarker(data, festivalCoords, newMap, markers, function(d, markers, z) {

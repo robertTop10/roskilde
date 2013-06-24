@@ -435,18 +435,37 @@
             }
 
 
-            function getMySchedule() {
+            function getMySchedule(sort) {
                 console.log('getMySchedule');
                 var data    = JSON.parse(localStorage.getItem('mySchedule'));
 
                 var past    = [];
+                var sorted  = [];
                 var exists  = 0;
 
+                sort        = (sort) ? sort.replace('sort-', '') : null;
+
+                console.log(sort, data);
+
                 if (data !== null && data.length) {
+                    var a = 0;
+                    var e = 0;
+
                     $.each(data, function(i,v) {
                         v.formattedStart    = formatTime(v.start);
                         v.formattedEnd      = formatTime(v.end);
+
+                        if (v.type === 'artist') { 
+                            a++;
+                            if (sort === 'artist') { sorted.push(v); }
+                        }
+                        if (v.type === 'event') {
+                            e++;
+                            if (sort === 'event') { sorted.push(v); }
+                        }
                     });
+
+                    if (sort) { data = sorted; }
 
                     data.sort(function(a, b) {
                         return a.start - b.start;
@@ -470,6 +489,10 @@
                     past:       past,
                     pastLength: past.length,
                     restore:    (user && user.backup === '1'),
+                    sort:       (a > 0 && e > 0),
+                    sortAll:    (!sort),
+                    sortArtist: (sort === 'artist'),
+                    sortEvent:  (sort === 'event'),
                     user:       (user) ? user : false
                 }));
                 finishLoading();
