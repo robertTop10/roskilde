@@ -325,12 +325,12 @@ var templates = {
 													'<div class="artist_frame_small">' +
 														'{{#image}}<img src="{{{image}}}" height="56" width="56" />{{/image}}' +
 														'{{^image}}' +
-															'{{#fb_id}}' +
-																'<img src="https://graph.facebook.com/{{fb_id}}/picture?width=112&height=112" height="56" width="56" />' +
-															'{{/fb_id}}' +
-															'{{^fb_id}}' +
+															'{{#fbid}}' +
+																'<img src="https://graph.facebook.com/{{fbid}}/picture?width=112&height=112" height="56" width="56" />' +
+															'{{/fbid}}' +
+															'{{^fbid}}' +
 																'<img src="/new-images/schedule-logo.png" height="56" width="56" />' +
-															'{{/fb_id}}' +
+															'{{/fbid}}' +
 														'{{/image}}' +
 													'</div>' +
 													'<div class="artist_details_small">' +
