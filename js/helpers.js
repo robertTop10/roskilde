@@ -318,6 +318,9 @@ function changeTitle(location, loading) {
 		$el.empty().removeClass('two_lines').removeClass('menu_loading');
 		titleHeader = null;
 	} else {
+
+		if (loading !== true) { titleHeader = location; }
+
 		var title ={
 			'en': {
 				'getMySchedule' : ['My<br/>Schedule', 1],
@@ -353,8 +356,6 @@ function changeTitle(location, loading) {
 		var text	= title[lang][location][0];
 		var two		= (title[lang][location][1] === 1) ? 'addClass' : 'removeClass';
 		var loading = (loading === true) ? 'addClass' : 'removeClass';
-
-		titleHeader = location;
 
 		$el.html(text)[two]('two_lines')[loading]('menu_loading');
 	}
