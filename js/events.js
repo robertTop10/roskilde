@@ -4,8 +4,8 @@ $(document).ready(function() {
 
     new FastClick(document.body);
 
-    $sectionTitle 	= $(document.getElementById('section-title'));
-    $content		= $(content);
+    $sectionTitle	= $(document.getElementById('section-title'));
+    $content		= $(document.getElementById('content'));
 
 
 	$(document).on("click", "#home-button", function(e){
