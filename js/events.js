@@ -2,10 +2,10 @@ $(document).ready(function() {
     window.scrollTo(1,0);
     loading();
 
-
     new FastClick(document.body);
 
-    var $sectionTitle = $(document.getElementById('section-title'));
+    $sectionTitle 	= $(document.getElementById('section-title'));
+    $content		= $(content);
 
 
 	$(document).on("click", "#home-button", function(e){

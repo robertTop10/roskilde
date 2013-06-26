@@ -126,6 +126,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
             
             var content 	= document.getElementById('content');
             var $content 	= $(content);
+            var $sectionTitle;
 
             // User vars
 			var fbUser;
