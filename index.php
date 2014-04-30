@@ -33,7 +33,7 @@ $avatar = ($FBuser && is_numeric($FBuser)) ? '<div id="user-avatar"><img src="ht
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1, minimal-ui" />
         
         <title>Roskilde 2013</title>
 		<meta name="description" content="The app for Roskilde Festival 2013. Find your friends, find the artists." />
